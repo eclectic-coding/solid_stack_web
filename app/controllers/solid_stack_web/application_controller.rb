@@ -5,7 +5,18 @@ module SolidStackWeb
     before_action :authenticate!
     around_action :with_database_connection
 
+    helper_method :current_section
+
     private
+
+    def current_section
+      case controller_name
+      when "jobs", "failed_jobs", "queues", "processes" then :queue
+      when "cache" then :cache
+      when "cable" then :cable
+      else :overview
+      end
+    end
 
     def with_database_connection
       config = SolidStackWeb.connects_to

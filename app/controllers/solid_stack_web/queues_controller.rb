@@ -8,7 +8,7 @@ module SolidStackWeb
         {
           name:   name,
           size:   ::SolidQueue::ReadyExecution.where(queue_name: name).count,
-          paused: paused.include?(name),
+          paused: paused.include?(name)
         }
       end
     end

@@ -36,6 +36,33 @@
   transition: background 0.1s, color 0.1s;
 }
 .sqw-nav__link:hover { background: var(--bg); color: var(--text); text-decoration: none; }
+.sqw-nav__link--active { background: var(--bg); color: var(--text); }
+
+.sqw-subnav {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.sqw-subnav__inner {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 36px;
+}
+
+.sqw-subnav__link {
+  padding: 0.2rem 0.625rem;
+  border-radius: var(--radius);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  transition: background 0.1s, color 0.1s;
+}
+.sqw-subnav__link:hover { background: var(--surface); color: var(--text); text-decoration: none; }
+.sqw-subnav__link--active { background: var(--surface); color: var(--text); }
 
 .sqw-main {
   max-width: 1200px;

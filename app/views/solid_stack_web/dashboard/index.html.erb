@@ -1,34 +1,72 @@
 <div class="sqw-page-header">
-  <h1 class="sqw-page-title">Dashboard</h1>
+  <h1 class="sqw-page-title">Overview</h1>
 </div>
 
-<div class="sqw-stats-grid">
-  <a href="<%= jobs_path(status: "ready") %>" class="sqw-stat sqw-stat--ready">
-    <span class="sqw-stat__label">Ready</span>
-    <span class="sqw-stat__value"><%= @queue_stats[:ready] %></span>
-  </a>
-  <a href="<%= jobs_path(status: "scheduled") %>" class="sqw-stat sqw-stat--scheduled">
-    <span class="sqw-stat__label">Scheduled</span>
-    <span class="sqw-stat__value"><%= @queue_stats[:scheduled] %></span>
-  </a>
-  <a href="<%= jobs_path(status: "claimed") %>" class="sqw-stat sqw-stat--claimed">
-    <span class="sqw-stat__label">Running</span>
-    <span class="sqw-stat__value"><%= @queue_stats[:claimed] %></span>
-  </a>
-  <a href="<%= jobs_path(status: "blocked") %>" class="sqw-stat sqw-stat--blocked">
-    <span class="sqw-stat__label">Blocked</span>
-    <span class="sqw-stat__value"><%= @queue_stats[:blocked] %></span>
-  </a>
-  <a href="<%= failed_jobs_path %>" class="sqw-stat sqw-stat--failed">
-    <span class="sqw-stat__label">Failed</span>
-    <span class="sqw-stat__value"><%= @queue_stats[:failed] %></span>
-  </a>
-  <a href="<%= cache_path %>" class="sqw-stat sqw-stat--cache">
-    <span class="sqw-stat__label">Cache Entries</span>
-    <span class="sqw-stat__value"><%= @cache_entries %></span>
-  </a>
-  <a href="<%= cable_path %>" class="sqw-stat sqw-stat--cable">
-    <span class="sqw-stat__label">Cable Messages</span>
-    <span class="sqw-stat__value"><%= @cable_messages %></span>
-  </a>
+<div class="sqw-gem-grid">
+  <div class="sqw-gem-card sqw-gem-card--queue">
+    <div class="sqw-gem-card__header">
+      <span class="sqw-gem-card__title">Solid Queue</span>
+      <%= link_to "View Jobs →", jobs_path, class: "sqw-gem-card__link" %>
+    </div>
+    <div class="sqw-gem-card__body">
+      <a href="<%= jobs_path(status: "ready") %>" class="sqw-inline-stat sqw-inline-stat--ready">
+        <span class="sqw-inline-stat__label">Ready</span>
+        <span class="sqw-inline-stat__value"><%= @queue_stats[:ready] %></span>
+      </a>
+      <a href="<%= jobs_path(status: "scheduled") %>" class="sqw-inline-stat sqw-inline-stat--scheduled">
+        <span class="sqw-inline-stat__label">Scheduled</span>
+        <span class="sqw-inline-stat__value"><%= @queue_stats[:scheduled] %></span>
+      </a>
+      <a href="<%= jobs_path(status: "claimed") %>" class="sqw-inline-stat sqw-inline-stat--claimed">
+        <span class="sqw-inline-stat__label">Running</span>
+        <span class="sqw-inline-stat__value"><%= @queue_stats[:claimed] %></span>
+      </a>
+      <a href="<%= jobs_path(status: "blocked") %>" class="sqw-inline-stat sqw-inline-stat--blocked">
+        <span class="sqw-inline-stat__label">Blocked</span>
+        <span class="sqw-inline-stat__value"><%= @queue_stats[:blocked] %></span>
+      </a>
+      <a href="<%= failed_jobs_path %>" class="sqw-inline-stat sqw-inline-stat--failed">
+        <span class="sqw-inline-stat__label">Failed</span>
+        <span class="sqw-inline-stat__value"><%= @queue_stats[:failed] %></span>
+      </a>
+      <a href="<%= processes_path %>" class="sqw-inline-stat sqw-inline-stat--neutral">
+        <span class="sqw-inline-stat__label">Processes</span>
+        <span class="sqw-inline-stat__value"><%= @queue_stats[:processes] %></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="sqw-gem-card sqw-gem-card--cache">
+    <div class="sqw-gem-card__header">
+      <span class="sqw-gem-card__title">Solid Cache</span>
+      <%= link_to "View Cache →", cache_path, class: "sqw-gem-card__link" %>
+    </div>
+    <div class="sqw-gem-card__body">
+      <div class="sqw-inline-stat sqw-inline-stat--cache">
+        <span class="sqw-inline-stat__label">Entries</span>
+        <span class="sqw-inline-stat__value"><%= @cache_stats[:entries] %></span>
+      </div>
+      <div class="sqw-inline-stat sqw-inline-stat--cache">
+        <span class="sqw-inline-stat__label">Size</span>
+        <span class="sqw-inline-stat__value"><%= number_to_human_size(@cache_stats[:byte_size]) %></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sqw-gem-card sqw-gem-card--cable">
+    <div class="sqw-gem-card__header">
+      <span class="sqw-gem-card__title">Solid Cable</span>
+      <%= link_to "View Cable →", cable_path, class: "sqw-gem-card__link" %>
+    </div>
+    <div class="sqw-gem-card__body">
+      <div class="sqw-inline-stat sqw-inline-stat--cable">
+        <span class="sqw-inline-stat__label">Messages</span>
+        <span class="sqw-inline-stat__value"><%= @cable_stats[:messages] %></span>
+      </div>
+      <div class="sqw-inline-stat sqw-inline-stat--cable">
+        <span class="sqw-inline-stat__label">Channels</span>
+        <span class="sqw-inline-stat__value"><%= @cable_stats[:channels] %></span>
+      </div>
+    </div>
+  </div>
 </div>

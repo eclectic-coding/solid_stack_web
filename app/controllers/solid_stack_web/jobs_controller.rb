@@ -4,7 +4,7 @@ module SolidStackWeb
       "ready"     => ::SolidQueue::ReadyExecution,
       "scheduled" => ::SolidQueue::ScheduledExecution,
       "claimed"   => ::SolidQueue::ClaimedExecution,
-      "blocked"   => ::SolidQueue::BlockedExecution,
+      "blocked"   => ::SolidQueue::BlockedExecution
     }.freeze
 
     DISCARDABLE = %w[ready scheduled blocked].freeze

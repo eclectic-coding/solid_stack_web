@@ -1,0 +1,77 @@
+.sqw-gem-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sqw-gem-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.sqw-gem-card--queue { border-top-color: var(--primary); }
+.sqw-gem-card--cache { border-top-color: var(--purple); }
+.sqw-gem-card--cable { border-top-color: var(--info); }
+
+.sqw-gem-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sqw-gem-card__title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text);
+}
+
+.sqw-gem-card__link {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.sqw-gem-card__link:hover { color: var(--primary); text-decoration: none; }
+
+.sqw-gem-card__body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 1.25rem;
+  padding: 1.25rem;
+}
+
+.sqw-inline-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  color: var(--text);
+  transition: opacity 0.15s;
+}
+a.sqw-inline-stat:hover { opacity: 0.7; text-decoration: none; }
+
+.sqw-inline-stat__label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.sqw-inline-stat__value { font-size: 28px; font-weight: 700; line-height: 1; }
+
+.sqw-inline-stat--ready     .sqw-inline-stat__value { color: var(--success); }
+.sqw-inline-stat--scheduled .sqw-inline-stat__value { color: var(--info); }
+.sqw-inline-stat--claimed   .sqw-inline-stat__value { color: var(--primary); }
+.sqw-inline-stat--blocked   .sqw-inline-stat__value { color: var(--warning); }
+.sqw-inline-stat--failed    .sqw-inline-stat__value { color: var(--danger); }
+.sqw-inline-stat--cache     .sqw-inline-stat__value { color: var(--purple); }
+.sqw-inline-stat--cable     .sqw-inline-stat__value { color: var(--info); }
+.sqw-inline-stat--neutral   .sqw-inline-stat__value { color: var(--muted); }

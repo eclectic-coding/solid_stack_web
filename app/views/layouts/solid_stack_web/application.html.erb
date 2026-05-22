@@ -13,16 +13,31 @@
     <div class="sqw-header__inner">
       <%= link_to "Solid Stack", root_path, class: "sqw-header__logo" %>
       <nav class="sqw-nav">
-        <%= link_to "Dashboard", root_path, class: "sqw-nav__link" %>
-        <%= link_to "Jobs", jobs_path, class: "sqw-nav__link" %>
-        <%= link_to "Failed", failed_jobs_path, class: "sqw-nav__link" %>
-        <%= link_to "Queues", queues_path, class: "sqw-nav__link" %>
-        <%= link_to "Processes", processes_path, class: "sqw-nav__link" %>
-        <%= link_to "Cache", cache_path, class: "sqw-nav__link" %>
-        <%= link_to "Cable", cable_path, class: "sqw-nav__link" %>
+        <%= link_to "Queue", jobs_path,
+              class: "sqw-nav__link#{" sqw-nav__link--active" if current_section == :queue}" %>
+        <%= link_to "Cache", cache_path,
+              class: "sqw-nav__link#{" sqw-nav__link--active" if current_section == :cache}" %>
+        <%= link_to "Cable", cable_path,
+              class: "sqw-nav__link#{" sqw-nav__link--active" if current_section == :cable}" %>
       </nav>
     </div>
   </header>
+
+  <% if current_section == :queue %>
+    <nav class="sqw-subnav">
+      <div class="sqw-subnav__inner">
+        <%= link_to "Jobs", jobs_path,
+              class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "jobs"}" %>
+        <%= link_to "Failed", failed_jobs_path,
+              class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "failed_jobs"}" %>
+        <%= link_to "Queues", queues_path,
+              class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "queues"}" %>
+        <%= link_to "Processes", processes_path,
+              class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "processes"}" %>
+      </div>
+    </nav>
+  <% end %>
+
   <main class="sqw-main">
     <% flash.each do |type, message| %>
       <div class="sqw-flash sqw-flash--<%= type %>"><%= message %></div>
