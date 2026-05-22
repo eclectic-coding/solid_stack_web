@@ -1,0 +1,12 @@
+# Omakase Ruby styling for Rails
+inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+
+AllCops:
+  Exclude:
+    - "bin/release"
+    - "README.md"
+    - "spec/dummy/config/database.yml"
+
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: true
+  EnforcedStyle: no_space

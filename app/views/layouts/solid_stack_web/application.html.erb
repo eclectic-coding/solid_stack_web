@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solid Stack Dashboard</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= inline_styles %>
+</head>
+<body>
+  <nav class="sqw-nav">
+    <span class="sqw-nav-title">Solid Stack</span>
+    <div class="sqw-nav-links">
+      <%= link_to "Queue", queue_root_path, class: "sqw-nav-link" %>
+      <%= link_to "Cache", cache_root_path, class: "sqw-nav-link" %>
+      <%= link_to "Cable", cable_root_path, class: "sqw-nav-link" %>
+    </div>
+  </nav>
+  <main class="sqw-main">
+    <%= yield %>
+  </main>
+</body>
+</html>
