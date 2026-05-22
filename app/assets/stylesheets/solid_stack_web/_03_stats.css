@@ -1,0 +1,31 @@
+.sqw-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.sqw-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow);
+  color: var(--text);
+  transition: box-shadow 0.15s;
+}
+a.sqw-stat:hover { box-shadow: 0 3px 8px rgba(0,0,0,.12); text-decoration: none; }
+
+.sqw-stat__label { font-size: 12px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.sqw-stat__value { font-size: 28px; font-weight: 700; line-height: 1; }
+
+.sqw-stat--ready    .sqw-stat__value { color: var(--success); }
+.sqw-stat--scheduled .sqw-stat__value { color: var(--info); }
+.sqw-stat--claimed  .sqw-stat__value { color: var(--primary); }
+.sqw-stat--blocked  .sqw-stat__value { color: var(--warning); }
+.sqw-stat--failed   .sqw-stat__value { color: var(--danger); }
+.sqw-stat--cache    .sqw-stat__value { color: var(--purple); }
+.sqw-stat--cable    .sqw-stat__value { color: var(--info); }

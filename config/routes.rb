@@ -1,15 +1,21 @@
 SolidStackWeb::Engine.routes.draw do
-  root to: "queue/jobs#index"
+  root to: "dashboard#index"
 
-  scope :queue, as: :queue do
-    root to: "queue/jobs#index", as: :root
+  resources :jobs, only: [:index, :destroy]
+
+  resources :failed_jobs, only: [:index, :destroy] do
+    member { post :retry }
   end
 
-  scope :cache, as: :cache do
-    root to: "cache/entries#index", as: :root
+  resources :queues, only: [:index] do
+    member do
+      post   :pause
+      delete :resume
+    end
   end
 
-  scope :cable, as: :cable do
-    root to: "cable/messages#index", as: :root
-  end
+  resources :processes, only: [:index]
+
+  get "cache", to: "cache#index", as: :cache
+  get "cable", to: "cable#index", as: :cable
 end

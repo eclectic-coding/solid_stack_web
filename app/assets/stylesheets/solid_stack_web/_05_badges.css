@@ -1,0 +1,20 @@
+.sqw-badge {
+  display: inline-block;
+  padding: 0.2em 0.55em;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.sqw-badge--ready     { background: #d1e7dd; color: #0a3622; }
+.sqw-badge--scheduled { background: #cff4fc; color: #055160; }
+.sqw-badge--claimed   { background: #cfe2ff; color: #084298; }
+.sqw-badge--blocked   { background: #fff3cd; color: #664d03; }
+.sqw-badge--failed    { background: #f8d7da; color: #58151c; }
+.sqw-badge--paused    { background: #e2e3e5; color: #41464b; }
+.sqw-badge--queue     { background: #e9ecef; color: #495057; font-weight: 500; text-transform: none; letter-spacing: 0; }
+.sqw-badge--worker    { background: #cfe2ff; color: #084298; }
+.sqw-badge--supervisor { background: #d1e7dd; color: #0a3622; }
+.sqw-badge--dispatcher { background: #fff3cd; color: #664d03; }

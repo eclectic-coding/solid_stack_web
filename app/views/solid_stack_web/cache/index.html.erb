@@ -1,0 +1,14 @@
+<div class="sqw-page-header">
+  <h1 class="sqw-page-title">Solid Cache</h1>
+</div>
+
+<div class="sqw-stats-grid">
+  <div class="sqw-stat sqw-stat--cache">
+    <span class="sqw-stat__label">Total Entries</span>
+    <span class="sqw-stat__value"><%= @total_entries %></span>
+  </div>
+  <div class="sqw-stat sqw-stat--cache">
+    <span class="sqw-stat__label">Total Size</span>
+    <span class="sqw-stat__value"><%= number_to_human_size(@total_byte_size) %></span>
+  </div>
+</div>

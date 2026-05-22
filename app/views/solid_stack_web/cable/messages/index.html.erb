@@ -1,0 +1,27 @@
+<div class="sqw-page-header">
+  <h1 class="sqw-page-title">Solid Cable</h1>
+</div>
+
+<div class="sqw-stats-grid">
+  <div class="sqw-stat sqw-stat--cable">
+    <span class="sqw-stat__label">Total Messages</span>
+    <span class="sqw-stat__value"><%= @total_messages %></span>
+  </div>
+  <div class="sqw-stat sqw-stat--cable">
+    <span class="sqw-stat__label">Channels</span>
+    <span class="sqw-stat__value"><%= @channels.size %></span>
+  </div>
+</div>
+
+<% if @channels.any? %>
+  <table class="sqw-table">
+    <thead>
+      <tr><th>Channel</th></tr>
+    </thead>
+    <tbody>
+      <% @channels.each do |channel| %>
+        <tr><td class="sqw-monospace"><%= channel %></td></tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

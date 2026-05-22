@@ -9,15 +9,24 @@
   <%= inline_styles %>
 </head>
 <body>
-  <nav class="sqw-nav">
-    <span class="sqw-nav-title">Solid Stack</span>
-    <div class="sqw-nav-links">
-      <%= link_to "Queue", queue_root_path, class: "sqw-nav-link" %>
-      <%= link_to "Cache", cache_root_path, class: "sqw-nav-link" %>
-      <%= link_to "Cable", cable_root_path, class: "sqw-nav-link" %>
+  <header class="sqw-header">
+    <div class="sqw-header__inner">
+      <%= link_to "Solid Stack", root_path, class: "sqw-header__logo" %>
+      <nav class="sqw-nav">
+        <%= link_to "Dashboard", root_path, class: "sqw-nav__link" %>
+        <%= link_to "Jobs", jobs_path, class: "sqw-nav__link" %>
+        <%= link_to "Failed", failed_jobs_path, class: "sqw-nav__link" %>
+        <%= link_to "Queues", queues_path, class: "sqw-nav__link" %>
+        <%= link_to "Processes", processes_path, class: "sqw-nav__link" %>
+        <%= link_to "Cache", cache_path, class: "sqw-nav__link" %>
+        <%= link_to "Cable", cable_path, class: "sqw-nav__link" %>
+      </nav>
     </div>
-  </nav>
+  </header>
   <main class="sqw-main">
+    <% flash.each do |type, message| %>
+      <div class="sqw-flash sqw-flash--<%= type %>"><%= message %></div>
+    <% end %>
     <%= yield %>
   </main>
 </body>

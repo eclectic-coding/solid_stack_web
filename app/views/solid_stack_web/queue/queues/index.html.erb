@@ -1,0 +1,44 @@
+<div class="sqw-page-header">
+  <h1 class="sqw-page-title">Queues</h1>
+</div>
+
+<% if @queues.any? %>
+  <table class="sqw-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Size</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @queues.each do |queue| %>
+        <tr>
+          <td class="sqw-monospace"><%= queue[:name] %></td>
+          <td><%= queue[:size] %></td>
+          <td>
+            <% if queue[:paused] %>
+              <span class="sqw-badge sqw-badge--paused">Paused</span>
+            <% else %>
+              <span class="sqw-badge sqw-badge--ready">Running</span>
+            <% end %>
+          </td>
+          <td class="sqw-actions">
+            <% if queue[:paused] %>
+              <%= button_to "Resume", resume_queue_queue_path(queue[:name]),
+                    method: :delete, class: "sqw-btn sqw-btn--sm" %>
+            <% else %>
+              <%= button_to "Pause", pause_queue_queue_path(queue[:name]),
+                    method: :post, class: "sqw-btn sqw-btn--sm" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="sqw-empty">
+    <p>No queues with ready jobs.</p>
+  </div>
+<% end %>

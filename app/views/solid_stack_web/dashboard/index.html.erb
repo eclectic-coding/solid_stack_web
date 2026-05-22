@@ -1,0 +1,34 @@
+<div class="sqw-page-header">
+  <h1 class="sqw-page-title">Dashboard</h1>
+</div>
+
+<div class="sqw-stats-grid">
+  <a href="<%= jobs_path(status: "ready") %>" class="sqw-stat sqw-stat--ready">
+    <span class="sqw-stat__label">Ready</span>
+    <span class="sqw-stat__value"><%= @queue_stats[:ready] %></span>
+  </a>
+  <a href="<%= jobs_path(status: "scheduled") %>" class="sqw-stat sqw-stat--scheduled">
+    <span class="sqw-stat__label">Scheduled</span>
+    <span class="sqw-stat__value"><%= @queue_stats[:scheduled] %></span>
+  </a>
+  <a href="<%= jobs_path(status: "claimed") %>" class="sqw-stat sqw-stat--claimed">
+    <span class="sqw-stat__label">Running</span>
+    <span class="sqw-stat__value"><%= @queue_stats[:claimed] %></span>
+  </a>
+  <a href="<%= jobs_path(status: "blocked") %>" class="sqw-stat sqw-stat--blocked">
+    <span class="sqw-stat__label">Blocked</span>
+    <span class="sqw-stat__value"><%= @queue_stats[:blocked] %></span>
+  </a>
+  <a href="<%= failed_jobs_path %>" class="sqw-stat sqw-stat--failed">
+    <span class="sqw-stat__label">Failed</span>
+    <span class="sqw-stat__value"><%= @queue_stats[:failed] %></span>
+  </a>
+  <a href="<%= cache_path %>" class="sqw-stat sqw-stat--cache">
+    <span class="sqw-stat__label">Cache Entries</span>
+    <span class="sqw-stat__value"><%= @cache_entries %></span>
+  </a>
+  <a href="<%= cable_path %>" class="sqw-stat sqw-stat--cable">
+    <span class="sqw-stat__label">Cable Messages</span>
+    <span class="sqw-stat__value"><%= @cable_messages %></span>
+  </a>
+</div>

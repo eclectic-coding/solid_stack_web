@@ -1,0 +1,40 @@
+.sqw-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.875rem;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  background: var(--primary);
+  color: #fff;
+  transition: opacity 0.1s;
+}
+.sqw-btn:hover { opacity: 0.88; text-decoration: none; }
+
+.sqw-btn--sm   { padding: 0.25rem 0.6rem; font-size: 12px; }
+.sqw-btn--danger { background: var(--danger); }
+.sqw-btn--muted  { background: var(--surface); color: var(--text); border-color: var(--border); }
+.sqw-btn--muted:hover { background: var(--bg); }
+
+.sqw-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+
+.sqw-tab {
+  padding: 0.5rem 1rem;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.1s, border-color 0.1s;
+}
+.sqw-tab:hover  { color: var(--text); text-decoration: none; }
+.sqw-tab--active { color: var(--primary); border-bottom-color: var(--primary); }
