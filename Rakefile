@@ -9,7 +9,10 @@ RuboCop::RakeTask.new
 RSpec::Core::RakeTask.new(:spec)
 Bundler::Audit::Task.new
 
-task default: ["bundle:audit:update", "bundle:audit:check", :rubocop, :spec]
+desc "Run bundler-audit, rubocop, and rspec (full CI suite)"
+task ci: ["bundle:audit:update", "bundle:audit:check", :rubocop, :spec]
+
+task default: :ci
 
 namespace :dev do
   def dummy_env
