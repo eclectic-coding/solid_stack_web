@@ -1,5 +1,8 @@
 require "pagy"
 require "pagy/toolbox/paginators/method"
+require "solid_queue"
+require "solid_cache"
+require "solid_cable"
 
 module SolidStackWeb
   class Engine < ::Rails::Engine

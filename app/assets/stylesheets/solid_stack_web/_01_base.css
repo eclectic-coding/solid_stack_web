@@ -1,0 +1,32 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #f8f9fa;
+  --surface: #ffffff;
+  --border:  #dee2e6;
+  --text:    #212529;
+  --muted:   #6c757d;
+  --primary: #0d6efd;
+  --danger:  #dc3545;
+  --warning: #fd7e14;
+  --success: #198754;
+  --info:    #0dcaf0;
+  --purple:  #6f42c1;
+  --radius:  6px;
+  --shadow:  0 1px 3px rgba(0,0,0,.08);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+}
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.sqw-monospace { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 13px; }
+.sqw-muted     { color: var(--muted); }
+.sqw-truncate  { max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
