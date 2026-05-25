@@ -12,6 +12,7 @@ A mountable Rails engine that provides a unified web dashboard for the full [Sol
 - **Overview dashboard** with live counts across all three Solid Stack components; cards are clickable and link directly to each section
 - **Solid Queue** — browse jobs by status (ready, scheduled, claimed, blocked) with filtering by job class, queue name, priority, and time period; manage failed jobs (retry / discard / bulk retry / bulk discard), pause/resume queues, and inspect worker processes; **Bulk selection** checkbox-selects individual jobs for discard or retry; **Discard All** bulk-discards every job matching the current filters in one request; **CSV export** downloads jobs or failed jobs as a CSV file respecting active filters
 - **Job detail page** — drill into any job to see full arguments (pretty-printed JSON), queue, priority, enqueued time, Active Job ID, concurrency key, scheduled/blocked-until metadata, and a Discard button
+- **Failed job detail page** — drill into any failed job to see the full error, backtrace, and an inline JSON argument editor; submit to update arguments and retry in one action
 - **Solid Cache** — entry count and total byte size at a glance
 - **Solid Cable** — active message count and distinct channel count
 - **Turbo Stream** job discard — removes the row inline without a full page reload
@@ -82,6 +83,7 @@ The `authenticate` block is evaluated in the context of each request's controlle
 - [solid_cache](https://github.com/rails/solid_cache) >= 1.0
 - [solid_cable](https://github.com/rails/solid_cable) >= 1.0
 - [turbo-rails](https://github.com/hotwired/turbo-rails) >= 2.0
+- [importmap-rails](https://github.com/rails/importmap-rails) >= 1.2
 
 ## Contributing
 
