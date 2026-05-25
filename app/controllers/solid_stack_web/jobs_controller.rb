@@ -20,8 +20,8 @@ module SolidStackWeb
     end
 
     def destroy
-      execution = Job::EXECUTION_MODELS[@status].find(params[:id])
-      execution.job.destroy!
+      @execution = Job::EXECUTION_MODELS[@status].find(params[:id])
+      @execution.job.destroy!
       @executions_remain = Job::EXECUTION_MODELS[@status].exists?
 
       respond_to do |format|
