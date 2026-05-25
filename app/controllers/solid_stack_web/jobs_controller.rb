@@ -8,7 +8,14 @@ module SolidStackWeb
       @queue_options    = Job::EXECUTION_MODELS[@status].joins(:job).distinct.pluck("solid_queue_jobs.queue_name").sort
       @priority_options = Job::EXECUTION_MODELS[@status].joins(:job).distinct.pluck("solid_queue_jobs.priority").sort
 
-      @pagy, @executions = pagy(filtered_scope)
+      respond_to do |format|
+        format.html { @pagy, @executions = pagy(filtered_scope) }
+        format.csv do
+          send_data jobs_csv,
+                    filename: "jobs-#{@status}-#{Date.today}.csv",
+                    type: "text/csv", disposition: "attachment"
+        end
+      end
     end
 
     def show
@@ -50,6 +57,16 @@ module SolidStackWeb
 
     def require_discardable
       head :unprocessable_content unless Job::DISCARDABLE.include?(@status)
+    end
+
+    def jobs_csv
+      CSV.generate(headers: true) do |csv|
+        csv << %w[id class_name queue_name status priority enqueued_at]
+        filtered_scope.each do |execution|
+          job = execution.job
+          csv << [job.id, job.class_name, job.queue_name, @status, job.priority, job.created_at.iso8601]
+        end
+      end
     end
 
     def filtered_scope

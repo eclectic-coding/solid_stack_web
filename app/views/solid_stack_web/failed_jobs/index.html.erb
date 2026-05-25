@@ -1,5 +1,9 @@
-<div class="sqw-page-header">
+<div class="sqw-page-header sqw-page-header--split">
   <h1 class="sqw-page-title">Failed Jobs</h1>
+  <div class="sqw-header-actions">
+    <%= link_to "Export CSV", failed_jobs_path(format: :csv),
+          class: "sqw-btn sqw-btn--muted sqw-btn--sm", data: { turbo: false } %>
+  </div>
 </div>
 
 <div id="sqw-jobs-table">

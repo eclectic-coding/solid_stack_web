@@ -76,6 +76,36 @@ RSpec.describe "FailedJobs", type: :request do
     end
   end
 
+  describe "GET /failed_jobs.csv" do
+    it "returns a CSV attachment" do
+      get "#{engine_root}/failed_jobs.csv"
+
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq("text/csv")
+      expect(response.headers["Content-Disposition"]).to include("attachment")
+      expect(response.headers["Content-Disposition"]).to include(".csv")
+    end
+
+    it "includes the correct headers" do
+      get "#{engine_root}/failed_jobs.csv"
+
+      headers = response.body.lines.first.chomp
+      expect(headers).to eq("id,class_name,queue_name,error_class,error_message,failed_at")
+    end
+
+    it "includes one row per failed job with error details" do
+      create_failed(class_name: "BrokenJob")
+
+      get "#{engine_root}/failed_jobs.csv"
+
+      rows = CSV.parse(response.body, headers: true)
+      expect(rows.length).to eq(1)
+      expect(rows.first["class_name"]).to eq("BrokenJob")
+      expect(rows.first["error_class"]).to eq("RuntimeError")
+      expect(rows.first["error_message"]).to eq("something went wrong")
+    end
+  end
+
   describe "POST /failed_jobs/:id/retry" do
     it "re-enqueues the job and redirects" do
       execution = create_failed
