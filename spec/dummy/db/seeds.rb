@@ -137,10 +137,12 @@ begin
 
   puts "  failed jobs..."
   5.times do
+    class_name = JOB_CLASSES.sample
     job = SolidQueue::Job.create!(
-      class_name: JOB_CLASSES.sample,
+      class_name: class_name,
       queue_name: QUEUES.sample,
-      arguments: [{ record_id: rand(1..100) }].to_json,
+      arguments: { "job_class" => class_name, "arguments" => [{ "record_id" => rand(1..100) }],
+                   "executions" => 1, "exception_executions" => {} },
       priority: 0,
       active_job_id: SecureRandom.uuid
     )
