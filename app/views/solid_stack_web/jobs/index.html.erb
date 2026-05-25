@@ -3,11 +3,48 @@
 </div>
 
 <div class="sqw-tabs">
-  <% [["ready", "Ready"], ["scheduled", "Scheduled"], ["claimed", "Running"], ["blocked", "Blocked"]].each do |status, label| %>
-    <%= link_to label, jobs_path(status: status),
+  <% SolidStackWeb::Job::TAB_LABELS.each do |status, label| %>
+    <%= link_to label, jobs_path(status: status, q: @search, queue: @queue, period: @period, priority: @priority),
           class: "sqw-tab #{"sqw-tab--active" if @status == status}" %>
   <% end %>
 </div>
+
+<form class="sqw-filters" action="<%= jobs_path %>" method="get">
+  <%= hidden_field_tag :status, @status %>
+  <%= hidden_field_tag :period, @period %>
+  <input class="sqw-search-input" type="search" name="q" value="<%= @search %>"
+         placeholder="Filter by job class…" autocomplete="off" aria-label="Filter by job class">
+  <% if @queue_options.size > 1 %>
+    <select name="queue" class="sqw-select" aria-label="Filter by queue" onchange="this.form.submit()">
+      <option value="">All queues</option>
+      <% @queue_options.each do |q| %>
+        <option value="<%= q %>" <%= "selected" if @queue == q %>><%= q %></option>
+      <% end %>
+    </select>
+  <% end %>
+  <% if @priority_options.size > 1 %>
+    <select name="priority" class="sqw-select" aria-label="Filter by priority" onchange="this.form.submit()">
+      <option value="">All priorities</option>
+      <% @priority_options.each do |p| %>
+        <option value="<%= p %>" <%= "selected" if @priority.to_s == p.to_s %>>Priority <%= p %></option>
+      <% end %>
+    </select>
+  <% end %>
+  <button type="submit" class="sqw-btn sqw-btn--muted sqw-btn--sm">Search</button>
+  <% if @search.present? || @queue.present? || @priority.present? %>
+    <%= link_to "Clear", jobs_path(status: @status, period: @period), class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+  <% end %>
+  <div class="sqw-period-filter" role="group" aria-label="Time period">
+    <%= link_to "All", jobs_path(status: @status, q: @search, queue: @queue, priority: @priority),
+          class: "sqw-period-btn #{"sqw-period-btn--active" if @period.nil?}" %>
+    <%= link_to "1h",  jobs_path(status: @status, q: @search, queue: @queue, priority: @priority, period: "1h"),
+          class: "sqw-period-btn #{"sqw-period-btn--active" if @period == "1h"}" %>
+    <%= link_to "24h", jobs_path(status: @status, q: @search, queue: @queue, priority: @priority, period: "24h"),
+          class: "sqw-period-btn #{"sqw-period-btn--active" if @period == "24h"}" %>
+    <%= link_to "7d",  jobs_path(status: @status, q: @search, queue: @queue, priority: @priority, period: "7d"),
+          class: "sqw-period-btn #{"sqw-period-btn--active" if @period == "7d"}" %>
+  </div>
+</form>
 
 <div id="sqw-jobs-table">
   <% if @executions.any? %>
@@ -34,7 +71,7 @@
             <% end %>
             <td class="sqw-actions">
               <% if %w[ready scheduled blocked].include?(@status) %>
-                <%= button_to "Discard", job_path(execution, status: @status),
+                <%= button_to "Discard", job_path(execution, status: @status, q: @search, queue: @queue, period: @period, priority: @priority),
                       method: :delete, class: "sqw-btn sqw-btn--danger sqw-btn--sm",
                       data: { turbo_confirm: "Discard this job?" } %>
               <% end %>

@@ -11,7 +11,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 > _Make the job management layer genuinely useful for operators._
 
 ### Added
-- **Job filtering** — filter the job list by queue name, job class (substring), priority, and time period (1 h / 24 h / 7 d / all) via query-param driven scopes
 - **Job detail page** — `jobs/:id` show view with full arguments, queue, priority, enqueued time, and execution metadata
 - **Bulk selection** — checkbox-driven multi-select on the jobs and failed-jobs lists
 - **Bulk discard** — discard all selected jobs in a single request

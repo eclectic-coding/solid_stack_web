@@ -10,7 +10,7 @@ A mountable Rails engine that provides a unified web dashboard for the full [Sol
 ## Features
 
 - **Overview dashboard** with live counts across all three Solid Stack components
-- **Solid Queue** — browse jobs by status (ready, scheduled, claimed, blocked), manage failed jobs (retry / discard), pause/resume queues, and inspect worker processes
+- **Solid Queue** — browse jobs by status (ready, scheduled, claimed, blocked) with filtering by job class, queue name, priority, and time period; manage failed jobs (retry / discard), pause/resume queues, and inspect worker processes
 - **Solid Cache** — entry count and total byte size at a glance
 - **Solid Cable** — active message count and distinct channel count
 - **Turbo Stream** job discard — removes the row inline without a full page reload
@@ -55,6 +55,19 @@ SolidStackWeb.configure do |config|
   end
 end
 ```
+
+### Job Filtering
+
+The jobs list supports four independent filters, all driven by query params:
+
+| Param | Description |
+|-------|-------------|
+| `q` | Substring match against the job class name (e.g. `q=Report`) |
+| `queue` | Exact queue name match; select appears only when multiple queues exist |
+| `priority` | Exact priority value match; select appears only when multiple priorities exist |
+| `period` | Enqueued-at window — `1h`, `24h`, `7d`, or omit for all time |
+
+Filters are preserved when switching between status tabs (Ready / Scheduled / Running / Blocked) and when discarding a job. They can be combined freely.
 
 ### Authentication
 
