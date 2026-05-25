@@ -1,0 +1,9 @@
+<% if @executions_remain %>
+  <%= turbo_stream.remove "execution_#{@execution.id}" %>
+<% else %>
+  <%= turbo_stream.replace "sqw-jobs-table" do %>
+    <div class="sqw-empty">
+      <p>No failed jobs.</p>
+    </div>
+  <% end %>
+<% end %>

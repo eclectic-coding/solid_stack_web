@@ -6,8 +6,8 @@ module SolidStackWeb
     end
 
     def destroy
-      execution = ::SolidQueue::FailedExecution.find(params[:id])
-      execution.job.destroy!
+      @execution = ::SolidQueue::FailedExecution.find(params[:id])
+      @execution.job.destroy!
       @executions_remain = ::SolidQueue::FailedExecution.exists?
 
       respond_to do |format|
