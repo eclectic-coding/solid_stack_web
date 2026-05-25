@@ -30,6 +30,7 @@ SolidStackWeb::Engine.routes.draw do
 
   resources :processes, only: [:index]
 
+  get "history", to: "history#index", as: :history
   get "cache", to: "cache#index", as: :cache
   get "cable", to: "cable#index", as: :cable
 end
