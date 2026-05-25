@@ -11,7 +11,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 > _Close the remaining Solid Queue feature gaps._
 
 ### Added
-- **Job history view** — paginated list of finished (completed) jobs with duration, queue, class, and time period filter; CSV export
 - **Recurring task list** — enumerate tasks defined in `config/recurring.yml` with last-run time, next-run time, and a "run now" action per task
 - **Per-queue job browser** — drill into any queue from the Queues list to see its ready jobs and discard them
 - **Blocked job bulk discard** — "Discard all blocked" action on the blocked jobs view
