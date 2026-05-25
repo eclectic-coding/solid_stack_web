@@ -9,13 +9,14 @@
   <% end %>
 </div>
 
+<turbo-frame id="sqw-jobs-filter" data-turbo-action="advance">
 <form class="sqw-filters" action="<%= jobs_path %>" method="get">
   <%= hidden_field_tag :status, @status %>
   <%= hidden_field_tag :period, @period %>
   <input class="sqw-search-input" type="search" name="q" value="<%= @search %>"
          placeholder="Filter by job class…" autocomplete="off" aria-label="Filter by job class">
   <% if @queue_options.size > 1 %>
-    <select name="queue" class="sqw-select" aria-label="Filter by queue" onchange="this.form.submit()">
+    <select name="queue" class="sqw-select" aria-label="Filter by queue" onchange="this.form.requestSubmit()">
       <option value="">All queues</option>
       <% @queue_options.each do |q| %>
         <option value="<%= q %>" <%= "selected" if @queue == q %>><%= q %></option>
@@ -23,7 +24,7 @@
     </select>
   <% end %>
   <% if @priority_options.size > 1 %>
-    <select name="priority" class="sqw-select" aria-label="Filter by priority" onchange="this.form.submit()">
+    <select name="priority" class="sqw-select" aria-label="Filter by priority" onchange="this.form.requestSubmit()">
       <option value="">All priorities</option>
       <% @priority_options.each do |p| %>
         <option value="<%= p %>" <%= "selected" if @priority.to_s == p.to_s %>>Priority <%= p %></option>
@@ -85,3 +86,4 @@
     <%= render "empty" %>
   <% end %>
 </div>
+</turbo-frame>

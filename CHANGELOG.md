@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Job filtering — filter the jobs list by queue name, job class (substring), priority, and time period (1h / 24h / 7d / all) via query-param driven scopes; active filters are preserved across status tabs
+- Job filter Turbo Frame — filter form and results table wrapped in a `<turbo-frame>` so applying filters reloads only the table without a full page refresh; `data-turbo-action="advance"` keeps the URL in sync; Turbo JS loaded from esm.sh CDN in the engine layout
 
 ## [0.1.0] - 2026-05-24
 
