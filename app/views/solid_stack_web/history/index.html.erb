@@ -1,0 +1,73 @@
+<div class="sqw-page-header sqw-page-header--split">
+  <h1 class="sqw-page-title">Job History</h1>
+  <div class="sqw-header-actions">
+    <% if @jobs&.any? %>
+      <%= link_to "Export CSV", history_path(format: :csv, queue: @queue, q: @search, period: @period),
+            class: "sqw-btn sqw-btn--muted sqw-btn--sm", data: { turbo: false } %>
+    <% end %>
+  </div>
+</div>
+
+<form class="sqw-filters" action="<%= history_path %>" method="get">
+  <% if @queue.present? %>
+    <input type="hidden" name="queue" value="<%= @queue %>">
+  <% end %>
+  <input type="hidden" name="period" value="<%= @period %>">
+  <input class="sqw-search-input" type="search" name="q" value="<%= @search %>"
+         placeholder="Filter by job class…" autocomplete="off" aria-label="Filter by job class">
+  <button type="submit" class="sqw-btn sqw-btn--muted sqw-btn--sm">Search</button>
+  <% if @search.present? %>
+    <%= link_to "Clear", history_path(queue: @queue, period: @period), class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+  <% end %>
+  <div class="sqw-period-filter" role="group" aria-label="Time period">
+    <%= link_to "All", history_path(queue: @queue, q: @search),
+          class: "sqw-period-btn #{"sqw-period-btn--active" if @period.nil?}" %>
+    <%= link_to "1h",  history_path(queue: @queue, q: @search, period: "1h"),
+          class: "sqw-period-btn #{"sqw-period-btn--active" if @period == "1h"}" %>
+    <%= link_to "24h", history_path(queue: @queue, q: @search, period: "24h"),
+          class: "sqw-period-btn #{"sqw-period-btn--active" if @period == "24h"}" %>
+    <%= link_to "7d",  history_path(queue: @queue, q: @search, period: "7d"),
+          class: "sqw-period-btn #{"sqw-period-btn--active" if @period == "7d"}" %>
+  </div>
+</form>
+
+<% if @queue.present? %>
+  <p class="sqw-muted" style="font-size: 13px; margin-bottom: 0.75rem;">
+    Filtering by queue: <strong><%= @queue %></strong> &mdash;
+    <%= link_to "Clear filter", history_path(q: @search, period: @period) %>
+  </p>
+<% end %>
+
+<% if @jobs.any? %>
+  <div class="sqw-detail-card">
+    <table class="sqw-table">
+      <thead>
+        <tr>
+          <th>Job Class</th>
+          <th>Queue</th>
+          <th>Duration</th>
+          <th>Finished At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @jobs.each do |job| %>
+          <tr>
+            <td class="sqw-monospace"><%= job.class_name %></td>
+            <td>
+              <%= link_to job.queue_name,
+                    history_path(queue: job.queue_name, q: @search, period: @period),
+                    class: "sqw-badge sqw-badge--queue" %>
+            </td>
+            <td class="sqw-monospace"><%= format_duration(job.finished_at - job.created_at) %></td>
+            <td class="sqw-muted"><%= job.finished_at.strftime("%b %d %H:%M:%S") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+  </div>
+<% else %>
+  <div class="sqw-empty">
+    <p>No finished jobs found.</p>
+  </div>
+<% end %>

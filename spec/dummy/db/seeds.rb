@@ -153,6 +153,34 @@ ensure
   SolidQueue::BlockedExecution.set_callback(:create, :before, :set_expires_at)
 end
 
+# ── Solid Queue: Finished jobs (history) ─────────────────────────────────────
+
+puts "  finished jobs..."
+
+[
+  { age: 20.minutes, duration: 12 },
+  { age: 45.minutes, duration: 3 },
+  { age: 2.hours,    duration: 87 },
+  { age: 6.hours,    duration: 5 },
+  { age: 18.hours,   duration: 210 },
+  { age: 2.days,     duration: 44 },
+  { age: 4.days,     duration: 9 },
+  { age: 8.days,     duration: 130 },
+].each do |attrs|
+  finished_at = attrs[:age].ago
+  job = SolidQueue::Job.new(
+    class_name: JOB_CLASSES.sample,
+    queue_name: QUEUES.sample,
+    arguments: [{ record_id: rand(1..500) }].to_json,
+    priority: rand(0..5),
+    active_job_id: SecureRandom.uuid
+  )
+  job.finished_at = finished_at
+  job.created_at  = finished_at - attrs[:duration].seconds
+  job.updated_at  = finished_at
+  job.save!(validate: false)
+end
+
 # ── Solid Cache ───────────────────────────────────────────────────────────────
 
 puts "  cache entries..."
@@ -205,7 +233,8 @@ puts "  Solid Queue — #{SolidQueue::Job.count} jobs " \
      "#{SolidQueue::ScheduledExecution.count} scheduled, " \
      "#{SolidQueue::ClaimedExecution.count} claimed, " \
      "#{SolidQueue::BlockedExecution.count} blocked, " \
-     "#{SolidQueue::FailedExecution.count} failed), " \
+     "#{SolidQueue::FailedExecution.count} failed, " \
+     "#{SolidQueue::Job.where.not(finished_at: nil).count} finished), " \
      "#{SolidQueue::Process.count} processes"
 puts "  Solid Cache  — #{SolidCache::Entry.count} entries"
 puts "  Solid Cable  — #{SolidCable::Message.count} messages across #{SolidCable::Message.distinct.count(:channel)} channels"
