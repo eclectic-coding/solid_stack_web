@@ -10,7 +10,7 @@ A mountable Rails engine that provides a unified web dashboard for the full [Sol
 ## Features
 
 - **Overview dashboard** with live counts across all three Solid Stack components; cards are clickable and link directly to each section
-- **Solid Queue** — browse jobs by status (ready, scheduled, claimed, blocked) with filtering by job class, queue name, priority, and time period; manage failed jobs (retry / discard), pause/resume queues, and inspect worker processes; **Bulk selection** checkbox-selects individual jobs for discard; **Discard All** bulk-discards every job matching the current filters in one request; **CSV export** downloads jobs or failed jobs as a CSV file respecting active filters
+- **Solid Queue** — browse jobs by status (ready, scheduled, claimed, blocked) with filtering by job class, queue name, priority, and time period; manage failed jobs (retry / discard / bulk retry / bulk discard), pause/resume queues, and inspect worker processes; **Bulk selection** checkbox-selects individual jobs for discard or retry; **Discard All** bulk-discards every job matching the current filters in one request; **CSV export** downloads jobs or failed jobs as a CSV file respecting active filters
 - **Job detail page** — drill into any job to see full arguments (pretty-printed JSON), queue, priority, enqueued time, Active Job ID, concurrency key, scheduled/blocked-until metadata, and a Discard button
 - **Solid Cache** — entry count and total byte size at a glance
 - **Solid Cable** — active message count and distinct channel count

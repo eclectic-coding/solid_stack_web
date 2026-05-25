@@ -11,7 +11,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 > _Make the job management layer genuinely useful for operators._
 
 ### Added
-- **Bulk retry (failed jobs)** — retry selected failed jobs with optional stagger interval (5 s / 10 s / 30 s / 1 m) to avoid thundering-herd restarts
 - **Edit arguments & retry** — inline argument editor on failed job detail; retry with modified payload
 
 ---
