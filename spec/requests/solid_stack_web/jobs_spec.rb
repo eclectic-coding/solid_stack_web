@@ -260,13 +260,13 @@ RSpec.describe "Jobs", type: :request do
     end
   end
 
-  describe "POST /jobs/discard_selected" do
+  describe "DELETE /jobs/selection" do
     it "destroys only the selected jobs and redirects" do
       job_a = create_ready(class_name: "JobA")
       job_b = create_ready(class_name: "JobB")
 
-      post "#{engine_root}/jobs/discard_selected",
-           params: { status: "ready", job_ids: [job_a.ready_execution.id] }
+      delete "#{engine_root}/jobs/selection",
+             params: { status: "ready", job_ids: [job_a.ready_execution.id] }
 
       expect(response).to redirect_to("#{engine_root}/jobs?status=ready")
       expect(SolidQueue::Job.exists?(job_a.id)).to be false
@@ -276,9 +276,9 @@ RSpec.describe "Jobs", type: :request do
     it "preserves filter params in the redirect" do
       job = create_ready(queue_name: "reports")
 
-      post "#{engine_root}/jobs/discard_selected",
-           params: { status: "ready", queue: "reports", q: "Report", period: "1h",
-                     job_ids: [job.ready_execution.id] }
+      delete "#{engine_root}/jobs/selection",
+             params: { status: "ready", queue: "reports", q: "Report", period: "1h",
+                       job_ids: [job.ready_execution.id] }
 
       expect(response.location).to include("queue=reports")
       expect(response.location).to include("q=Report")
@@ -288,15 +288,15 @@ RSpec.describe "Jobs", type: :request do
     it "is a no-op when no job_ids are submitted" do
       create_ready(class_name: "JobA")
 
-      post "#{engine_root}/jobs/discard_selected", params: { status: "ready", job_ids: [] }
+      delete "#{engine_root}/jobs/selection", params: { status: "ready", job_ids: [] }
 
       expect(SolidQueue::ReadyExecution.count).to eq(1)
     end
 
-    it "returns 422 when status is not discardable" do
-      post "#{engine_root}/jobs/discard_selected", params: { status: "claimed" }
+    it "redirects when status is not discardable" do
+      delete "#{engine_root}/jobs/selection", params: { status: "claimed" }
 
-      expect(response).to have_http_status(:unprocessable_content)
+      expect(response).to redirect_to("#{engine_root}/jobs?status=claimed")
     end
   end
 
@@ -390,7 +390,7 @@ RSpec.describe "Jobs", type: :request do
       expect(response.body).to     include("ReportJob")
       expect(response.body).not_to include("CleanupJob")
       # Exactly one job row — only the reports-queue ReportJob
-      expect(response.body.scan("sqw-monospace").length).to eq(1)
+      expect(response.body.scan('<td class="sqw-monospace">').length).to eq(1)
     end
   end
 

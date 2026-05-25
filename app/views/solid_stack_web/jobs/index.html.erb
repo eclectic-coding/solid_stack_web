@@ -61,8 +61,8 @@
 
 <div id="sqw-jobs-table">
   <% if @executions.any? %>
-    <%= form_with url: discard_selected_jobs_path,
-          method: :post,
+    <%= form_with url: job_selection_path,
+          method: :delete,
           data: { turbo: false } do |f| %>
       <%= f.hidden_field :status, value: @status %>
       <%= f.hidden_field :q,      value: @search %>

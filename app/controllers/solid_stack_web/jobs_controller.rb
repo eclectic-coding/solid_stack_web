@@ -1,8 +1,8 @@
 module SolidStackWeb
   class JobsController < ApplicationController
     before_action :set_status
-    before_action :set_filters, only: [:index, :destroy, :discard_selected]
-    before_action :require_discardable, only: [:destroy, :discard_selected]
+    before_action :set_filters, only: [:index, :destroy]
+    before_action :require_discardable, only: [:destroy]
 
     def index
       @queue_options    = Job::EXECUTION_MODELS[@status].joins(:job).distinct.pluck("solid_queue_jobs.queue_name").sort
@@ -40,13 +40,6 @@ module SolidStackWeb
         SolidQueue::Job.where(id: job_ids).destroy_all
         redirect_to jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority)
       end
-    end
-
-    def discard_selected
-      ids     = Array(params[:job_ids]).map(&:to_i).reject(&:zero?)
-      job_ids = Job::EXECUTION_MODELS[@status].where(id: ids).pluck(:job_id)
-      SolidQueue::Job.where(id: job_ids).destroy_all
-      redirect_to jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority)
     end
 
     private
