@@ -2,7 +2,7 @@ module SolidStackWeb
   class JobsController < ApplicationController
     before_action :set_status
     before_action :set_filters, only: [:index, :destroy]
-    before_action :require_discardable, only: :destroy
+    before_action :require_discardable, only: [:destroy]
 
     def index
       @queue_options    = Job::EXECUTION_MODELS[@status].joins(:job).distinct.pluck("solid_queue_jobs.queue_name").sort
