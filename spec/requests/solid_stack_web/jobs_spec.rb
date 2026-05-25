@@ -86,7 +86,7 @@ RSpec.describe "Jobs", type: :request do
 
       get "#{engine_root}/jobs"
 
-      expect(response.body).not_to include('name="queue"')
+      expect(response.body).not_to include('aria-label="Filter by queue"')
     end
   end
 
@@ -260,6 +260,46 @@ RSpec.describe "Jobs", type: :request do
     end
   end
 
+  describe "POST /jobs/discard_selected" do
+    it "destroys only the selected jobs and redirects" do
+      job_a = create_ready(class_name: "JobA")
+      job_b = create_ready(class_name: "JobB")
+
+      post "#{engine_root}/jobs/discard_selected",
+           params: { status: "ready", job_ids: [job_a.ready_execution.id] }
+
+      expect(response).to redirect_to("#{engine_root}/jobs?status=ready")
+      expect(SolidQueue::Job.exists?(job_a.id)).to be false
+      expect(SolidQueue::Job.exists?(job_b.id)).to be true
+    end
+
+    it "preserves filter params in the redirect" do
+      job = create_ready(queue_name: "reports")
+
+      post "#{engine_root}/jobs/discard_selected",
+           params: { status: "ready", queue: "reports", q: "Report", period: "1h",
+                     job_ids: [job.ready_execution.id] }
+
+      expect(response.location).to include("queue=reports")
+      expect(response.location).to include("q=Report")
+      expect(response.location).to include("period=1h")
+    end
+
+    it "is a no-op when no job_ids are submitted" do
+      create_ready(class_name: "JobA")
+
+      post "#{engine_root}/jobs/discard_selected", params: { status: "ready", job_ids: [] }
+
+      expect(SolidQueue::ReadyExecution.count).to eq(1)
+    end
+
+    it "returns 422 when status is not discardable" do
+      post "#{engine_root}/jobs/discard_selected", params: { status: "claimed" }
+
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+  end
+
   describe "POST /jobs/discard_all" do
     it "destroys all jobs in the current status and redirects" do
       create_ready(class_name: "JobA")
@@ -349,8 +389,8 @@ RSpec.describe "Jobs", type: :request do
 
       expect(response.body).to     include("ReportJob")
       expect(response.body).not_to include("CleanupJob")
-      # The default-queue ReportJob should be excluded — only one match in the reports queue
-      expect(response.body.scan("ReportJob").length).to eq(1)
+      # Exactly one job row — only the reports-queue ReportJob
+      expect(response.body.scan("sqw-monospace").length).to eq(1)
     end
   end
 
