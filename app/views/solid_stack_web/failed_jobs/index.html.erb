@@ -8,35 +8,62 @@
 
 <div id="sqw-jobs-table">
   <% if @executions.any? %>
-    <table class="sqw-table">
-      <thead>
-        <tr>
-          <th>Job Class</th>
-          <th>Queue</th>
-          <th>Error</th>
-          <th>Failed At</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @executions.each do |execution| %>
-          <tr id="execution_<%= execution.id %>">
-            <td class="sqw-monospace"><%= execution.job.class_name %></td>
-            <td><span class="sqw-badge sqw-badge--queue"><%= execution.job.queue_name %></span></td>
-            <td class="sqw-muted sqw-truncate" title="<%= execution.exception_class %>: <%= execution.message %>"><%= execution.exception_class %></td>
-            <td class="sqw-muted"><%= execution.created_at.strftime("%b %d %H:%M") %></td>
-            <td class="sqw-actions">
-              <%= button_to "Retry", retry_failed_job_path(execution),
-                    method: :post, class: "sqw-btn sqw-btn--sm" %>
-              <%= button_to "Discard", failed_job_path(execution),
-                    method: :delete, class: "sqw-btn sqw-btn--danger sqw-btn--sm",
-                    data: { turbo_confirm: "Discard this job?" } %>
-            </td>
+    <div data-controller="selection">
+      <%= form_with url: failed_job_selection_path, method: :post, id: "retry-selection-form" do |f| %>
+      <% end %>
+
+      <%= form_with url: failed_job_selection_path, method: :delete, id: "discard-selection-form",
+            data: { turbo_confirm: "Discard selected failed jobs? This cannot be undone." } do |f| %>
+      <% end %>
+
+      <div class="sqw-selection-bar" data-selection-target="bar" style="display: none;">
+        <span class="sqw-muted"><span data-selection-target="count">0</span> selected</span>
+        <button type="button" class="sqw-btn sqw-btn--sm"
+                data-action="click->selection#submit"
+                data-selection-form-id-param="retry-selection-form">Retry Selected</button>
+        <button type="button" class="sqw-btn sqw-btn--danger sqw-btn--sm"
+                data-action="click->selection#submit"
+                data-selection-form-id-param="discard-selection-form">Discard Selected</button>
+      </div>
+
+      <table class="sqw-table">
+        <thead>
+          <tr>
+            <th><input type="checkbox" class="sqw-checkbox" aria-label="Select all"
+                       data-selection-target="selectAll"
+                       data-action="change->selection#selectAll"></th>
+            <th>Job Class</th>
+            <th>Queue</th>
+            <th>Error</th>
+            <th>Failed At</th>
+            <th></th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+        </thead>
+        <tbody>
+          <% @executions.each do |execution| %>
+            <tr id="execution_<%= execution.id %>">
+              <td><input type="checkbox" value="<%= execution.id %>"
+                         class="sqw-checkbox"
+                         aria-label="Select <%= execution.job.class_name %>"
+                         data-selection-target="checkbox"
+                         data-action="change->selection#toggle"></td>
+              <td class="sqw-monospace"><%= execution.job.class_name %></td>
+              <td><span class="sqw-badge sqw-badge--queue"><%= execution.job.queue_name %></span></td>
+              <td class="sqw-muted sqw-truncate" title="<%= execution.exception_class %>: <%= execution.message %>"><%= execution.exception_class %></td>
+              <td class="sqw-muted"><%= execution.created_at.strftime("%b %d %H:%M") %></td>
+              <td class="sqw-actions">
+                <%= button_to "Retry", retry_failed_job_path(execution),
+                      method: :post, class: "sqw-btn sqw-btn--sm" %>
+                <%= button_to "Discard", failed_job_path(execution),
+                      method: :delete, class: "sqw-btn sqw-btn--danger sqw-btn--sm",
+                      data: { turbo_confirm: "Discard this job?" } %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+    </div>
   <% else %>
     <div class="sqw-empty">
       <p>No failed jobs.</p>
