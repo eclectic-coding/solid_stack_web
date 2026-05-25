@@ -6,15 +6,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 
 ---
 
-## v0.2.0 — Solid Queue: Core Operations
-
-> _Make the job management layer genuinely useful for operators._
-
-### Added
-- **Edit arguments & retry** — inline argument editor on failed job detail; retry with modified payload
-
----
-
 ## v0.3.0 — Solid Queue: Scheduling, History & Recurring Tasks
 
 > _Close the remaining Solid Queue feature gaps._
@@ -81,7 +72,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 
 ### Added
 - **Stimulus: debounced search** — live filter results update as you type without a full page reload
-- **Stimulus: bulk selection** — select-all / deselect-all checkbox management; keeps count badge updated
 - **Stimulus: auto-refresh** — Turbo Frame polling for dashboard stats and job tables at configurable intervals
 - **Dark mode** — Stimulus theme controller toggles a `data-theme` attribute; CSS custom properties drive both light and dark palettes; preference persisted in `localStorage`
 - **Empty-state improvements** — contextual empty states per section with actionable next steps
