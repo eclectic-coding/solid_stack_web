@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Edit arguments and retry — failed job detail page (`/failed_jobs/:id`) with full error info, backtrace, and a monospace JSON editor; submitting the editor updates the job's arguments and immediately retries it via `FailedJobs::ArgumentsController`
 - Stimulus via importmap-rails — `importmap-rails` added as an engine dependency; a `selection_controller.js` manages checkbox state, select-all toggling, and form injection at submit time; JS is delivered via the host app's importmap with no asset pipeline coupling
 - Bulk retry and discard for failed jobs — checkbox column on the failed jobs list; "Retry Selected" and "Discard Selected" buttons appear in a selection bar when one or more jobs are checked; backed by `FailedJobs::SelectionsController` with `POST /failed_jobs/selection` (retry) and `DELETE /failed_jobs/selection` (discard)
 - Bulk selection and discard — checkbox column on the jobs list for ready, scheduled, and blocked statuses; "Discard Selected" submits only the checked jobs via `DELETE /jobs/selection` (`Jobs::SelectionsController#destroy`); "Select All" header checkbox toggles all rows; filter state is preserved in the redirect after a bulk discard
