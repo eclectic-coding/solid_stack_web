@@ -14,6 +14,13 @@ module SolidStackWeb
       end
     end
 
+    def show
+      @execution = ::SolidQueue::FailedExecution.includes(:job).find(params[:id])
+      @arguments = JSON.pretty_generate(@execution.job.arguments) if @execution.job.arguments.present?
+    rescue JSON::GeneratorError
+      @arguments = @execution.job.arguments.to_s
+    end
+
     def destroy
       @execution = ::SolidQueue::FailedExecution.find(params[:id])
       @execution.job.destroy!

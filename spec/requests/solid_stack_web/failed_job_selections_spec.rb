@@ -19,6 +19,17 @@ RSpec.describe "Failed Job Selections", type: :request do
   end
 
   describe "POST /failed_jobs/selection (bulk retry)" do
+    it "redirects with alert when retry raises" do
+      execution = create_failed
+      allow_any_instance_of(SolidQueue::FailedExecution).to receive(:retry).and_raise(RuntimeError, "db error")
+
+      post "#{engine_root}/failed_jobs/selection",
+           params: { job_ids: [execution.id] }
+
+      expect(response).to redirect_to("#{engine_root}/failed_jobs")
+      expect(flash[:alert]).to eq("Could not retry jobs: db error")
+    end
+
     it "retries only the selected jobs" do
       exec_a = create_failed(class_name: "JobA")
       exec_b = create_failed(class_name: "JobB")
@@ -59,6 +70,17 @@ RSpec.describe "Failed Job Selections", type: :request do
   end
 
   describe "DELETE /failed_jobs/selection (bulk discard)" do
+    it "redirects with alert when discard raises" do
+      execution = create_failed
+      allow(SolidQueue::Job).to receive(:where).and_raise(RuntimeError, "db error")
+
+      delete "#{engine_root}/failed_jobs/selection",
+             params: { job_ids: [execution.id] }
+
+      expect(response).to redirect_to("#{engine_root}/failed_jobs")
+      expect(flash[:alert]).to eq("Could not discard jobs: db error")
+    end
+
     it "discards only the selected jobs" do
       exec_a = create_failed(class_name: "JobA")
       exec_b = create_failed(class_name: "JobB")

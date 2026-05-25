@@ -69,3 +69,17 @@
   max-height: 400px;
   overflow-y: auto;
 }
+
+.sqw-code-input {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  width: 100%;
+  resize: vertical;
+  color: var(--text);
+  line-height: 1.5;
+  box-sizing: border-box;
+}

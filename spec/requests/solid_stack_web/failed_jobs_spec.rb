@@ -106,6 +106,86 @@ RSpec.describe "FailedJobs", type: :request do
     end
   end
 
+  describe "GET /failed_jobs/:id" do
+    it "returns 200 and shows the job class" do
+      execution = create_failed(class_name: "BrokenJob")
+      get "#{engine_root}/failed_jobs/#{execution.id}"
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("BrokenJob")
+    end
+
+    it "shows the error class and message" do
+      execution = create_failed
+      get "#{engine_root}/failed_jobs/#{execution.id}"
+      expect(response.body).to include("RuntimeError")
+      expect(response.body).to include("something went wrong")
+    end
+
+    it "shows a breadcrumb back to failed jobs" do
+      execution = create_failed
+      get "#{engine_root}/failed_jobs/#{execution.id}"
+      expect(response.body).to include("sqw-breadcrumb")
+      expect(response.body).to include("Failed Jobs")
+    end
+
+    it "renders the argument editor form" do
+      execution = create_failed
+      get "#{engine_root}/failed_jobs/#{execution.id}"
+      expect(response.body).to include("sqw-code-input")
+      expect(response.body).to include("Update")
+    end
+
+    it "shows Retry and Discard buttons" do
+      execution = create_failed
+      get "#{engine_root}/failed_jobs/#{execution.id}"
+      expect(response.body).to include("Retry")
+      expect(response.body).to include("Discard")
+    end
+
+    it "falls back to raw arguments string when JSON generation fails" do
+      execution = create_failed
+      allow(JSON).to receive(:pretty_generate).and_raise(JSON::GeneratorError, "NaN")
+
+      get "#{engine_root}/failed_jobs/#{execution.id}"
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe "PATCH /failed_jobs/:id/arguments" do
+    it "updates arguments and retries the job" do
+      execution = create_failed
+      new_args = { "executions" => 0, "exception_executions" => {}, "user_id" => 99 }.to_json
+
+      patch "#{engine_root}/failed_jobs/#{execution.id}/arguments",
+            params: { arguments: new_args }
+
+      expect(SolidQueue::FailedExecution.exists?(execution.id)).to be false
+      expect(response).to redirect_to("#{engine_root}/failed_jobs")
+    end
+
+    it "redirects back with alert on invalid JSON" do
+      execution = create_failed
+
+      patch "#{engine_root}/failed_jobs/#{execution.id}/arguments",
+            params: { arguments: "not valid json {{" }
+
+      expect(SolidQueue::FailedExecution.exists?(execution.id)).to be true
+      expect(response).to redirect_to("#{engine_root}/failed_jobs/#{execution.id}")
+    end
+
+    it "redirects with alert when update raises" do
+      execution = create_failed
+      allow_any_instance_of(SolidQueue::Job).to receive(:update!).and_raise(RuntimeError, "db error")
+
+      patch "#{engine_root}/failed_jobs/#{execution.id}/arguments",
+            params: { arguments: { "executions" => 0, "exception_executions" => {} }.to_json }
+
+      expect(response).to redirect_to("#{engine_root}/failed_jobs")
+      expect(flash[:alert]).to eq("Could not update job: db error")
+    end
+  end
+
   describe "POST /failed_jobs/:id/retry" do
     it "re-enqueues the job and redirects" do
       execution = create_failed
