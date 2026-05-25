@@ -15,7 +15,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 - **Bulk discard** — discard all selected jobs in a single request
 - **Bulk retry (failed jobs)** — retry selected failed jobs with optional stagger interval (5 s / 10 s / 30 s / 1 m) to avoid thundering-herd restarts
 - **Edit arguments & retry** — inline argument editor on failed job detail; retry with modified payload
-- **CSV export** — download jobs or failed jobs as CSV (class, queue, priority, enqueued_at, error)
 
 ---
 

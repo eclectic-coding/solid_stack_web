@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **Discard All** — "Discard All (N)" button on the jobs index header discards every job matching the current filters (class, queue, priority, period) in one request; respects the discardable-status guard so claimed jobs cannot be bulk-discarded; route `POST /jobs/discard_all` merges into the existing `destroy` action branching on `params[:id]`
+- **CSV export** — "Export CSV" button on jobs and failed-jobs index pages; export respects active filters so operators download exactly what they see on screen; columns: `id, class_name, queue_name, status, priority, enqueued_at` for jobs and `id, class_name, queue_name, error_class, error_message, failed_at` for failed jobs
 
 ### Fixed
 
