@@ -63,7 +63,7 @@
   <% if @executions.any? %>
     <%= form_with url: job_selection_path,
           method: :delete,
-          data: { turbo: false } do |f| %>
+          data: { turbo_frame: "_top" } do |f| %>
       <%= f.hidden_field :status, value: @status %>
       <%= f.hidden_field :q,      value: @search %>
       <%= f.hidden_field :queue,  value: @queue %>
