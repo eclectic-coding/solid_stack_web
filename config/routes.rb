@@ -1,7 +1,9 @@
 SolidStackWeb::Engine.routes.draw do
   root to: "dashboard#index"
 
-  resources :jobs, only: [:index, :show, :destroy]
+  resources :jobs, only: [:index, :show, :destroy] do
+    collection { post :discard_all, action: :destroy }
+  end
 
   resources :failed_jobs, only: [:index, :destroy] do
     member { post :retry }

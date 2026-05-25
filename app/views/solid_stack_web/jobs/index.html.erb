@@ -1,5 +1,13 @@
-<div class="sqw-page-header">
+<div class="sqw-page-header sqw-page-header--split">
   <h1 class="sqw-page-title">Jobs</h1>
+  <% if SolidStackWeb::Job::DISCARDABLE.include?(@status) && @executions&.any? %>
+    <%= button_to "Discard All (#{@pagy.count})",
+          discard_all_jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority),
+          method: :post,
+          class: "sqw-btn sqw-btn--danger sqw-btn--sm",
+          data: { turbo_confirm: "Discard all #{@pagy.count} jobs? This cannot be undone.",
+                  turbo_frame: "_top" } %>
+  <% end %>
 </div>
 
 <div class="sqw-tabs">

@@ -260,6 +260,45 @@ RSpec.describe "Jobs", type: :request do
     end
   end
 
+  describe "POST /jobs/discard_all" do
+    it "destroys all jobs in the current status and redirects" do
+      create_ready(class_name: "JobA")
+      create_ready(class_name: "JobB")
+
+      post "#{engine_root}/jobs/discard_all", params: { status: "ready" }
+
+      expect(response).to redirect_to("#{engine_root}/jobs?status=ready")
+      expect(SolidQueue::ReadyExecution.count).to eq(0)
+    end
+
+    it "only discards jobs matching active filters" do
+      create_ready(class_name: "ReportJob", queue_name: "reports")
+      create_ready(class_name: "CleanupJob", queue_name: "default")
+
+      post "#{engine_root}/jobs/discard_all", params: { status: "ready", queue: "reports" }
+
+      expect(SolidQueue::Job.where(class_name: "ReportJob").exists?).to be false
+      expect(SolidQueue::Job.where(class_name: "CleanupJob").exists?).to be true
+    end
+
+    it "preserves filter params in the redirect" do
+      create_ready(queue_name: "reports")
+
+      post "#{engine_root}/jobs/discard_all",
+           params: { status: "ready", queue: "reports", q: "Report", period: "1h" }
+
+      expect(response.location).to include("queue=reports")
+      expect(response.location).to include("q=Report")
+      expect(response.location).to include("period=1h")
+    end
+
+    it "returns 422 when status is not discardable" do
+      post "#{engine_root}/jobs/discard_all", params: { status: "claimed" }
+
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+  end
+
   describe "combined filters" do
     it "applies class and queue filters together" do
       create_ready(class_name: "ReportJob",  queue_name: "reports")
