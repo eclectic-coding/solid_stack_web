@@ -3,6 +3,7 @@ require "pagy/toolbox/paginators/method"
 require "solid_queue"
 require "solid_cache"
 require "solid_cable"
+require "turbo-rails"
 
 module SolidStackWeb
   class Engine < ::Rails::Engine

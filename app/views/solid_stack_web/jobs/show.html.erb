@@ -1,0 +1,57 @@
+<div class="sqw-page-header sqw-page-header--split">
+  <div>
+    <div class="sqw-breadcrumb">
+      <%= link_to "Jobs", jobs_path(status: params[:status]) %> &rsaquo; Detail
+    </div>
+    <h1 class="sqw-page-title sqw-monospace"><%= @job.class_name %></h1>
+  </div>
+
+  <% if SolidStackWeb::Job::DISCARDABLE.include?(@status) %>
+    <div class="sqw-detail-actions">
+      <%= button_to "Discard Job", job_path(@execution.id, status: @status),
+            method: :delete, class: "sqw-btn sqw-btn--danger",
+            data: { turbo_confirm: "Discard this job?" } %>
+    </div>
+  <% end %>
+</div>
+
+<div class="sqw-detail-grid">
+  <div class="sqw-detail-card sqw-detail-section">
+    <h2 class="sqw-section-title">Details</h2>
+    <dl class="sqw-dl">
+      <dt>Status</dt>
+      <dd><span class="sqw-badge sqw-badge--<%= @status %>"><%= SolidStackWeb::Job::TAB_LABELS[@status] %></span></dd>
+
+      <dt>Queue</dt>
+      <dd class="sqw-monospace"><%= @job.queue_name %></dd>
+
+      <dt>Priority</dt>
+      <dd><%= @job.priority %></dd>
+
+      <dt>Active Job ID</dt>
+      <dd class="sqw-monospace sqw-truncate" title="<%= @job.active_job_id %>"><%= @job.active_job_id.presence || "—" %></dd>
+
+      <dt>Concurrency Key</dt>
+      <dd class="sqw-monospace"><%= @job.concurrency_key.presence || "—" %></dd>
+
+      <% if @status == "blocked" %>
+        <dt>Blocked Until</dt>
+        <dd class="sqw-monospace"><%= @execution.expires_at ? @execution.expires_at.strftime("%Y-%m-%d %H:%M:%S UTC") : "—" %></dd>
+      <% end %>
+
+      <dt>Enqueued At</dt>
+      <dd class="sqw-monospace"><%= @job.created_at.strftime("%Y-%m-%d %H:%M:%S UTC") %></dd>
+
+      <dt>Scheduled At</dt>
+      <dd class="sqw-monospace"><%= @job.scheduled_at ? @job.scheduled_at.strftime("%Y-%m-%d %H:%M:%S UTC") : "—" %></dd>
+
+      <dt>Finished At</dt>
+      <dd class="sqw-monospace"><%= @job.finished_at ? @job.finished_at.strftime("%Y-%m-%d %H:%M:%S UTC") : "—" %></dd>
+    </dl>
+  </div>
+
+  <div class="sqw-detail-card sqw-detail-section">
+    <h2 class="sqw-section-title">Arguments</h2>
+    <pre class="sqw-code-block"><%= @arguments ? JSON.pretty_generate(@arguments) : (@job.arguments || "—") %></pre>
+  </div>
+</div>

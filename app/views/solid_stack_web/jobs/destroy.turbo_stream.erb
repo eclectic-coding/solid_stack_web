@@ -1,5 +1,5 @@
 <% if @executions_remain %>
-  <%= turbo_stream.remove "execution_#{params[:id]}" %>
+  <%= turbo_stream.remove "execution_#{@execution.id}" %>
 <% else %>
   <%= turbo_stream.replace "sqw-jobs-table" do %>
     <%= render "empty" %>

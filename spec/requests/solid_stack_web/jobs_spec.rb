@@ -130,6 +130,64 @@ RSpec.describe "Jobs", type: :request do
     end
   end
 
+  describe "GET /jobs/:id" do
+    it "returns 200 and shows the job class" do
+      job = create_ready(class_name: "ReportJob")
+      get "#{engine_root}/jobs/#{job.ready_execution.id}", params: { status: "ready" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("ReportJob")
+    end
+
+    it "shows queue and priority" do
+      job = create_ready(queue_name: "critical", priority: 5)
+      get "#{engine_root}/jobs/#{job.ready_execution.id}", params: { status: "ready" }
+
+      expect(response.body).to include("critical")
+      expect(response.body).to include("5")
+    end
+
+    it "pretty-prints JSON arguments" do
+      job = SolidQueue::Job.create!(class_name: "MyJob", queue_name: "default", priority: 0,
+                                    arguments: [{ user_id: 42 }].to_json)
+      get "#{engine_root}/jobs/#{job.ready_execution.id}", params: { status: "ready" }
+
+      expect(response.body).to include("user_id")
+      expect(response.body).to include("42")
+    end
+
+    it "shows a discard button for ready jobs" do
+      job = create_ready
+      get "#{engine_root}/jobs/#{job.ready_execution.id}", params: { status: "ready" }
+
+      expect(response.body).to include("Discard Job")
+    end
+
+    it "does not show a discard button for claimed jobs" do
+      SolidQueue::Job.skip_callback(:create, :after, :prepare_for_execution)
+      job = SolidQueue::Job.create!(class_name: "WorkJob", queue_name: "default", priority: 0)
+      process = SolidQueue::Process.create!(
+        kind: "Worker", name: "worker-spec", pid: 99_999,
+        hostname: "test", last_heartbeat_at: Time.current
+      )
+      execution = SolidQueue::ClaimedExecution.create!(job: job, process_id: process.id)
+      SolidQueue::Job.set_callback(:create, :after, :prepare_for_execution)
+
+      get "#{engine_root}/jobs/#{execution.id}", params: { status: "claimed" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include("Discard Job")
+    end
+
+    it "shows a breadcrumb link to the jobs list" do
+      job = create_ready
+      get "#{engine_root}/jobs/#{job.ready_execution.id}", params: { status: "ready" }
+
+      expect(response.body).to include("sqw-breadcrumb")
+      expect(response.body).to include("Jobs")
+    end
+  end
+
   describe "combined filters" do
     it "applies class and queue filters together" do
       create_ready(class_name: "ReportJob",  queue_name: "reports")
