@@ -28,6 +28,7 @@
 .sqw-table tbody tr:hover { background: #f9fafb; }
 
 .sqw-actions { text-align: right; white-space: nowrap; }
+.sqw-actions form { display: inline; }
 
 .sqw-empty {
   background: var(--surface);
