@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-05-25
+
 ### Added
 
 - Edit arguments and retry — failed job detail page (`/failed_jobs/:id`) with full error info, backtrace, and a monospace JSON editor; submitting the editor updates the job's arguments and immediately retries it via `FailedJobs::ArgumentsController`
@@ -45,5 +47,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Two-tier contextual navigation per section (Queue / Cache / Cable)
 - No runtime JavaScript dependency — all interactions use standard form POSTs or Turbo Stream
 
-[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.2.0
 [0.1.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.1.0
