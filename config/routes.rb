@@ -10,8 +10,9 @@ SolidStackWeb::Engine.routes.draw do
     end
   end
 
-  resources :failed_jobs, only: [:index, :destroy] do
+  resources :failed_jobs, only: [:index, :show, :destroy] do
     member { post :retry }
+    resource :arguments, only: [:update], controller: "failed_jobs/arguments"
   end
 
   resources :queues, only: [:index] do
