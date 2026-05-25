@@ -3,6 +3,14 @@
   <div class="sqw-header-actions">
     <%= link_to "Export CSV", jobs_path(format: :csv, status: @status, q: @search, queue: @queue, period: @period, priority: @priority),
           class: "sqw-btn sqw-btn--muted sqw-btn--sm", data: { turbo: false } %>
+    <% if @status == "scheduled" && @executions&.any? %>
+      <%= button_to "Run All Now (#{@pagy.count})",
+            run_all_now_scheduled_jobs_path(period: @period),
+            method: :post,
+            class: "sqw-btn sqw-btn--sm",
+            data: { turbo_confirm: "Run all #{@pagy.count} scheduled jobs immediately?",
+                    turbo_frame: "_top" } %>
+    <% end %>
     <% if SolidStackWeb::Job::DISCARDABLE.include?(@status) && @executions&.any? %>
       <%= button_to "Discard All (#{@pagy.count})",
             discard_all_jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority),
@@ -111,9 +119,22 @@
               <td><%= execution.job.priority %></td>
               <td class="sqw-muted"><%= execution.created_at.strftime("%b %d %H:%M") %></td>
               <% if @status == "scheduled" %>
-                <td class="sqw-muted"><%= execution.scheduled_at&.strftime("%b %d %H:%M") %></td>
+                <td id="scheduled_at_<%= execution.id %>" class="sqw-muted"><%= execution.scheduled_at&.strftime("%b %d %H:%M") %></td>
               <% end %>
               <td class="sqw-actions">
+                <% if @status == "scheduled" %>
+                  <%= button_to "Run Now", scheduled_job_path(execution),
+                        method: :patch,
+                        params: { offset: "now", period: @period },
+                        class: "sqw-btn sqw-btn--sm",
+                        data: { turbo_confirm: "Run this job immediately?" } %>
+                  <% %w[1h 24h 7d].each do |offset| %>
+                    <%= button_to "+#{offset}", scheduled_job_path(execution),
+                          method: :patch,
+                          params: { offset: offset, period: @period },
+                          class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+                  <% end %>
+                <% end %>
                 <% if %w[ready scheduled blocked].include?(@status) %>
                   <%= button_to "Discard", job_path(execution, status: @status, q: @search, queue: @queue, period: @period, priority: @priority),
                         method: :delete, class: "sqw-btn sqw-btn--danger sqw-btn--sm",
