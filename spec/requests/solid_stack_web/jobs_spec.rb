@@ -179,11 +179,12 @@ RSpec.describe "Jobs", type: :request do
       expect(response.body).not_to include("Discard Job")
     end
 
-    it "shows a back link to the jobs list" do
+    it "shows a breadcrumb link to the jobs list" do
       job = create_ready
       get "#{engine_root}/jobs/#{job.ready_execution.id}", params: { status: "ready" }
 
-      expect(response.body).to include("← Jobs")
+      expect(response.body).to include("sqw-breadcrumb")
+      expect(response.body).to include("Jobs")
     end
   end
 

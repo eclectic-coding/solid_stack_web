@@ -1,56 +1,57 @@
-<div class="sqw-page-header">
-  <%= link_to "← Jobs", jobs_path(status: params[:status]), class: "sqw-back-link" %>
-  <h1 class="sqw-page-title sqw-monospace"><%= @job.class_name %></h1>
+<div class="sqw-page-header sqw-page-header--split">
+  <div>
+    <div class="sqw-breadcrumb">
+      <%= link_to "Jobs", jobs_path(status: params[:status]) %> &rsaquo; Detail
+    </div>
+    <h1 class="sqw-page-title sqw-monospace"><%= @job.class_name %></h1>
+  </div>
+
+  <% if SolidStackWeb::Job::DISCARDABLE.include?(@status) %>
+    <div class="sqw-detail-actions">
+      <%= button_to "Discard Job", job_path(@execution.id, status: @status),
+            method: :delete, class: "sqw-btn sqw-btn--danger",
+            data: { turbo_confirm: "Discard this job?" } %>
+    </div>
+  <% end %>
 </div>
 
-<div class="sqw-detail-card">
-  <dl class="sqw-detail-grid">
-    <dt>Status</dt>
-    <dd>
-      <span class="sqw-badge sqw-badge--<%= @status %>"><%= SolidStackWeb::Job::TAB_LABELS[@status] %></span>
-    </dd>
+<div class="sqw-detail-grid">
+  <div class="sqw-detail-card sqw-detail-section">
+    <h2 class="sqw-section-title">Details</h2>
+    <dl class="sqw-dl">
+      <dt>Status</dt>
+      <dd><span class="sqw-badge sqw-badge--<%= @status %>"><%= SolidStackWeb::Job::TAB_LABELS[@status] %></span></dd>
 
-    <dt>Queue</dt>
-    <dd><span class="sqw-badge sqw-badge--queue"><%= @job.queue_name %></span></dd>
+      <dt>Queue</dt>
+      <dd class="sqw-monospace"><%= @job.queue_name %></dd>
 
-    <dt>Priority</dt>
-    <dd><%= @job.priority %></dd>
+      <dt>Priority</dt>
+      <dd><%= @job.priority %></dd>
 
-    <dt>Enqueued</dt>
-    <dd class="sqw-muted"><%= @job.created_at.strftime("%b %d, %Y %H:%M:%S UTC") %></dd>
-
-    <% if @job.active_job_id.present? %>
       <dt>Active Job ID</dt>
-      <dd class="sqw-monospace sqw-muted"><%= @job.active_job_id %></dd>
-    <% end %>
+      <dd class="sqw-monospace sqw-truncate" title="<%= @job.active_job_id %>"><%= @job.active_job_id.presence || "—" %></dd>
 
-    <% if @status == "scheduled" && @job.scheduled_at %>
-      <dt>Scheduled At</dt>
-      <dd class="sqw-muted"><%= @job.scheduled_at.strftime("%b %d, %Y %H:%M:%S UTC") %></dd>
-    <% end %>
+      <dt>Concurrency Key</dt>
+      <dd class="sqw-monospace"><%= @job.concurrency_key.presence || "—" %></dd>
 
-    <% if @status == "blocked" %>
-      <% if @job.concurrency_key.present? %>
-        <dt>Concurrency Key</dt>
-        <dd class="sqw-monospace"><%= @job.concurrency_key %></dd>
+      <% if @status == "blocked" %>
+        <dt>Blocked Until</dt>
+        <dd class="sqw-monospace"><%= @execution.expires_at ? @execution.expires_at.strftime("%Y-%m-%d %H:%M:%S UTC") : "—" %></dd>
       <% end %>
-      <dt>Blocked Until</dt>
-      <dd class="sqw-muted"><%= @execution.expires_at.strftime("%b %d, %Y %H:%M:%S UTC") %></dd>
-    <% end %>
-  </dl>
-</div>
 
-<% if @job.arguments.present? %>
-  <div class="sqw-detail-section">
+      <dt>Enqueued At</dt>
+      <dd class="sqw-monospace"><%= @job.created_at.strftime("%Y-%m-%d %H:%M:%S UTC") %></dd>
+
+      <dt>Scheduled At</dt>
+      <dd class="sqw-monospace"><%= @job.scheduled_at ? @job.scheduled_at.strftime("%Y-%m-%d %H:%M:%S UTC") : "—" %></dd>
+
+      <dt>Finished At</dt>
+      <dd class="sqw-monospace"><%= @job.finished_at ? @job.finished_at.strftime("%Y-%m-%d %H:%M:%S UTC") : "—" %></dd>
+    </dl>
+  </div>
+
+  <div class="sqw-detail-card sqw-detail-section">
     <h2 class="sqw-section-title">Arguments</h2>
-    <pre class="sqw-code-block"><%= @arguments ? JSON.pretty_generate(@arguments) : @job.arguments %></pre>
+    <pre class="sqw-code-block"><%= @arguments ? JSON.pretty_generate(@arguments) : (@job.arguments || "—") %></pre>
   </div>
-<% end %>
-
-<% if SolidStackWeb::Job::DISCARDABLE.include?(@status) %>
-  <div class="sqw-detail-actions">
-    <%= button_to "Discard Job", job_path(@execution.id, status: @status),
-          method: :delete, class: "sqw-btn sqw-btn--danger",
-          data: { turbo_confirm: "Discard this job?" } %>
-  </div>
-<% end %>
+</div>

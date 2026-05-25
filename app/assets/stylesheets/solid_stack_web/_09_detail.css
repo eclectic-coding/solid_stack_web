@@ -1,61 +1,70 @@
-.sqw-back-link {
-  display: inline-block;
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 0.4rem;
-}
-.sqw-back-link:hover { color: var(--text); text-decoration: none; }
-
 .sqw-detail-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 1.25rem;
+  overflow: hidden;
 }
 
-.sqw-detail-grid {
-  display: grid;
-  grid-template-columns: 160px 1fr;
-  gap: 0.75rem 1rem;
-}
-
-.sqw-detail-grid dt {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .05em;
+.sqw-breadcrumb {
+  font-size: 12px;
   color: var(--muted);
-  padding-top: 3px;
+  margin-bottom: 0.25rem;
 }
+.sqw-breadcrumb a { color: var(--muted); text-decoration: none; }
+.sqw-breadcrumb a:hover { color: var(--text); }
 
-.sqw-detail-section {
-  margin-bottom: 1.25rem;
-}
-
-.sqw-section-title {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .05em;
-  color: var(--muted);
-  margin-bottom: 0.5rem;
-}
-
-.sqw-code-block {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1rem 1.25rem;
-  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
-  font-size: 13px;
-  line-height: 1.6;
-  overflow-x: auto;
-  white-space: pre;
+.sqw-page-header--split {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .sqw-detail-actions {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.5rem;
+}
+
+/* Two-column detail layout: Details card | Arguments card */
+.sqw-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.sqw-detail-section {
+  padding: 1.25rem;
+}
+
+.sqw-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+/* Definition list — dt naturally sized, dd takes the rest */
+.sqw-dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1.5rem;
+  font-size: 13px;
+}
+.sqw-dl dt { color: var(--muted); white-space: nowrap; }
+.sqw-dl dd { word-break: break-all; }
+
+.sqw-code-block {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 400px;
+  overflow-y: auto;
 }
