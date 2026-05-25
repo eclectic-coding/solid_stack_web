@@ -299,6 +299,46 @@ RSpec.describe "Jobs", type: :request do
     end
   end
 
+  describe "GET /jobs.csv" do
+    it "returns a CSV attachment" do
+      get "#{engine_root}/jobs.csv", params: { status: "ready" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq("text/csv")
+      expect(response.headers["Content-Disposition"]).to include("attachment")
+      expect(response.headers["Content-Disposition"]).to include(".csv")
+    end
+
+    it "includes the correct headers" do
+      get "#{engine_root}/jobs.csv", params: { status: "ready" }
+
+      headers = response.body.lines.first.chomp
+      expect(headers).to eq("id,class_name,queue_name,status,priority,enqueued_at")
+    end
+
+    it "includes one row per job" do
+      create_ready(class_name: "ReportJob", queue_name: "reports")
+      create_ready(class_name: "CleanupJob", queue_name: "default")
+
+      get "#{engine_root}/jobs.csv", params: { status: "ready" }
+
+      rows = CSV.parse(response.body, headers: true)
+      expect(rows.length).to eq(2)
+      expect(rows.map { |r| r["class_name"] }).to contain_exactly("ReportJob", "CleanupJob")
+    end
+
+    it "applies active filters to the export" do
+      create_ready(class_name: "ReportJob",  queue_name: "reports")
+      create_ready(class_name: "CleanupJob", queue_name: "default")
+
+      get "#{engine_root}/jobs.csv", params: { status: "ready", queue: "reports" }
+
+      rows = CSV.parse(response.body, headers: true)
+      expect(rows.length).to eq(1)
+      expect(rows.first["class_name"]).to eq("ReportJob")
+    end
+  end
+
   describe "combined filters" do
     it "applies class and queue filters together" do
       create_ready(class_name: "ReportJob",  queue_name: "reports")

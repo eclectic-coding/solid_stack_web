@@ -28,4 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "solid_cache", ">= 1.0"
   spec.add_dependency "solid_cable", ">= 1.0"
   spec.add_dependency "turbo-rails", ">= 2.0"
+  spec.add_dependency "csv", ">= 3.0"
 end

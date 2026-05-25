@@ -1,3 +1,5 @@
+require "csv"
+
 module SolidStackWeb
   class ApplicationController < ActionController::Base
     include Pagy::Method
