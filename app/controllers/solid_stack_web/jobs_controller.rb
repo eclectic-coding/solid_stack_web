@@ -5,17 +5,10 @@ module SolidStackWeb
     before_action :require_discardable, only: :destroy
 
     def index
-      scope = Job::EXECUTION_MODELS[@status].includes(:job)
-      scope = scope.references(:job).where("solid_queue_jobs.class_name LIKE ?", "%#{@search}%") if @search.present?
-      scope = scope.references(:job).where("solid_queue_jobs.queue_name = ?", @queue)             if @queue.present?
-      scope = scope.references(:job).where("solid_queue_jobs.created_at >= ?", PERIOD_DURATIONS[@period].ago) if @period.present?
-      scope = scope.references(:job).where("solid_queue_jobs.priority = ?", @priority.to_i)       if @priority.present?
-      scope = scope.order(created_at: :desc)
-
       @queue_options    = Job::EXECUTION_MODELS[@status].joins(:job).distinct.pluck("solid_queue_jobs.queue_name").sort
       @priority_options = Job::EXECUTION_MODELS[@status].joins(:job).distinct.pluck("solid_queue_jobs.priority").sort
 
-      @pagy, @executions = pagy(scope)
+      @pagy, @executions = pagy(filtered_scope)
     end
 
     def destroy
@@ -44,6 +37,15 @@ module SolidStackWeb
 
     def require_discardable
       head :unprocessable_entity unless Job::DISCARDABLE.include?(@status)
+    end
+
+    def filtered_scope
+      scope = Job::EXECUTION_MODELS[@status].includes(:job).order(created_at: :desc)
+      scope = scope.references(:job).where("solid_queue_jobs.class_name LIKE ?", "%#{@search}%") if @search.present?
+      scope = scope.references(:job).where("solid_queue_jobs.queue_name = ?", @queue)             if @queue.present?
+      scope = scope.references(:job).where("solid_queue_jobs.created_at >= ?", PERIOD_DURATIONS[@period].ago) if @period.present?
+      scope = scope.references(:job).where("solid_queue_jobs.priority = ?", @priority.to_i)       if @priority.present?
+      scope
     end
   end
 end
