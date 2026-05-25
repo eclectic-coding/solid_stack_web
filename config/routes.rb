@@ -4,6 +4,12 @@ SolidStackWeb::Engine.routes.draw do
   resource :job_selection,        path: "jobs/selection",        only: [:destroy],         controller: "jobs/selections"
   resource :failed_job_selection, path: "failed_jobs/selection", only: [:create, :destroy], controller: "failed_jobs/selections"
 
+  resources :scheduled_jobs, only: [:update] do
+    collection do
+      post :run_all_now, action: :create
+    end
+  end
+
   resources :jobs, only: [:index, :show, :destroy] do
     collection do
       post :discard_all, action: :destroy
