@@ -14,11 +14,21 @@ JOB_CLASSES = %w[
 QUEUES = %w[default mailers critical low_priority].freeze
 
 ERRORS = [
-  "Net::ReadTimeout: Net::ReadTimeout with #<TCPSocket:(closed)>",
-  "ActiveRecord::RecordNotFound: Couldn't find User with 'id'=42",
-  "Faraday::ConnectionFailed: Failed to open TCP connection to api.example.com:443",
-  "RuntimeError: Rate limit exceeded — retry after 60s",
-  "JSON::ParserError: unexpected token at '<html>'",
+  { exception_class: "Net::ReadTimeout",
+    message: "Net::ReadTimeout with #<TCPSocket:(closed)>",
+    backtrace: ["lib/net/http.rb:1234", "app/jobs/webhook_delivery_job.rb:12"] },
+  { exception_class: "ActiveRecord::RecordNotFound",
+    message: "Couldn't find User with 'id'=42",
+    backtrace: ["app/controllers/users_controller.rb:15"] },
+  { exception_class: "Faraday::ConnectionFailed",
+    message: "Failed to open TCP connection to api.example.com:443",
+    backtrace: ["app/services/api_client.rb:42", "app/jobs/sync_inventory_job.rb:8"] },
+  { exception_class: "RuntimeError",
+    message: "Rate limit exceeded — retry after 60s",
+    backtrace: ["app/jobs/send_digest_job.rb:31"] },
+  { exception_class: "JSON::ParserError",
+    message: "unexpected token at '<html>'",
+    backtrace: ["app/jobs/data_import_job.rb:22"] },
 ].freeze
 
 # ── Solid Queue: Processes ────────────────────────────────────────────────────
