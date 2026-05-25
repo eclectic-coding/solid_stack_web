@@ -13,8 +13,7 @@ module SolidStackWeb
 
     def show
       @execution = Job::EXECUTION_MODELS[@status].includes(:job).find(params[:id])
-      @job = @execution.job
-      @arguments = JSON.parse(@job.arguments) if @job.arguments.present?
+      @arguments = JSON.parse(@execution.job.arguments) if @execution.job.arguments.present?
     rescue JSON::ParserError
       @arguments = nil
     end
