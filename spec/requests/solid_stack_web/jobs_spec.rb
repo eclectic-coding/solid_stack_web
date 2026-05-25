@@ -156,6 +156,14 @@ RSpec.describe "Jobs", type: :request do
       expect(response.body).to include("42")
     end
 
+    it "still renders when arguments contain invalid JSON" do
+      job = SolidQueue::Job.create!(class_name: "MyJob", queue_name: "default", priority: 0,
+                                    arguments: "not valid json {{{")
+      get "#{engine_root}/jobs/#{job.ready_execution.id}", params: { status: "ready" }
+
+      expect(response).to have_http_status(:ok)
+    end
+
     it "shows a discard button for ready jobs" do
       job = create_ready
       get "#{engine_root}/jobs/#{job.ready_execution.id}", params: { status: "ready" }
