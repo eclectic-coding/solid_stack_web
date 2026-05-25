@@ -1,0 +1,56 @@
+<div class="sqw-page-header">
+  <%= link_to "← Jobs", jobs_path(status: params[:status]), class: "sqw-back-link" %>
+  <h1 class="sqw-page-title sqw-monospace"><%= @job.class_name %></h1>
+</div>
+
+<div class="sqw-detail-card">
+  <dl class="sqw-detail-grid">
+    <dt>Status</dt>
+    <dd>
+      <span class="sqw-badge sqw-badge--<%= @status %>"><%= SolidStackWeb::Job::TAB_LABELS[@status] %></span>
+    </dd>
+
+    <dt>Queue</dt>
+    <dd><span class="sqw-badge sqw-badge--queue"><%= @job.queue_name %></span></dd>
+
+    <dt>Priority</dt>
+    <dd><%= @job.priority %></dd>
+
+    <dt>Enqueued</dt>
+    <dd class="sqw-muted"><%= @job.created_at.strftime("%b %d, %Y %H:%M:%S UTC") %></dd>
+
+    <% if @job.active_job_id.present? %>
+      <dt>Active Job ID</dt>
+      <dd class="sqw-monospace sqw-muted"><%= @job.active_job_id %></dd>
+    <% end %>
+
+    <% if @status == "scheduled" && @job.scheduled_at %>
+      <dt>Scheduled At</dt>
+      <dd class="sqw-muted"><%= @job.scheduled_at.strftime("%b %d, %Y %H:%M:%S UTC") %></dd>
+    <% end %>
+
+    <% if @status == "blocked" %>
+      <% if @job.concurrency_key.present? %>
+        <dt>Concurrency Key</dt>
+        <dd class="sqw-monospace"><%= @job.concurrency_key %></dd>
+      <% end %>
+      <dt>Blocked Until</dt>
+      <dd class="sqw-muted"><%= @execution.expires_at.strftime("%b %d, %Y %H:%M:%S UTC") %></dd>
+    <% end %>
+  </dl>
+</div>
+
+<% if @job.arguments.present? %>
+  <div class="sqw-detail-section">
+    <h2 class="sqw-section-title">Arguments</h2>
+    <pre class="sqw-code-block"><%= @arguments ? JSON.pretty_generate(@arguments) : @job.arguments %></pre>
+  </div>
+<% end %>
+
+<% if SolidStackWeb::Job::DISCARDABLE.include?(@status) %>
+  <div class="sqw-detail-actions">
+    <%= button_to "Discard Job", job_path(@execution.id, status: @status),
+          method: :delete, class: "sqw-btn sqw-btn--danger",
+          data: { turbo_confirm: "Discard this job?" } %>
+  </div>
+<% end %>

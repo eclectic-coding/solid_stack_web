@@ -11,6 +11,14 @@ module SolidStackWeb
       @pagy, @executions = pagy(filtered_scope)
     end
 
+    def show
+      @execution = Job::EXECUTION_MODELS[@status].includes(:job).find(params[:id])
+      @job = @execution.job
+      @arguments = JSON.parse(@job.arguments) if @job.arguments.present?
+    rescue JSON::ParserError
+      @arguments = nil
+    end
+
     def destroy
       execution = Job::EXECUTION_MODELS[@status].find(params[:id])
       execution.job.destroy!
