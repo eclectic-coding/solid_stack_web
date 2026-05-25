@@ -298,6 +298,12 @@ RSpec.describe "Jobs", type: :request do
 
       expect(response).to redirect_to("#{engine_root}/jobs?status=claimed")
     end
+
+    it "sets an alert when status is not discardable" do
+      delete "#{engine_root}/jobs/selection", params: { status: "claimed" }
+
+      expect(flash[:alert]).to eq("Cannot discard claimed jobs.")
+    end
   end
 
   describe "POST /jobs/discard_all" do

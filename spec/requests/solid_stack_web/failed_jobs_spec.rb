@@ -141,6 +141,15 @@ RSpec.describe "FailedJobs", type: :request do
       expect(response.body).to include("Retry")
       expect(response.body).to include("Discard")
     end
+
+    it "falls back to raw arguments string when JSON generation fails" do
+      execution = create_failed
+      allow(JSON).to receive(:pretty_generate).and_raise(JSON::GeneratorError, "NaN")
+
+      get "#{engine_root}/failed_jobs/#{execution.id}"
+
+      expect(response).to have_http_status(:ok)
+    end
   end
 
   describe "PATCH /failed_jobs/:id/arguments" do
@@ -163,6 +172,17 @@ RSpec.describe "FailedJobs", type: :request do
 
       expect(SolidQueue::FailedExecution.exists?(execution.id)).to be true
       expect(response).to redirect_to("#{engine_root}/failed_jobs/#{execution.id}")
+    end
+
+    it "redirects with alert when update raises" do
+      execution = create_failed
+      allow_any_instance_of(SolidQueue::Job).to receive(:update!).and_raise(RuntimeError, "db error")
+
+      patch "#{engine_root}/failed_jobs/#{execution.id}/arguments",
+            params: { arguments: { "executions" => 0, "exception_executions" => {} }.to_json }
+
+      expect(response).to redirect_to("#{engine_root}/failed_jobs")
+      expect(flash[:alert]).to eq("Could not update job: db error")
     end
   end
 
