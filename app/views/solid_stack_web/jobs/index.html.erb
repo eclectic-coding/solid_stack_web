@@ -61,20 +61,22 @@
 
 <div id="sqw-jobs-table">
   <% if @executions.any? %>
-    <%= form_with url: job_selection_path,
-          method: :delete,
-          data: { turbo_frame: "_top" } do |f| %>
-      <%= f.hidden_field :status, value: @status %>
-      <%= f.hidden_field :q,      value: @search %>
-      <%= f.hidden_field :queue,  value: @queue %>
-      <%= f.hidden_field :period, value: @period %>
-      <%= f.hidden_field :priority, value: @priority %>
-
+    <div data-controller="<%= "selection" if SolidStackWeb::Job::DISCARDABLE.include?(@status) %>">
       <% if SolidStackWeb::Job::DISCARDABLE.include?(@status) %>
-        <div class="sqw-selection-bar">
-          <%= f.submit "Discard Selected",
-                class: "sqw-btn sqw-btn--danger sqw-btn--sm",
-                data: { turbo_confirm: "Discard selected jobs? This cannot be undone." } %>
+        <%= form_with url: job_selection_path, method: :delete, id: "job-selection-form",
+              data: { turbo_confirm: "Discard selected jobs? This cannot be undone." } do |f| %>
+          <%= f.hidden_field :status, value: @status %>
+          <%= f.hidden_field :q,      value: @search %>
+          <%= f.hidden_field :queue,  value: @queue %>
+          <%= f.hidden_field :period, value: @period %>
+          <%= f.hidden_field :priority, value: @priority %>
+        <% end %>
+
+        <div class="sqw-selection-bar" data-selection-target="bar" style="display: none;">
+          <span class="sqw-muted"><span data-selection-target="count">0</span> selected</span>
+          <button type="button" class="sqw-btn sqw-btn--danger sqw-btn--sm"
+                  data-action="click->selection#submit"
+                  data-selection-form-id-param="job-selection-form">Discard Selected</button>
         </div>
       <% end %>
 
@@ -83,7 +85,8 @@
           <tr>
             <% if SolidStackWeb::Job::DISCARDABLE.include?(@status) %>
               <th><input type="checkbox" class="sqw-checkbox" aria-label="Select all"
-                         onclick="this.closest('form').querySelectorAll('.sqw-checkbox-row').forEach(cb => cb.checked = this.checked)"></th>
+                         data-selection-target="selectAll"
+                         data-action="change->selection#selectAll"></th>
             <% end %>
             <th>Job Class</th>
             <th>Queue</th>
@@ -97,8 +100,11 @@
           <% @executions.each do |execution| %>
             <tr id="execution_<%= execution.id %>">
               <% if SolidStackWeb::Job::DISCARDABLE.include?(@status) %>
-                <td><input type="checkbox" name="job_ids[]" value="<%= execution.id %>"
-                           class="sqw-checkbox sqw-checkbox-row" aria-label="Select <%= execution.job.class_name %>"></td>
+                <td><input type="checkbox" value="<%= execution.id %>"
+                           class="sqw-checkbox"
+                           aria-label="Select <%= execution.job.class_name %>"
+                           data-selection-target="checkbox"
+                           data-action="change->selection#toggle"></td>
               <% end %>
               <td class="sqw-monospace"><%= link_to execution.job.class_name, job_path(execution.id, status: @status), data: { turbo_frame: "_top" } %></td>
               <td><span class="sqw-badge sqw-badge--queue"><%= execution.job.queue_name %></span></td>
@@ -119,7 +125,7 @@
         </tbody>
       </table>
       <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
-    <% end %>
+    </div>
   <% else %>
     <%= render "empty" %>
   <% end %>

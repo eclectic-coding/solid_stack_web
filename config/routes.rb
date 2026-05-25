@@ -1,7 +1,8 @@
 SolidStackWeb::Engine.routes.draw do
   root to: "dashboard#index"
 
-  resource :job_selection, path: "jobs/selection", only: [:destroy], controller: "jobs/selections"
+  resource :job_selection,        path: "jobs/selection",        only: [:destroy],         controller: "jobs/selections"
+  resource :failed_job_selection, path: "failed_jobs/selection", only: [:create, :destroy], controller: "failed_jobs/selections"
 
   resources :jobs, only: [:index, :show, :destroy] do
     collection do

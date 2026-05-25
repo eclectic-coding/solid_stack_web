@@ -9,18 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Stimulus via importmap-rails — `importmap-rails` added as an engine dependency; a `selection_controller.js` manages checkbox state, select-all toggling, and form injection at submit time; JS is delivered via the host app's importmap with no asset pipeline coupling
+- Bulk retry and discard for failed jobs — checkbox column on the failed jobs list; "Retry Selected" and "Discard Selected" buttons appear in a selection bar when one or more jobs are checked; backed by `FailedJobs::SelectionsController` with `POST /failed_jobs/selection` (retry) and `DELETE /failed_jobs/selection` (discard)
+- Bulk selection and discard — checkbox column on the jobs list for ready, scheduled, and blocked statuses; "Discard Selected" submits only the checked jobs via `DELETE /jobs/selection` (`Jobs::SelectionsController#destroy`); "Select All" header checkbox toggles all rows; filter state is preserved in the redirect after a bulk discard
+- Discard All — "Discard All (N)" button on the jobs index header discards every job matching the current filters (class, queue, priority, period) in one request; respects the discardable-status guard so claimed jobs cannot be bulk-discarded; route `POST /jobs/discard_all` merges into the existing `destroy` action branching on `params[:id]`
+- CSV export — "Export CSV" button on jobs and failed-jobs index pages; export respects active filters so operators download exactly what they see on screen; columns: `id, class_name, queue_name, status, priority, enqueued_at` for jobs and `id, class_name, queue_name, error_class, error_message, failed_at` for failed jobs
 - Job detail page — `jobs/:id` show view with full arguments (pretty-printed JSON), queue, priority, enqueued time, status badge, Active Job ID, and status-specific metadata (scheduled_at, concurrency key, blocked-until); job class in the list is now a link to the detail page; Discard button available on the detail page for ready, scheduled, and blocked jobs
 - Job filtering — filter the jobs list by queue name, job class (substring), priority, and time period (1h / 24h / 7d / all) via query-param driven scopes; active filters are preserved across status tabs
-- Job filter Turbo Frame — filter form and results table wrapped in a `<turbo-frame>` so applying filters reloads only the table without a full page refresh; `data-turbo-action="advance"` keeps the URL in sync; Turbo JS loaded from esm.sh CDN in the engine layout
-
-### Added
-
-- **Bulk selection and discard** — checkbox column on the jobs list for ready, scheduled, and blocked statuses; "Discard Selected" submits only the checked jobs via `DELETE /jobs/selection` (`Jobs::SelectionsController#destroy`); "Select All" header checkbox toggles all rows; filter state is preserved in the redirect after a bulk discard
-- **Discard All** — "Discard All (N)" button on the jobs index header discards every job matching the current filters (class, queue, priority, period) in one request; respects the discardable-status guard so claimed jobs cannot be bulk-discarded; route `POST /jobs/discard_all` merges into the existing `destroy` action branching on `params[:id]`
-- **CSV export** — "Export CSV" button on jobs and failed-jobs index pages; export respects active filters so operators download exactly what they see on screen; columns: `id, class_name, queue_name, status, priority, enqueued_at` for jobs and `id, class_name, queue_name, error_class, error_message, failed_at` for failed jobs
+- Job filter Turbo Frame — filter form and results table wrapped in a `<turbo-frame>` so applying filters reloads only the table without a full page refresh; `data-turbo-action="advance"` keeps the URL in sync
 
 ### Fixed
 
+- Retry button on failed jobs raised `NoMethodError` when dev seed data stored arguments as a raw JSON string instead of a Hash; seeds now use the Active Job arguments format (`executions`, `exception_executions` keys) that `SolidQueue::Job#reset_execution_counters` requires
+- Action buttons in table rows were stacking vertically because `button_to` wraps each button in a block-level `<form>`; fixed with `.sqw-actions form { display: inline }`
 - `FailedJobsController#destroy` used a local variable instead of `@execution`, making the Turbo Stream row-removal template a no-op
 - Failed jobs index rendered error as a string via `.lines` — SolidQueue serializes `error` as JSON; now uses `execution.exception_class`
 - Replaced deprecated Rack status `:unprocessable_entity` with `:unprocessable_content`
