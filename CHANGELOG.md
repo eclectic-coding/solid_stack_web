@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Scheduled job management — "Run Now" and offset buttons (+1h / +24h / +7d) on each scheduled job row; Turbo Stream removes the row on run-now and updates the scheduled-at cell on offset reschedule; "Run All Now (N)" header button back-dates all matching scheduled executions; backed by `ScheduledJobsController` using standard CRUD (`update` for single, `create` for bulk via `run_all_now` collection route)
+
 ## [0.2.0] - 2026-05-25
 
 ### Added
