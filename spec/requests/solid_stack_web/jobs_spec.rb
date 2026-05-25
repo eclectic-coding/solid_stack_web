@@ -188,6 +188,70 @@ RSpec.describe "Jobs", type: :request do
     end
   end
 
+  describe "DELETE /jobs/:id" do
+    context "with HTML format" do
+      it "destroys the job and redirects to the jobs list" do
+        job = create_ready
+        delete "#{engine_root}/jobs/#{job.ready_execution.id}", params: { status: "ready" }
+
+        expect(response).to redirect_to("#{engine_root}/jobs?status=ready")
+        expect(SolidQueue::Job.exists?(job.id)).to be false
+      end
+
+      it "preserves filter params in the redirect" do
+        job = create_ready(queue_name: "reports")
+        delete "#{engine_root}/jobs/#{job.ready_execution.id}",
+               params: { status: "ready", queue: "reports", q: "Report", period: "1h" }
+
+        expect(response.location).to include("queue=reports")
+        expect(response.location).to include("q=Report")
+        expect(response.location).to include("period=1h")
+      end
+    end
+
+    context "with turbo_stream format" do
+      it "removes the row when other jobs remain" do
+        job1 = create_ready
+        create_ready
+
+        delete "#{engine_root}/jobs/#{job1.ready_execution.id}",
+               params: { status: "ready" },
+               headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("execution_#{job1.ready_execution.id}")
+        expect(response.body).to include("remove")
+      end
+
+      it "replaces the table with empty state when it was the last job" do
+        job = create_ready
+
+        delete "#{engine_root}/jobs/#{job.ready_execution.id}",
+               params: { status: "ready" },
+               headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response.body).to include("sqw-jobs-table")
+        expect(response.body).to include("replace")
+      end
+    end
+
+    it "returns 422 when status is not discardable" do
+      SolidQueue::Job.skip_callback(:create, :after, :prepare_for_execution)
+      job = SolidQueue::Job.create!(class_name: "WorkJob", queue_name: "default", priority: 0)
+      process = SolidQueue::Process.create!(
+        kind: "Worker", name: "worker-spec-del", pid: 88_888,
+        hostname: "test", last_heartbeat_at: Time.current
+      )
+      execution = SolidQueue::ClaimedExecution.create!(job: job, process_id: process.id)
+      SolidQueue::Job.set_callback(:create, :after, :prepare_for_execution)
+
+      delete "#{engine_root}/jobs/#{execution.id}", params: { status: "claimed" }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
   describe "combined filters" do
     it "applies class and queue filters together" do
       create_ready(class_name: "ReportJob",  queue_name: "reports")
