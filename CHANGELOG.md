@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Job filtering — filter the jobs list by queue name, job class (substring), priority, and time period (1h / 24h / 7d / all) via query-param driven scopes; active filters are preserved across status tabs
 - Job filter Turbo Frame — filter form and results table wrapped in a `<turbo-frame>` so applying filters reloads only the table without a full page refresh; `data-turbo-action="advance"` keeps the URL in sync; Turbo JS loaded from esm.sh CDN in the engine layout
 
+### Added
+
+- **Discard All** — "Discard All (N)" button on the jobs index header discards every job matching the current filters (class, queue, priority, period) in one request; respects the discardable-status guard so claimed jobs cannot be bulk-discarded; route `POST /jobs/discard_all` merges into the existing `destroy` action branching on `params[:id]`
+
 ### Fixed
 
 - `FailedJobsController#destroy` used a local variable instead of `@execution`, making the Turbo Stream row-removal template a no-op
