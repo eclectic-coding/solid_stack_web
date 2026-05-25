@@ -3,7 +3,7 @@
 </div>
 
 <div class="sqw-tabs">
-  <% [["ready", "Ready"], ["scheduled", "Scheduled"], ["claimed", "Running"], ["blocked", "Blocked"]].each do |status, label| %>
+  <% SolidStackWeb::Job::TAB_LABELS.each do |status, label| %>
     <%= link_to label, jobs_path(status: status, q: @search, queue: @queue, period: @period, priority: @priority),
           class: "sqw-tab #{"sqw-tab--active" if @status == status}" %>
   <% end %>
