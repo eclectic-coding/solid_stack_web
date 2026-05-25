@@ -44,7 +44,7 @@ module SolidStackWeb
     end
 
     def require_discardable
-      head :unprocessable_entity unless Job::DISCARDABLE.include?(@status)
+      head :unprocessable_content unless Job::DISCARDABLE.include?(@status)
     end
 
     def filtered_scope
