@@ -69,9 +69,11 @@
   <% end %>
 
   <main class="sqw-main">
-    <% flash.each do |type, message| %>
-      <div class="sqw-flash sqw-flash--<%= type %>"><%= message %></div>
-    <% end %>
+    <div id="sqw-flash-container">
+      <% flash.each do |type, message| %>
+        <div class="sqw-flash sqw-flash--<%= type %>"><%= message %></div>
+      <% end %>
+    </div>
     <%= yield %>
   </main>
 </body>

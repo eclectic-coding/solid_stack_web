@@ -4,16 +4,17 @@ module SolidStackWeb
       before_action :set_ids
 
       def create
+        count = @ids.size
         SolidQueue::FailedExecution.where(id: @ids).each(&:retry)
-        redirect_to failed_jobs_path
+        redirect_to failed_jobs_path, notice: "#{count} #{count == 1 ? "job" : "jobs"} retried."
       rescue => e
         redirect_to failed_jobs_path, alert: "Could not retry jobs: #{e.message}"
       end
 
       def destroy
         job_ids = SolidQueue::FailedExecution.where(id: @ids).pluck(:job_id)
-        SolidQueue::Job.where(id: job_ids).destroy_all
-        redirect_to failed_jobs_path
+        count = SolidQueue::Job.where(id: job_ids).destroy_all.size
+        redirect_to failed_jobs_path, notice: "#{count} #{count == 1 ? "job" : "jobs"} discarded."
       rescue => e
         redirect_to failed_jobs_path, alert: "Could not discard jobs: #{e.message}"
       end
