@@ -6,15 +6,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 
 ---
 
-## v0.5.0 — Solid Cache: Deep Monitoring
-
-> _Move beyond a single count; give operators visibility into what's in the cache._
-
-### Added
-- **Cache timeline** — 24-hour chart of entry count and total byte size growth
-
----
-
 ## v0.6.0 — Solid Cable: Channel Monitoring
 
 > _Surface what's actually flowing through Action Cable._

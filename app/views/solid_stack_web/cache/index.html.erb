@@ -31,9 +31,11 @@
             <tr>
               <td class="sqw-muted"><%=bucket[:label] %></td>
               <td><%= bucket[:count] %></td>
-              <td class="sqw-dist-bar-cell">
-                <div class="sqw-dist-bar" style="width: <%= pct %>%"></div>
-                <span class="sqw-dist-pct sqw-muted"><%= pct %>%</span>
+              <td>
+                <div class="sqw-dist-bar-cell">
+                  <div class="sqw-dist-bar" style="width: <%= pct %>%"></div>
+                  <span class="sqw-dist-pct sqw-muted"><%= pct %>%</span>
+                </div>
               </td>
             </tr>
           <% end %>
@@ -64,3 +66,31 @@
     </section>
   </div>
 <% end %>
+
+<div class="sqw-timeline-grid" data-controller="sparkline-tooltip">
+  <div class="sqw-sparkline-wrap sqw-timeline-chart">
+    <span class="sqw-sparkline-label">Entries written — last 24 hours</span>
+    <div class="sqw-sparkline-positioner">
+      <%= cache_entries_timeline_svg(@timeline) %>
+      <div class="sqw-sparkline-tip" data-sparkline-tooltip-target="tip" hidden></div>
+    </div>
+    <div class="sqw-sparkline-axis">
+      <span>24h ago</span>
+      <span>12h ago</span>
+      <span>now</span>
+    </div>
+  </div>
+
+  <div class="sqw-sparkline-wrap sqw-timeline-chart">
+    <span class="sqw-sparkline-label">Bytes written — last 24 hours</span>
+    <div class="sqw-sparkline-positioner">
+      <%= cache_bytes_timeline_svg(@timeline) %>
+      <div class="sqw-sparkline-tip" data-sparkline-tooltip-target="tip" hidden></div>
+    </div>
+    <div class="sqw-sparkline-axis">
+      <span>24h ago</span>
+      <span>12h ago</span>
+      <span>now</span>
+    </div>
+  </div>
+</div>

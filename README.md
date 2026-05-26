@@ -101,6 +101,7 @@ Filters are preserved when switching between status tabs (Ready / Scheduled / Ru
 ### Features
 
 - **Overview dashboard card** — live entry count (linked to the entry browser), total byte size, and oldest-entry age (`time_ago_in_words` with exact timestamp on hover; hidden when cache is empty)
+- **Cache timeline** — two side-by-side 24-hour bar charts showing entries written per hour and bytes written per hour; each bar has a hover tooltip
 - **Size distribution** — byte-range histogram (< 1 KB → > 1 MB) with entry counts and proportional inline bars; hidden when cache is empty
 - **Largest entries** — top 10 entries by byte size, each linked to the detail page; hidden when cache is empty
 - **Entry browser** — `GET /cache/entries` lists all `SolidCache::Entry` records in a paginated, sortable table; columns: key, byte size, created-at; sortable by any column; key auto-submits search after 4 characters

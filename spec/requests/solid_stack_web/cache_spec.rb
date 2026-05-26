@@ -60,5 +60,17 @@ RSpec.describe "Cache", type: :request do
       expect(response.body).to include("linked:key")
       expect(response.body).to include("cache/entries")
     end
+
+    it "renders 24-hour timeline charts" do
+      get "#{engine_root}/cache"
+      expect(response.body).to include("Entries written — last 24 hours")
+      expect(response.body).to include("Bytes written — last 24 hours")
+    end
+
+    it "shows timeline bars for entries written in the last 24 hours" do
+      SolidCache::Entry.write("recent:key", "v")
+      get "#{engine_root}/cache"
+      expect(response.body).to include("sqw-sparkline--lg")
+    end
   end
 end
