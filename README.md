@@ -17,6 +17,7 @@ A mountable Rails engine that provides a unified web dashboard for the full [Sol
 - **Recurring task list** — enumerates all `SolidQueue::RecurringTask` records with cron schedule, job class or command, queue, next-run and last-run times, and a static/dynamic badge; each row has a "Run Now" button that immediately enqueues the task
 - **Job detail page** — drill into any job to see full arguments (pretty-printed JSON), queue, priority, enqueued time, Active Job ID, concurrency key, scheduled/blocked-until metadata, and a Discard button
 - **Failed job detail page** — drill into any failed job to see the full error, backtrace, and an inline JSON argument editor; submit to update arguments and retry in one action
+- **Metrics JSON endpoint** — `GET /metrics` returns a structured payload (queue counts by status, throughput, process health, cache, cable, and `generated_at` timestamp) for external monitoring and uptime tools; `slow_jobs` included when `slow_job_threshold` is configured
 - **Solid Cache** — entry count and total byte size at a glance
 - **Solid Cable** — active message count and distinct channel count
 - **Turbo Stream** job discard — removes the row inline without a full page reload
@@ -79,6 +80,32 @@ The jobs list supports four independent filters, all driven by query params:
 | `period` | Enqueued-at window — `1h`, `24h`, `7d`, or omit for all time |
 
 Filters are preserved when switching between status tabs (Ready / Scheduled / Running / Blocked) and when discarding a job. They can be combined freely.
+
+### Metrics endpoint
+
+`GET /metrics` (relative to your mount path) returns a JSON payload suitable for external monitoring tools, uptime checkers, or custom alerting:
+
+```json
+{
+  "queue": {
+    "ready": 4,
+    "scheduled": 1,
+    "claimed": 2,
+    "blocked": 0,
+    "failed": 3,
+    "done_1h": 45,
+    "done_24h": 312,
+    "processes_healthy": 2,
+    "processes_stale": 0,
+    "slow_jobs": 7
+  },
+  "cache": { "entries": 1024, "byte_size": 2097152 },
+  "cable": { "messages": 50, "channels": 3 },
+  "generated_at": "2026-05-26T10:00:00Z"
+}
+```
+
+`slow_jobs` is only present when `slow_job_threshold` is configured. The endpoint is protected by the same authentication as the rest of the dashboard.
 
 ### Authentication
 
