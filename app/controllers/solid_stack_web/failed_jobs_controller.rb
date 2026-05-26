@@ -25,6 +25,7 @@ module SolidStackWeb
       @execution = ::SolidQueue::FailedExecution.find(params[:id])
       @execution.job.destroy!
       @executions_remain = ::SolidQueue::FailedExecution.exists?
+      @notice = "Job discarded."
 
       respond_to do |format|
         format.html { redirect_to failed_jobs_path }
@@ -35,7 +36,7 @@ module SolidStackWeb
     def retry
       execution = ::SolidQueue::FailedExecution.find(params[:id])
       execution.retry
-      redirect_to failed_jobs_path
+      redirect_to failed_jobs_path, notice: "Job retried."
     end
 
     private

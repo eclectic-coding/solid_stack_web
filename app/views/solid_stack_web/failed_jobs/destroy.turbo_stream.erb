@@ -1,3 +1,6 @@
+<%= turbo_stream.prepend "sqw-flash-container",
+      partial: "solid_stack_web/shared/flash",
+      locals: { type: "notice", message: @notice } %>
 <% if @executions_remain %>
   <%= turbo_stream.remove "execution_#{@execution.id}" %>
 <% else %>

@@ -30,6 +30,7 @@ module SolidStackWeb
         @execution = Job::EXECUTION_MODELS[@status].find(params[:id])
         @execution.job.destroy!
         @executions_remain = Job::EXECUTION_MODELS[@status].exists?
+        @notice = "Job discarded."
 
         respond_to do |format|
           format.html { redirect_to jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority) }
@@ -37,8 +38,9 @@ module SolidStackWeb
         end
       else
         job_ids = filtered_scope.pluck(:job_id)
-        SolidQueue::Job.where(id: job_ids).destroy_all
-        redirect_to jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority)
+        count = SolidQueue::Job.where(id: job_ids).destroy_all.size
+        redirect_to jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority),
+                    notice: "#{count} #{count == 1 ? "job" : "jobs"} discarded."
       end
     end
 
