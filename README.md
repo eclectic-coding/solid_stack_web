@@ -114,7 +114,10 @@ Filters are preserved when switching between status tabs (Ready / Scheduled / Ru
 
 ## Solid Cable
 
-_Channel monitoring coming in v0.6.0. Currently shows active message count and distinct channel count on the overview dashboard._
+### Features
+
+- **Channel browser** — `GET /cable` lists all active channels with per-channel message count and last-message timestamp, ordered by most recent activity; empty state shown when no messages exist
+- **Per-channel message list** — `GET /cable/channels/:channel_hash` shows a paginated, reverse-chronological list of that channel's `SolidCable::Message` records; each row shows the message ID, a truncated payload preview (120 chars) with the full payload on hover, and a relative sent time with the exact timestamp on hover
 
 ---
 
