@@ -6,12 +6,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 
 ---
 
-## v0.6.0 — Solid Cable: Channel Monitoring
-
-> _Surface what's actually flowing through Action Cable._
-
----
-
 ## v0.7.0 — Interactivity & UX
 
 > _Make the interface feel fast and operational, not just functional._
