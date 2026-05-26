@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-05-26
+
 ### Added
 
 - Cable timeline — 24-hour bar chart of message volume on the Solid Cable overview page; each bar represents one hour with a tooltip showing exact count; uses the `var(--info)` color token
@@ -95,7 +97,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Two-tier contextual navigation per section (Queue / Cache / Cable)
 - No runtime JavaScript dependency — all interactions use standard form POSTs or Turbo Stream
 
-[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.6.0
 [0.5.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.5.0
 [0.4.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.4.0
 [0.3.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.3.0
