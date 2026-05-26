@@ -11,7 +11,7 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 > _Make it easy to adopt and easy to contribute to._
 
 ### Added
-- **Install generator** — `rails generate solid_stack_web:install` creates the initializer with all config options documented inline
+- ~~**Install generator**~~ ✓
 - **Configurable mount path helper** — engine-aware path helpers that respect whatever `at:` the host app chose
 - **Accessibility pass** — keyboard navigation, ARIA labels on interactive elements, sufficient colour contrast in both themes
 - **Query optimisation** — eliminate N+1 queries across all list views; add covering indexes to the dummy app schema
