@@ -10,9 +10,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 
 > _Surface what's actually flowing through Action Cable._
 
-### Added
-- **Cable timeline** — 24-hour chart of message volume
-
 ---
 
 ## v0.7.0 — Interactivity & UX

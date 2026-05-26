@@ -22,6 +22,21 @@
   </div>
 </div>
 
+<div class="sqw-timeline-grid sqw-timeline-grid--single" data-controller="sparkline-tooltip">
+  <div class="sqw-sparkline-wrap sqw-timeline-chart sqw-timeline-chart--cable">
+    <span class="sqw-sparkline-label">Messages — last 24 hours</span>
+    <div class="sqw-sparkline-positioner">
+      <%= cable_messages_timeline_svg(@timeline) %>
+      <div class="sqw-sparkline-tip" data-sparkline-tooltip-target="tip" hidden></div>
+    </div>
+    <div class="sqw-sparkline-axis">
+      <span>24h ago</span>
+      <span>12h ago</span>
+      <span>now</span>
+    </div>
+  </div>
+</div>
+
 <form class="sqw-filters" action="<%= cable_path %>" method="get" data-controller="search">
   <input class="sqw-search-input" type="search" name="q" value="<%= @search %>"
          placeholder="Filter by channel…" autocomplete="off" aria-label="Filter by channel"

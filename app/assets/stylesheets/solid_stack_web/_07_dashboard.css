@@ -121,9 +121,17 @@ a.sqw-inline-stat:hover { opacity: 0.7; text-decoration: none; }
   overflow: hidden;
 }
 
+.sqw-timeline-grid--single {
+  grid-template-columns: 1fr;
+}
+
 .sqw-timeline-chart {
   border-top: none;
   color: var(--purple);
+}
+
+.sqw-timeline-chart--cable {
+  color: var(--info);
 }
 
 .sqw-timeline-chart + .sqw-timeline-chart {
