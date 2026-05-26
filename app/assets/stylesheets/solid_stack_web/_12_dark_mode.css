@@ -1,17 +1,29 @@
 [data-theme="dark"] {
-  --bg:      #0d1117;
-  --surface: #161b22;
-  --border:  #30363d;
-  --text:    #e6edf3;
-  --muted:   #8b949e;
-  --primary: #58a6ff;
-  --danger:  #f85149;
-  --warning: #d29922;
-  --success: #3fb950;
-  --info:    #39c5cf;
-  --purple:  #bc8cff;
-  --shadow:  0 1px 3px rgba(0,0,0,.4);
+  --bg:            #0d1117;
+  --surface:       #161b22;
+  --border:        #30363d;
+  --text:          #e6edf3;
+  --muted:         #8b949e;
+  --primary:       #58a6ff;
+  --danger:        #f85149;
+  --warning:       #d29922;
+  --success:       #3fb950;
+  --info:          #39c5cf;
+  --purple:        #bc8cff;
+  --shadow:        0 1px 3px rgba(0,0,0,.4);
+  --surface-hover: #1c2128;
 }
+
+[data-theme="dark"] .sqw-badge--ready      { background: rgba(63,185,80,.15);   color: var(--success); }
+[data-theme="dark"] .sqw-badge--scheduled  { background: rgba(57,197,207,.15);  color: var(--info); }
+[data-theme="dark"] .sqw-badge--claimed    { background: rgba(88,166,255,.15);  color: var(--primary); }
+[data-theme="dark"] .sqw-badge--blocked    { background: rgba(210,153,34,.15);  color: var(--warning); }
+[data-theme="dark"] .sqw-badge--failed     { background: rgba(248,81,73,.15);   color: var(--danger); }
+[data-theme="dark"] .sqw-badge--paused     { background: rgba(139,148,158,.15); color: var(--muted); }
+[data-theme="dark"] .sqw-badge--queue      { background: rgba(139,148,158,.15); color: var(--muted); }
+[data-theme="dark"] .sqw-badge--worker     { background: rgba(88,166,255,.15);  color: var(--primary); }
+[data-theme="dark"] .sqw-badge--supervisor { background: rgba(63,185,80,.15);   color: var(--success); }
+[data-theme="dark"] .sqw-badge--dispatcher { background: rgba(210,153,34,.15);  color: var(--warning); }
 
 [data-theme="dark"] .sqw-flash--notice { background: #1b3a2b; color: #3fb950; border-color: #2d6a4f; }
 [data-theme="dark"] .sqw-flash--alert  { background: #3d1118; color: #f85149; border-color: #6a2030; }

@@ -9,7 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Responsive layout — stats cards, gem grid, and tables adapt to narrow viewports; two-column grids (cache size, cache timeline) collapse to single column at 768px; tables scroll horizontally at 640px; split page headers stack vertically; main padding and header padding reduce on small screens
+- Responsive layout
+
+### Fixed
+
+- CSS audit — badge colours now respond to dark mode via `[data-theme="dark"]` overrides; table row hover uses `--surface-hover` CSS variable instead of a hardcoded hex value; `--surface-hover` added to `:root` and dark mode token set — stats cards, gem grid, and tables adapt to narrow viewports; two-column grids (cache size, cache timeline) collapse to single column at 768px; tables scroll horizontally at 640px; split page headers stack vertically; main padding and header padding reduce on small screens
 - Empty-state improvements — all list views now show a contextual title and an actionable hint; search result empty states include a "Clear search" link; history and stats link to active jobs; processes and recurring tasks explain what to do next
 - Inline notifications — bulk and single-job actions now surface a flash notice; Turbo Stream discard responses prepend the message to the page without a full reload; bulk discard/retry counts are shown ("3 jobs discarded")
 - Dark mode — toggle button in the header switches between light and dark palettes; preference persisted in `localStorage`; respects `prefers-color-scheme` on first visit; driven entirely by CSS custom properties on `[data-theme="dark"]`
