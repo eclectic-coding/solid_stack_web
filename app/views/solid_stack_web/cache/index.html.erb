@@ -12,3 +12,55 @@
     <span class="sqw-stat__value"><%= number_to_human_size(@total_byte_size) %></span>
   </div>
 </div>
+
+<% if @total_entries > 0 %>
+  <div class="sqw-size-grid">
+    <section class="sqw-size-section">
+      <h2 class="sqw-section-title">Size Distribution</h2>
+      <table class="sqw-table">
+        <thead>
+          <tr>
+            <th>Range</th>
+            <th>Entries</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @size_stats.buckets.each do |bucket| %>
+            <% pct = @size_stats.total > 0 ? (bucket[:count].to_f / @size_stats.total * 100).round(1) : 0 %>
+            <tr>
+              <td class="sqw-muted"><%=bucket[:label] %></td>
+              <td><%= bucket[:count] %></td>
+              <td class="sqw-dist-bar-cell">
+                <div class="sqw-dist-bar" style="width: <%= pct %>%"></div>
+                <span class="sqw-dist-pct sqw-muted"><%= pct %>%</span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="sqw-size-section">
+      <h2 class="sqw-section-title">Largest Entries</h2>
+      <table class="sqw-table">
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @size_stats.top_entries.each do |entry| %>
+            <tr>
+              <td class="sqw-monospace sqw-truncate" title="<%= entry.key %>">
+                <%= link_to entry.key, cache_entry_path(entry), class: "sqw-link" %>
+              </td>
+              <td><%= number_to_human_size(entry.byte_size) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </section>
+  </div>
+<% end %>

@@ -31,5 +31,34 @@ RSpec.describe "Cache", type: :request do
 
       expect(response.body).to include("Bytes").or include("KB").or include("MB")
     end
+
+    it "hides size distribution sections when cache is empty" do
+      SolidCache::Entry.delete_all
+      get "#{engine_root}/cache"
+      expect(response.body).not_to include("Size Distribution")
+      expect(response.body).not_to include("Largest Entries")
+    end
+
+    it "shows size distribution and largest entries when entries exist" do
+      SolidCache::Entry.write("small:key", "x")
+      SolidCache::Entry.write("large:key", "x" * 2000)
+      get "#{engine_root}/cache"
+      expect(response.body).to include("Size Distribution")
+      expect(response.body).to include("Largest Entries")
+    end
+
+    it "shows all size bucket labels" do
+      SolidCache::Entry.write("bucket:key", "hello")
+      get "#{engine_root}/cache"
+      expect(response.body).to include("&lt; 1 KB")
+      expect(response.body).to include("&gt; 1 MB")
+    end
+
+    it "links largest entries to their detail pages" do
+      SolidCache::Entry.write("linked:key", "value")
+      get "#{engine_root}/cache"
+      expect(response.body).to include("linked:key")
+      expect(response.body).to include("cache/entries")
+    end
   end
 end
