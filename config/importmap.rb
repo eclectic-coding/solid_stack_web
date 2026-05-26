@@ -5,3 +5,4 @@ pin "solid_stack_web/refresh_controller", to: "solid_stack_web/refresh_controlle
 pin "solid_stack_web/search_controller", to: "solid_stack_web/search_controller.js"
 pin "solid_stack_web/selection_controller", to: "solid_stack_web/selection_controller.js"
 pin "solid_stack_web/sparkline_tooltip_controller", to: "solid_stack_web/sparkline_tooltip_controller.js"
+pin "solid_stack_web/theme_controller", to: "solid_stack_web/theme_controller.js"

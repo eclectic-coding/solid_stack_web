@@ -17,6 +17,27 @@
   height: 52px;
 }
 
+.sqw-header__inner .sqw-nav { flex: 1; }
+
+.sqw-theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1;
+  flex-shrink: 0;
+  transition: background 0.1s, border-color 0.1s;
+}
+.sqw-theme-toggle:hover { background: var(--bg); }
+
 .sqw-header__logo {
   font-weight: 700;
   font-size: 16px;

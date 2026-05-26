@@ -10,7 +10,7 @@
   <%= inline_styles %>
   <%= javascript_importmap_tags "solid_stack_web" %>
 </head>
-<body>
+<body data-controller="theme">
   <header class="sqw-header">
     <div class="sqw-header__inner">
       <%= link_to "Solid Stack", root_path, class: "sqw-header__logo" %>
@@ -22,6 +22,8 @@
         <%= link_to "Cable", cable_path,
               class: "sqw-nav__link#{" sqw-nav__link--active" if current_section == :cable}" %>
       </nav>
+      <button class="sqw-theme-toggle" aria-label="Switch to dark mode"
+              data-theme-target="toggle" data-action="theme#toggle">☽</button>
     </div>
   </header>
 

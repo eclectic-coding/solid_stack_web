@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Dark mode — toggle button in the header switches between light and dark palettes; preference persisted in `localStorage`; respects `prefers-color-scheme` on first visit; driven entirely by CSS custom properties on `[data-theme="dark"]`
+
 ## [0.6.0] - 2026-05-26
 
 ### Added
