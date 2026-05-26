@@ -54,6 +54,10 @@
         </a>
       <% end %>
     </div>
+    <div class="sqw-sparkline-wrap">
+      <span class="sqw-sparkline-label">Throughput — last 12 hours</span>
+      <%= throughput_sparkline_svg(@throughput) %>
+    </div>
   </div>
 
   <div class="sqw-gem-card sqw-gem-card--cache">

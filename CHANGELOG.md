@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Throughput sparkline — the Solid Queue dashboard card now shows a 12-hour rolling bar chart of completed jobs; bars are hourly buckets rendered as inline SVG with `currentColor` so they respect the card's theme; zero-count buckets render at minimum height with reduced opacity
 - Alert webhooks — HTTP POST to a configurable URL when the failed-job count meets `alert_failure_threshold` or a queue's ready depth meets a per-queue limit in `alert_queue_thresholds`; a `alert_webhook_cooldown` (default 3600 s) prevents alert storms; delivery failures are swallowed so they never affect request responses; triggered on every `GET /metrics` poll
 - Metrics JSON endpoint — `GET /metrics` returns a structured JSON payload with queue status counts (ready, scheduled, claimed, blocked, failed), throughput (done\_1h, done\_24h), process health (healthy, stale), optional slow\_jobs count (when `slow_job_threshold` is configured), cache entry count and byte size, cable message and channel counts, and a `generated_at` ISO 8601 timestamp; intended for external monitoring and uptime tools
 - Dashboard stats — Solid Queue overview card gains "Done (1h)" and "Done (24h)" counts (linked to History with period pre-applied), "Healthy" and "Stale" process counts replacing the single Processes stat, and an optional "Slow (24h)" count (shown only when `SolidStackWeb.slow_job_threshold` is configured, linked to the Stats page); `slow_job_threshold` added to engine configuration
