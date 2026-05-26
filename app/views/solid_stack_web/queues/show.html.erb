@@ -59,7 +59,7 @@
       <% end %>
     </tbody>
   </table>
-  <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+  <%== @pagy.series_nav if @pagy.pages > 1 %>
 <% else %>
   <div class="sqw-empty">
     <p>No ready jobs in <strong><%= @queue_name %></strong>.</p>
