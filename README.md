@@ -48,6 +48,7 @@ The dashboard will be available at `/solid_stack` (or whatever path you choose).
 - **Job history view** — paginated list of all finished jobs with class name, queue, duration, and finished-at time; filterable by queue (click a badge), class substring, and time period; CSV export respects active filters
 - **Auto-refresh** — dashboard, jobs, processes, and history views poll automatically; pauses when the tab is hidden or a checkbox is checked; intervals configurable via `dashboard_refresh_interval` and `default_refresh_interval`
 - **Turbo Stream** job discard — removes the row inline without a full page reload
+- **Dark mode** — toggle button in the header switches between light and dark palettes; preference persisted in `localStorage`; respects `prefers-color-scheme` on first visit
 
 ### Configuration
 
