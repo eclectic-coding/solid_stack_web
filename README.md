@@ -55,6 +55,16 @@ SolidStackWeb.configure do |config|
   # When set, the dashboard shows a "Slow (24h)" count of finished jobs
   # whose wall time exceeded this value. Links to the Stats page.
   config.slow_job_threshold = 30
+
+  # Alert webhooks — fired on every GET /metrics poll when a threshold is met.
+  # Delivery failures are silently swallowed; cooldown prevents alert storms.
+  config.alert_webhook_url       = "https://hooks.example.com/my-alert"
+  config.alert_failure_threshold = 10          # POST when failed jobs >= this
+  config.alert_queue_thresholds  = {           # POST when a queue's ready depth >= value
+    "critical" => 50,
+    "default"  => 500
+  }
+  config.alert_webhook_cooldown  = 3600        # seconds between alerts (default: 3600)
 end
 ```
 
