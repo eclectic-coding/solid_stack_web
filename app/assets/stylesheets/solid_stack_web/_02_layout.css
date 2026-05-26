@@ -73,11 +73,18 @@
 .sqw-page-header { margin-bottom: 1.25rem; }
 .sqw-page-title  { font-size: 20px; font-weight: 600; }
 
+@keyframes sqw-flash-dismiss {
+  0%, 86%  { opacity: 1; max-height: 200px; margin-bottom: 1rem; }
+  100%     { opacity: 0; max-height: 0;   margin-bottom: 0; padding: 0; }
+}
+
 .sqw-flash {
   padding: 0.75rem 1rem;
   border-radius: var(--radius);
   margin-bottom: 1rem;
   font-size: 13px;
+  animation: sqw-flash-dismiss 7s ease forwards;
+  overflow: hidden;
 }
 .sqw-flash--notice { background: #d1e7dd; color: #0a3622; border: 1px solid #a3cfbb; }
 .sqw-flash--alert  { background: #f8d7da; color: #58151c; border: 1px solid #f1aeb5; }
