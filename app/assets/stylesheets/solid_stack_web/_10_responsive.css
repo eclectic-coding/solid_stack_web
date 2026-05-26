@@ -1,0 +1,54 @@
+@media (max-width: 768px) {
+  .sqw-size-grid { grid-template-columns: 1fr; }
+  .sqw-timeline-grid:not(.sqw-timeline-grid--single) { grid-template-columns: 1fr; }
+  .sqw-timeline-chart + .sqw-timeline-chart { border-left: none; border-top: 1px solid var(--border); }
+}
+
+@media (max-width: 640px) {
+  .sqw-main {
+    padding: 1rem;
+  }
+
+  .sqw-page-header--split {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sqw-table {
+    display: block;
+    overflow-x: auto;
+    border-radius: 0;
+  }
+
+  .sqw-stats-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .sqw-gem-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sqw-truncate {
+    max-width: 160px;
+  }
+
+  .sqw-period-filter {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .sqw-header__inner {
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  .sqw-subnav__inner {
+    padding: 0 1rem;
+    height: auto;
+    min-height: 36px;
+    flex-wrap: wrap;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+}
