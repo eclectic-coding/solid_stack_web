@@ -181,6 +181,19 @@ puts "  finished jobs..."
   job.save!(validate: false)
 end
 
+# ── Solid Queue: Recurring tasks ─────────────────────────────────────────────
+
+puts "  recurring tasks..."
+
+[
+  { key: "nightly-cleanup",    schedule: "0 2 * * *",   command: "DailyCleanupJob.perform_later",    queue_name: "default",  description: "Nightly database cleanup", static: true },
+  { key: "daily-user-report",  schedule: "0 8 * * *",   command: "UserReportJob.perform_later",       queue_name: "mailers",  description: "Send daily user summary",  static: true },
+  { key: "hourly-sync",        schedule: "0 * * * *",   command: "SyncInventoryJob.perform_later",    queue_name: "default",  description: nil,                        static: true },
+  { key: "weekly-digest",      schedule: "0 9 * * 1",   command: "SendDigestJob.perform_later",       queue_name: "mailers",  description: "Weekly digest email",      static: false },
+].each do |attrs|
+  SolidQueue::RecurringTask.create!(attrs)
+end
+
 # ── Solid Cache ───────────────────────────────────────────────────────────────
 
 puts "  cache entries..."
@@ -235,6 +248,7 @@ puts "  Solid Queue — #{SolidQueue::Job.count} jobs " \
      "#{SolidQueue::BlockedExecution.count} blocked, " \
      "#{SolidQueue::FailedExecution.count} failed, " \
      "#{SolidQueue::Job.where.not(finished_at: nil).count} finished), " \
-     "#{SolidQueue::Process.count} processes"
+     "#{SolidQueue::Process.count} processes, " \
+     "#{SolidQueue::RecurringTask.count} recurring tasks"
 puts "  Solid Cache  — #{SolidCache::Entry.count} entries"
 puts "  Solid Cable  — #{SolidCable::Message.count} messages across #{SolidCable::Message.distinct.count(:channel)} channels"
