@@ -11,7 +11,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 > _Surface what's actually flowing through Action Cable._
 
 ### Added
-- **Message purge** — delete all messages for a channel or all messages older than N days
 - **Stats dashboard card** — expand the overview card to include messages per hour, oldest pending message age, and top channels by volume
 - **Cable timeline** — 24-hour chart of message volume
 

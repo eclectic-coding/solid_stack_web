@@ -1,5 +1,14 @@
-<div class="sqw-page-header">
+<div class="sqw-page-header sqw-page-header--split">
   <h1 class="sqw-page-title">Solid Cable</h1>
+  <div class="sqw-header-actions">
+    <%= form_with url: cable_purge_path, method: :delete, class: "sqw-inline-form",
+                  data: { turbo_confirm: "Purge these messages? This cannot be undone." } do |f| %>
+      <%= f.select :older_than,
+                   [["Older than 1 day", 1], ["Older than 7 days", 7], ["Older than 30 days", 30]],
+                   {}, class: "sqw-select" %>
+      <%= f.submit "Purge Old", class: "sqw-btn sqw-btn--danger sqw-btn--sm" %>
+    <% end %>
+  </div>
 </div>
 
 <div class="sqw-stats-grid">
