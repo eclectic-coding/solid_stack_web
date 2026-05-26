@@ -177,6 +177,24 @@ end
 
 The `authenticate` block is evaluated in the context of each request's controller instance, so any helper method available to controllers (e.g. `current_user` from Devise) works directly. If the block returns `false` or `nil`, the engine falls back to HTTP Basic authentication. If no `authenticate` block is configured, the dashboard is open.
 
+### Linking to the dashboard
+
+`SolidStackWeb.mount_path` returns the path at which the engine is mounted, derived automatically from your routes. Use it to link to the dashboard from your application layout without hardcoding the path:
+
+```ruby
+link_to "Queue Dashboard", SolidStackWeb.mount_path
+```
+
+### Install generator
+
+Run the install generator to create a documented initializer and wire up the mount point in one step:
+
+```bash
+rails generate solid_stack_web:install
+```
+
+This creates `config/initializers/solid_stack_web.rb` with every configuration option commented inline, and injects `mount SolidStackWeb::Engine, at: "/solid_stack"` into `config/routes.rb`.
+
 ---
 
 ## Requirements

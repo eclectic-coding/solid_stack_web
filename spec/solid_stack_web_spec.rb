@@ -13,6 +13,16 @@ RSpec.describe SolidStackWeb do
     end
   end
 
+  describe ".mount_path" do
+    it "returns the path at which the engine is mounted in the dummy app" do
+      expect(SolidStackWeb.mount_path).to eq("/solid_stack")
+    end
+
+    it "returns a string with no trailing format suffix" do
+      expect(SolidStackWeb.mount_path).not_to include("(")
+    end
+  end
+
   describe ".search_results_limit" do
     it "defaults to 25" do
       expect(SolidStackWeb.search_results_limit).to eq(25)
