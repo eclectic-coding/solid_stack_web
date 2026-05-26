@@ -29,7 +29,9 @@
   <% end %>
 </div>
 
-<turbo-frame id="sqw-jobs-filter" data-turbo-action="advance">
+<%= turbo_frame_tag "sqw-jobs-filter",
+      data: { turbo_action: "advance", controller: "refresh",
+              refresh_interval_value: SolidStackWeb.default_refresh_interval } do %>
 <form class="sqw-filters" action="<%= jobs_path %>" method="get">
   <%= hidden_field_tag :status, @status %>
   <%= hidden_field_tag :period, @period %>
@@ -151,4 +153,4 @@
     <%= render "empty" %>
   <% end %>
 </div>
-</turbo-frame>
+<% end %>

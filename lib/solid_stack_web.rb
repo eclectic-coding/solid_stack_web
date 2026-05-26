@@ -5,7 +5,9 @@ module SolidStackWeb
   class << self
     attr_writer :page_size, :connects_to, :slow_job_threshold,
                 :alert_webhook_url, :alert_webhook_cooldown,
-                :alert_failure_threshold, :alert_queue_thresholds
+                :alert_failure_threshold, :alert_queue_thresholds,
+                :dashboard_refresh_interval, :default_refresh_interval,
+                :search_results_limit
 
     def page_size
       @page_size || 25
@@ -33,6 +35,18 @@ module SolidStackWeb
 
     def alert_queue_thresholds
       @alert_queue_thresholds || {}
+    end
+
+    def dashboard_refresh_interval
+      @dashboard_refresh_interval || 5_000
+    end
+
+    def default_refresh_interval
+      @default_refresh_interval || 10_000
+    end
+
+    def search_results_limit
+      @search_results_limit || 25
     end
 
     def configure

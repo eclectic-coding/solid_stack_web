@@ -1,3 +1,5 @@
+<%= turbo_frame_tag "sqw-history-table",
+      data: { controller: "refresh", refresh_interval_value: SolidStackWeb.default_refresh_interval } do %>
 <div class="sqw-page-header sqw-page-header--split">
   <h1 class="sqw-page-title">Job History</h1>
   <div class="sqw-header-actions">
@@ -70,4 +72,5 @@
   <div class="sqw-empty">
     <p>No finished jobs found.</p>
   </div>
+<% end %>
 <% end %>
