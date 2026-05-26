@@ -23,15 +23,5 @@ module SolidStackWeb
           .order(created_at: :desc)
       )
     end
-
-    def pause
-      ::SolidQueue::Pause.find_or_create_by!(queue_name: params[:id])
-      redirect_to queues_path
-    end
-
-    def resume
-      ::SolidQueue::Pause.find_by(queue_name: params[:id])&.destroy
-      redirect_to queues_path
-    end
   end
 end

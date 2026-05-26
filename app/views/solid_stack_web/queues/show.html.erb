@@ -14,10 +14,10 @@
   </div>
   <div class="sqw-header-actions">
     <% if @paused %>
-      <%= button_to "Resume", resume_queue_path(@queue_name),
+      <%= button_to "Resume", queue_pause_path(@queue_name),
             method: :delete, class: "sqw-btn sqw-btn--sm" %>
     <% else %>
-      <%= button_to "Pause", pause_queue_path(@queue_name),
+      <%= button_to "Pause", queue_pause_path(@queue_name),
             method: :post, class: "sqw-btn sqw-btn--sm" %>
     <% end %>
     <% if @executions.any? %>

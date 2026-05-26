@@ -35,7 +35,7 @@ RSpec.describe "Queues", type: :request do
     end
   end
 
-  describe "POST /queues/:id/pause" do
+  describe "POST /queues/:queue_id/pause" do
     it "pauses the queue and redirects" do
       create_ready(queue_name: "default")
       post "#{engine_root}/queues/default/pause"
@@ -97,16 +97,16 @@ RSpec.describe "Queues", type: :request do
     end
   end
 
-  describe "DELETE /queues/:id/resume" do
+  describe "DELETE /queues/:queue_id/pause" do
     it "resumes a paused queue and redirects" do
       SolidQueue::Pause.create!(queue_name: "default")
-      delete "#{engine_root}/queues/default/resume"
+      delete "#{engine_root}/queues/default/pause"
       expect(response).to redirect_to("#{engine_root}/queues")
       expect(SolidQueue::Pause.exists?(queue_name: "default")).to be false
     end
 
     it "is a no-op when the queue is not paused" do
-      expect { delete "#{engine_root}/queues/default/resume" }.not_to raise_error
+      expect { delete "#{engine_root}/queues/default/pause" }.not_to raise_error
       expect(response).to redirect_to("#{engine_root}/queues")
     end
   end

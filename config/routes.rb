@@ -26,10 +26,7 @@ SolidStackWeb::Engine.routes.draw do
   end
 
   resources :queues, only: [:index, :show] do
-    member do
-      post   :pause
-      delete :resume
-    end
+    resource :pause, only: [:create, :destroy], controller: "queues/pauses"
   end
 
   resources :processes, only: [:index]
