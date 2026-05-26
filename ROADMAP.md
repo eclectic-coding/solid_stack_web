@@ -6,12 +6,9 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 
 ---
 
-## v0.8.0 — Test Coverage
+## v0.8.0 — Test Coverage ✓
 
-> _Make the test suite match the surface area of the engine._
-
-### Remaining
-- Service class unit tests — `CableStats`, `CacheStats`, `QueueStats`, `CableTimeline`, `CacheSizeStats`, `CacheTimeline` have no specs; `AlertWebhook`, `QueueDepthSparkline`, `ThroughputSparkline` are already covered
+> All items complete — 315 examples, 99.36% line coverage.
 
 ---
 
