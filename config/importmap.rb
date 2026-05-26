@@ -2,5 +2,6 @@ pin "@hotwired/turbo", to: "https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.23/
 pin "@hotwired/stimulus", to: "https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/dist/stimulus.js"
 pin "solid_stack_web", to: "solid_stack_web/application.js"
 pin "solid_stack_web/refresh_controller", to: "solid_stack_web/refresh_controller.js"
+pin "solid_stack_web/search_controller", to: "solid_stack_web/search_controller.js"
 pin "solid_stack_web/selection_controller", to: "solid_stack_web/selection_controller.js"
 pin "solid_stack_web/sparkline_tooltip_controller", to: "solid_stack_web/sparkline_tooltip_controller.js"

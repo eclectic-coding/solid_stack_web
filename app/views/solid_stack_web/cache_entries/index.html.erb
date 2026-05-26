@@ -9,12 +9,12 @@
   </div>
 </div>
 
-<form class="sqw-filters" action="<%= cache_entries_path %>" method="get">
+<form class="sqw-filters" action="<%= cache_entries_path %>" method="get" data-controller="search">
   <%= hidden_field_tag :column,    @sort["column"] %>
   <%= hidden_field_tag :direction, @sort["direction"] %>
   <input class="sqw-search-input" type="search" name="q" value="<%= @search %>"
-         placeholder="Filter by key…" autocomplete="off" aria-label="Filter by key">
-  <button type="submit" class="sqw-btn sqw-btn--muted sqw-btn--sm">Search</button>
+         placeholder="Filter by key…" autocomplete="off" aria-label="Filter by key"
+         data-action="input->search#filter">
   <% if @search.present? %>
     <%= link_to "Clear", cache_entries_path(column: @sort["column"], direction: @sort["direction"]),
           class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>

@@ -32,13 +32,15 @@
 <%= turbo_frame_tag "sqw-jobs-filter",
       data: { turbo_action: "advance", controller: "refresh",
               refresh_interval_value: SolidStackWeb.default_refresh_interval } do %>
-<form class="sqw-filters" action="<%= jobs_path %>" method="get">
+<form class="sqw-filters" action="<%= jobs_path %>" method="get" data-controller="search">
   <%= hidden_field_tag :status, @status %>
   <%= hidden_field_tag :period, @period %>
   <input class="sqw-search-input" type="search" name="q" value="<%= @search %>"
-         placeholder="Filter by job class…" autocomplete="off" aria-label="Filter by job class">
+         placeholder="Filter by job class…" autocomplete="off" aria-label="Filter by job class"
+         data-action="input->search#filter">
   <% if @queue_options.size > 1 %>
-    <select name="queue" class="sqw-select" aria-label="Filter by queue" onchange="this.form.requestSubmit()">
+    <select name="queue" class="sqw-select" aria-label="Filter by queue"
+            data-action="change->search#select">
       <option value="">All queues</option>
       <% @queue_options.each do |q| %>
         <option value="<%= q %>" <%= "selected" if @queue == q %>><%= q %></option>
@@ -46,14 +48,14 @@
     </select>
   <% end %>
   <% if @priority_options.size > 1 %>
-    <select name="priority" class="sqw-select" aria-label="Filter by priority" onchange="this.form.requestSubmit()">
+    <select name="priority" class="sqw-select" aria-label="Filter by priority"
+            data-action="change->search#select">
       <option value="">All priorities</option>
       <% @priority_options.each do |p| %>
         <option value="<%= p %>" <%= "selected" if @priority.to_s == p.to_s %>>Priority <%= p %></option>
       <% end %>
     </select>
   <% end %>
-  <button type="submit" class="sqw-btn sqw-btn--muted sqw-btn--sm">Search</button>
   <% if @search.present? || @queue.present? || @priority.present? %>
     <%= link_to "Clear", jobs_path(status: @status, period: @period), class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
   <% end %>

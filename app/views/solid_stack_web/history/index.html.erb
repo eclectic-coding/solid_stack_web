@@ -10,14 +10,14 @@
   </div>
 </div>
 
-<form class="sqw-filters" action="<%= history_path %>" method="get">
+<form class="sqw-filters" action="<%= history_path %>" method="get" data-controller="search">
   <% if @queue.present? %>
     <input type="hidden" name="queue" value="<%= @queue %>">
   <% end %>
   <input type="hidden" name="period" value="<%= @period %>">
   <input class="sqw-search-input" type="search" name="q" value="<%= @search %>"
-         placeholder="Filter by job class…" autocomplete="off" aria-label="Filter by job class">
-  <button type="submit" class="sqw-btn sqw-btn--muted sqw-btn--sm">Search</button>
+         placeholder="Filter by job class…" autocomplete="off" aria-label="Filter by job class"
+         data-action="input->search#filter">
   <% if @search.present? %>
     <%= link_to "Clear", history_path(queue: @queue, period: @period), class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
   <% end %>
