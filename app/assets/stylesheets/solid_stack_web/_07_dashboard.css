@@ -110,3 +110,12 @@ a.sqw-inline-stat:hover { opacity: 0.7; text-decoration: none; }
   width: 100%;
   height: 40px;
 }
+
+.sqw-sparkline-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: var(--muted);
+  margin-top: 3px;
+  opacity: 0.7;
+}
