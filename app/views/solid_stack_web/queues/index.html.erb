@@ -8,6 +8,7 @@
       <tr>
         <th>Name</th>
         <th>Size</th>
+        <th>Depth (12h)</th>
         <th>Status</th>
         <th></th>
       </tr>
@@ -17,6 +18,10 @@
         <tr>
           <td class="sqw-monospace"><%= link_to queue[:name], queue_path(queue[:name]) %></td>
           <td><%= link_to queue[:size], queue_path(queue[:name]) %></td>
+          <td class="sqw-queue-sparkline" data-controller="sparkline-tooltip">
+            <%= queue_depth_sparkline_svg(@sparklines[queue[:name]]) %>
+            <div class="sqw-sparkline-tip" data-sparkline-tooltip-target="tip" hidden></div>
+          </td>
           <td>
             <% if queue[:paused] %>
               <span class="sqw-badge sqw-badge--paused">Paused</span>

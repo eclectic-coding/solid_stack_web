@@ -11,6 +11,28 @@ module SolidStackWeb
     end
 
     def throughput_sparkline_svg(sparkline)
+      build_sparkline_svg(sparkline, aria_label: "Throughput over the last 12 hours") do |count, i|
+        hours_ago = SolidStackWeb::ThroughputSparkline::HOURS - i
+        if hours_ago == 1
+          "#{count} #{count == 1 ? "job" : "jobs"} in the last hour"
+        else
+          "#{count} #{count == 1 ? "job" : "jobs"} (#{hours_ago}h–#{hours_ago - 1}h ago)"
+        end
+      end
+    end
+
+    def queue_depth_sparkline_svg(sparkline)
+      build_sparkline_svg(sparkline, css_class: "sqw-sparkline sqw-sparkline--sm",
+                                     aria_label: "Queue depth over the last 12 hours") do |count, i|
+        hours_ago = SolidStackWeb::QueueDepthSparkline::HOURS - 1 - i
+        jobs_word = count == 1 ? "job" : "jobs"
+        hours_ago.zero? ? "#{count} ready #{jobs_word} now" : "#{count} ready #{jobs_word} #{hours_ago}h ago"
+      end
+    end
+
+    private
+
+    def build_sparkline_svg(sparkline, css_class: "sqw-sparkline", aria_label: nil, &tooltip_text)
       buckets = sparkline.buckets
       peak    = [sparkline.max.to_f, 1.0].max
       h       = 40
@@ -23,12 +45,7 @@ module SolidStackWeb
         bar_h   = [(count / peak * (h - 4)).round, 2].max
         y       = h - bar_h
         opacity = count.zero? ? "0.18" : "1"
-        hours_ago = SolidStackWeb::ThroughputSparkline::HOURS - i
-        tip = if hours_ago == 1
-          "#{count} #{count == 1 ? "job" : "jobs"} in the last hour"
-        else
-          "#{count} #{count == 1 ? "job" : "jobs"} (#{hours_ago}h–#{hours_ago - 1}h ago)"
-        end
+        tip     = tooltip_text.call(count, i)
         attrs = %( x="#{x}" y="#{y}" width="#{bar_w}" height="#{bar_h}" rx="1") +
                 %( fill="currentColor" opacity="#{opacity}") +
                 %( data-sparkline-tooltip-target="bar") +
@@ -40,10 +57,12 @@ module SolidStackWeb
       content_tag(:svg, bars.html_safe,
                   viewBox: "0 0 #{total_w} #{h}",
                   preserveAspectRatio: "none",
-                  class: "sqw-sparkline",
+                  class: css_class,
                   role: "img",
-                  "aria-label": "Throughput over the last 12 hours")
+                  "aria-label": aria_label)
     end
+
+    public
 
     def inline_styles
       dir = SolidStackWeb::Engine.root.join("app/assets/stylesheets/solid_stack_web")

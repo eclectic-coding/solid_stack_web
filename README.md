@@ -35,10 +35,11 @@ The dashboard will be available at `/solid_stack` (or whatever path you choose).
 
 ### Features
 
-- **Overview dashboard** — live counts across all queue statuses; done (1h/24h), healthy/stale process counts, and optionally slow jobs (when `slow_job_threshold` is configured)
+- **Overview dashboard** — live counts across all queue statuses; done (1h/24h), healthy/stale process counts, and optionally slow jobs (when `slow_job_threshold` is configured); 12-hour throughput sparkline with per-bar hover tooltips
 - **Job browser** — browse jobs by status (ready, scheduled, claimed, blocked) with filtering by job class, queue name, priority, and time period; **Discard All** bulk-discards every job matching the current filters in one request; **CSV export** downloads jobs respecting active filters
 - **Bulk selection** — checkbox-select individual jobs for discard; select-all support
 - **Per-queue browser** — click any queue name or size to drill into its ready jobs with per-row and bulk discard; pause/resume controls on the queue page
+- **Queue depth sparklines** — Queues index shows a 12-hour depth chart per queue; each bar is the ready-job count at an hourly snapshot with an instant hover tooltip
 - **Job detail page** — full arguments (pretty-printed JSON), queue, priority, enqueued time, Active Job ID, concurrency key, scheduled/blocked-until metadata, and a Discard button
 - **Failed jobs** — list with retry / discard / bulk retry / bulk discard; **Failed job detail page** — full error, backtrace, and an inline JSON argument editor; submit to update arguments and retry in one action
 - **Scheduled job management** — "Run Now" and offset buttons (+1h / +24h / +7d) per row update the scheduled time inline via Turbo Stream; "Run All Now (N)" back-dates all matching executions at once

@@ -105,6 +105,15 @@ a.sqw-inline-stat:hover { opacity: 0.7; text-decoration: none; }
   height: 40px;
 }
 
+.sqw-sparkline--sm {
+  height: 24px;
+}
+
+.sqw-queue-sparkline {
+  width: 120px;
+  color: var(--primary);
+}
+
 .sqw-sparkline rect {
   cursor: pointer;
 }
