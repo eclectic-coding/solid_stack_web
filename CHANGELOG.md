@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Cable stats dashboard card — the Solid Cable card on the overview dashboard now shows messages per hour (last 60 minutes), oldest pending message age, and a top-3 channel breakdown by message volume; Messages stat is now a link to the Cable overview
 - Message purge — "Purge Old" form on the channel browser deletes all messages older than 1, 7, or 30 days; "Purge Channel" button on the per-channel message list deletes all messages for that channel; both redirect to the channel browser after purging
 - Message search — channel browser (`GET /cable`) accepts `?q=` to filter the channel list by name substring; per-channel message list (`GET /cable/channels/:channel_hash`) accepts `?q=` to filter messages by payload substring; both show a contextual empty state and a Clear link when a search is active
 - Per-channel message list — `GET /cable/channels/:channel_hash` shows a paginated, reverse-chronological list of `SolidCable::Message` records for a specific channel; each row shows the message ID, a truncated payload preview (120 chars), and relative sent time with exact timestamp on hover; channel names in the channel browser are now links to their message list

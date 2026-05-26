@@ -46,7 +46,7 @@ RSpec.describe "Metrics", type: :request do
     it "includes cable keys" do
       get "#{engine_root}/metrics"
       cable = JSON.parse(response.body)["cable"]
-      expect(cable.keys).to contain_exactly("messages", "channels")
+      expect(cable.keys).to contain_exactly("messages", "channels", "messages_per_hour", "oldest_message", "top_channels")
     end
 
     it "reflects live job counts" do

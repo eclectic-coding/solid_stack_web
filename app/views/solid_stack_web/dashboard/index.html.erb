@@ -99,15 +99,36 @@
       <%= link_to "View Cable →", cable_path, class: "sqw-gem-card__link" %>
     </div>
     <div class="sqw-gem-card__body">
-      <div class="sqw-inline-stat sqw-inline-stat--cable">
+      <%= link_to cable_path, class: "sqw-inline-stat sqw-inline-stat--cable" do %>
         <span class="sqw-inline-stat__label">Messages</span>
         <span class="sqw-inline-stat__value"><%= @cable_stats[:messages] %></span>
-      </div>
+      <% end %>
       <div class="sqw-inline-stat sqw-inline-stat--cable">
         <span class="sqw-inline-stat__label">Channels</span>
         <span class="sqw-inline-stat__value"><%= @cable_stats[:channels] %></span>
       </div>
+      <div class="sqw-inline-stat sqw-inline-stat--cable">
+        <span class="sqw-inline-stat__label">Msg/hr</span>
+        <span class="sqw-inline-stat__value"><%= @cable_stats[:messages_per_hour] %></span>
+      </div>
+      <% if @cable_stats[:oldest_message] %>
+        <div class="sqw-inline-stat sqw-inline-stat--cable">
+          <span class="sqw-inline-stat__label">Oldest</span>
+          <span class="sqw-inline-stat__value sqw-inline-stat__value--sm" title="<%= @cable_stats[:oldest_message].strftime("%b %d, %Y %H:%M") %>"><%= time_ago_in_words(@cable_stats[:oldest_message]) %></span>
+        </div>
+      <% end %>
     </div>
+    <% if @cable_stats[:top_channels].any? %>
+      <div class="sqw-card-list">
+        <span class="sqw-card-list__label">Top channels</span>
+        <% @cable_stats[:top_channels].each do |channel, count| %>
+          <div class="sqw-card-list__row">
+            <span class="sqw-card-list__name" title="<%= channel %>"><%= channel %></span>
+            <span class="sqw-card-list__count"><%= count %></span>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>
 <% end %>
