@@ -1,0 +1,10 @@
+module SolidStackWeb
+  class CacheStats
+    def to_h
+      {
+        entries:   ::SolidCache::Entry.count,
+        byte_size: ::SolidCache::Entry.sum(:byte_size)
+      }
+    end
+  end
+end
