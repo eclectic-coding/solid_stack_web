@@ -144,7 +144,11 @@ RSpec.describe "FailedJobs", type: :request do
 
     it "falls back to raw arguments string when JSON generation fails" do
       execution = create_failed
-      allow(JSON).to receive(:pretty_generate).and_raise(JSON::GeneratorError, "NaN")
+      job_args  = execution.job.arguments
+      allow(JSON).to receive(:pretty_generate).and_wrap_original do |m, obj, *rest|
+        raise JSON::GeneratorError, "NaN" if obj == job_args
+        m.call(obj, *rest)
+      end
 
       get "#{engine_root}/failed_jobs/#{execution.id}"
 

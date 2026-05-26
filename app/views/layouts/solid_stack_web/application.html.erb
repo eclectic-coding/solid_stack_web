@@ -24,6 +24,17 @@
     </div>
   </header>
 
+  <% if current_section == :cache %>
+    <nav class="sqw-subnav">
+      <div class="sqw-subnav__inner">
+        <%= link_to "Overview", cache_path,
+              class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "cache"}" %>
+        <%= link_to "Entries", cache_entries_path,
+              class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "cache_entries"}" %>
+      </div>
+    </nav>
+  <% end %>
+
   <% if current_section == :queue %>
     <nav class="sqw-subnav">
       <div class="sqw-subnav__inner">
