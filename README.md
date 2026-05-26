@@ -114,7 +114,10 @@ Filters are preserved when switching between status tabs (Ready / Scheduled / Ru
 
 ## Solid Cable
 
-`GET /cable` lists all active channels with per-channel message count and last-message timestamp, ordered by most recent activity. Clicking a channel opens `GET /cable/channels/:channel_hash` — a paginated, reverse-chronological list of that channel's messages with payload preview and relative timestamps.
+### Features
+
+- **Channel browser** — `GET /cable` lists all active channels with per-channel message count and last-message timestamp, ordered by most recent activity; empty state shown when no messages exist
+- **Per-channel message list** — `GET /cable/channels/:channel_hash` shows a paginated, reverse-chronological list of that channel's `SolidCable::Message` records; each row shows the message ID, a truncated payload preview (120 chars) with the full payload on hover, and a relative sent time with the exact timestamp on hover
 
 ---
 
