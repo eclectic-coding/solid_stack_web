@@ -50,6 +50,53 @@ RSpec.describe "Queues", type: :request do
     end
   end
 
+  describe "GET /queues/:id" do
+    it "returns 200 and lists ready jobs for the queue" do
+      create_ready(queue_name: "urgent")
+      get "#{engine_root}/queues/urgent"
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("urgent")
+      expect(response.body).to include("MyJob")
+    end
+
+    it "shows the running badge when the queue is not paused" do
+      create_ready(queue_name: "urgent")
+      get "#{engine_root}/queues/urgent"
+      expect(response.body).to include("Running")
+    end
+
+    it "shows the paused badge when the queue is paused" do
+      create_ready(queue_name: "urgent")
+      SolidQueue::Pause.create!(queue_name: "urgent")
+      get "#{engine_root}/queues/urgent"
+      expect(response.body).to include("Paused")
+    end
+
+    it "shows an empty state when the queue has no ready jobs" do
+      get "#{engine_root}/queues/ghost"
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("No ready jobs")
+    end
+
+    it "does not show jobs from other queues" do
+      create_ready(queue_name: "alpha")
+      create_ready(queue_name: "beta")
+      get "#{engine_root}/queues/alpha"
+      expect(response.body).not_to include("beta")
+    end
+
+    it "includes a breadcrumb link back to queues" do
+      get "#{engine_root}/queues/urgent"
+      expect(response.body).to include("#{engine_root}/queues")
+    end
+
+    it "includes a discard all button when jobs exist" do
+      create_ready(queue_name: "urgent")
+      get "#{engine_root}/queues/urgent"
+      expect(response.body).to include("Discard All Ready")
+    end
+  end
+
   describe "DELETE /queues/:id/resume" do
     it "resumes a paused queue and redirects" do
       SolidQueue::Pause.create!(queue_name: "default")

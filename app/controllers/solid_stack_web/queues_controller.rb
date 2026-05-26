@@ -13,6 +13,17 @@ module SolidStackWeb
       end
     end
 
+    def show
+      @queue_name = params[:id]
+      @paused     = ::SolidQueue::Pause.exists?(queue_name: @queue_name)
+      @pagy, @executions = pagy(
+        ::SolidQueue::ReadyExecution
+          .where(queue_name: @queue_name)
+          .includes(:job)
+          .order(created_at: :desc)
+      )
+    end
+
     def pause
       ::SolidQueue::Pause.find_or_create_by!(queue_name: params[:id])
       redirect_to queues_path
