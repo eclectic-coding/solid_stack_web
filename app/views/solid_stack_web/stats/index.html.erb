@@ -1,0 +1,48 @@
+<div class="sqw-page-header">
+  <h1 class="sqw-page-title">Performance Stats</h1>
+</div>
+
+<% if @stats.any? %>
+  <table class="sqw-table">
+    <thead>
+      <tr>
+        <% [
+          ["class_name", "Job Class"],
+          ["count",      "Executions"],
+          ["avg",        "Avg"],
+          ["p50",        "p50"],
+          ["p95",        "p95"],
+          ["min",        "Min"],
+          ["max",        "Max"]
+        ].each do |col, label| %>
+          <th>
+            <% next_dir = (@sort == col && @direction == "desc") ? "asc" : "desc" %>
+            <%= link_to stats_path(sort: col, direction: next_dir) do %>
+              <%= label %>
+              <% if @sort == col %>
+                <span class="sqw-sort-indicator"><%= @direction == "desc" ? "↓" : "↑" %></span>
+              <% end %>
+            <% end %>
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @stats.each do |row| %>
+        <tr>
+          <td class="sqw-monospace"><%= row[:class_name] %></td>
+          <td><%= row[:count] %></td>
+          <td class="sqw-muted"><%= format_duration(row[:avg]) %></td>
+          <td class="sqw-muted"><%= format_duration(row[:p50]) %></td>
+          <td><strong><%= format_duration(row[:p95]) %></strong></td>
+          <td class="sqw-muted"><%= format_duration(row[:min]) %></td>
+          <td class="sqw-muted"><%= format_duration(row[:max]) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="sqw-empty">
+    <p>No finished jobs yet.</p>
+  </div>
+<% end %>
