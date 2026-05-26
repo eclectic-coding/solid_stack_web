@@ -37,6 +37,8 @@ SolidStackWeb::Engine.routes.draw do
   get "cache", to: "cache#index", as: :cache
   resources :cache_entries, only: [:index, :show, :destroy], path: "cache/entries"
   resource  :cache_flush,   only: [:destroy],         path: "cache/flush",    controller: "cache/flushes"
-  get "cable", to: "cable#index", as: :cable
-  get "cable/channels/:channel_hash", to: "cable_messages#index", as: :cable_channel_messages
+  get    "cable",                                  to: "cable#index",                          as: :cable
+  delete "cable/purge",                            to: "cable/purges#destroy",                 as: :cable_purge
+  get    "cable/channels/:channel_hash",           to: "cable_messages#index",                 as: :cable_channel_messages
+  delete "cable/channels/:channel_hash/purge",     to: "cable/channel_purges#destroy",         as: :cable_channel_purge
 end

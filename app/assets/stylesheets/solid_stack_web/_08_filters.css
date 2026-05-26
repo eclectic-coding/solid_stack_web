@@ -30,6 +30,12 @@
   cursor: pointer;
 }
 
+.sqw-inline-form {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .sqw-period-filter {
   display: flex;
   border: 1px solid var(--border);
