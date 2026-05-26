@@ -14,9 +14,8 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 - **Throughput sparkline** — 12-hour rolling bar chart of completed jobs on the dashboard
 - **Queue depth sparklines** — per-queue 12-hour depth chart on the Queues index
 - **Dashboard & table auto-refresh** — configurable polling intervals (`dashboard_refresh_interval`, `default_refresh_interval`) via Stimulus
-- **Metrics JSON endpoint** — `GET /metrics` returns a structured payload (counts by status, throughput, process count) for external monitoring or uptime tools
 - **Alert webhooks** — HTTP POST to a configurable URL when the failed-job count exceeds a threshold or a queue depth exceeds a per-queue limit; cooldown prevents alert storms
-- **Configuration additions**: `slow_job_threshold`, `alert_webhook_url`, `alert_webhook_cooldown`, `alert_failure_threshold`, `alert_queue_thresholds`, `dashboard_refresh_interval`, `default_refresh_interval`, `search_results_limit`
+- **Configuration additions**: `alert_webhook_url`, `alert_webhook_cooldown`, `alert_failure_threshold`, `alert_queue_thresholds`, `dashboard_refresh_interval`, `default_refresh_interval`, `search_results_limit`
 
 ---
 

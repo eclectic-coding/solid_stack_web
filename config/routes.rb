@@ -31,6 +31,7 @@ SolidStackWeb::Engine.routes.draw do
 
   resources :processes, only: [:index]
 
+  get "metrics", to: "metrics#index", as: :metrics
   get "stats",   to: "stats#index",   as: :stats
   get "history", to: "history#index", as: :history
   get "cache", to: "cache#index", as: :cache
