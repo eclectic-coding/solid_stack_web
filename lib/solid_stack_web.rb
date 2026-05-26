@@ -3,7 +3,7 @@ require "solid_stack_web/engine"
 
 module SolidStackWeb
   class << self
-    attr_writer :page_size, :connects_to
+    attr_writer :page_size, :connects_to, :slow_job_threshold
 
     def page_size
       @page_size || 25
@@ -11,6 +11,10 @@ module SolidStackWeb
 
     def connects_to
       @connects_to
+    end
+
+    def slow_job_threshold
+      @slow_job_threshold
     end
 
     def configure
