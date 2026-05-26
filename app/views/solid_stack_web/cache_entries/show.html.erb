@@ -1,0 +1,42 @@
+<div class="sqw-page-header sqw-page-header--split">
+  <h1 class="sqw-page-title sqw-truncate" title="<%= @entry.key %>"><%= @entry.key %></h1>
+  <div class="sqw-header-actions">
+    <%= button_to "Delete",
+          cache_entry_path(@entry),
+          method: :delete,
+          class: "sqw-btn sqw-btn--danger sqw-btn--sm",
+          data: { turbo_confirm: "Delete this cache entry?" } %>
+    <%= link_to "← Entries", cache_entries_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+  </div>
+</div>
+
+<dl class="sqw-detail">
+  <div class="sqw-detail__row">
+    <dt>Key</dt>
+    <dd class="sqw-monospace"><%= @entry.key %></dd>
+  </div>
+  <div class="sqw-detail__row">
+    <dt>Size</dt>
+    <dd><%= number_to_human_size(@entry.byte_size) %></dd>
+  </div>
+  <div class="sqw-detail__row">
+    <dt>Created</dt>
+    <dd class="sqw-muted"><%= @entry.created_at.strftime("%b %d, %Y %H:%M:%S %Z") %></dd>
+  </div>
+</dl>
+
+<section class="sqw-value-preview">
+  <h2 class="sqw-section-title">Value</h2>
+  <% if SolidStackWeb.allow_value_preview %>
+    <% raw_value = @entry.value.to_s.encode("UTF-8", invalid: :replace, undef: :replace, replace: "?") %>
+    <% truncated = raw_value.length > 4096 %>
+    <pre class="sqw-value-pre"><%= truncated ? raw_value[0, 4096] : raw_value %></pre>
+    <% if truncated %>
+      <p class="sqw-muted sqw-value-truncated">Showing first 4 KB of <%= number_to_human_size(@entry.byte_size) %> total.</p>
+    <% end %>
+  <% else %>
+    <div class="sqw-empty">
+      <p>Value preview is disabled. Set <code>config.allow_value_preview = true</code> in your initializer to enable.</p>
+    </div>
+  <% end %>
+</section>

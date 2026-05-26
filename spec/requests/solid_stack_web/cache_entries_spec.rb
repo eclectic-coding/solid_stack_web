@@ -51,6 +51,31 @@ RSpec.describe "CacheEntries", type: :request do
     end
   end
 
+  describe "GET /cache/entries/:id" do
+    it "returns 200 and shows key metadata" do
+      entry = create_entry(key: "detail:key", value: "hello")
+      get "#{engine_root}/cache/entries/#{entry.id}"
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("detail:key")
+      expect(response.body).to include("Bytes") # number_to_human_size
+    end
+
+    it "hides value when allow_value_preview is false" do
+      entry = create_entry(key: "secret:key", value: "sensitive")
+      allow(SolidStackWeb).to receive(:allow_value_preview).and_return(false)
+      get "#{engine_root}/cache/entries/#{entry.id}"
+      expect(response.body).to include("allow_value_preview")
+      expect(response.body).not_to include("sensitive")
+    end
+
+    it "shows value when allow_value_preview is true" do
+      entry = create_entry(key: "visible:key", value: "my_cached_value")
+      allow(SolidStackWeb).to receive(:allow_value_preview).and_return(true)
+      get "#{engine_root}/cache/entries/#{entry.id}"
+      expect(response.body).to include("my_cached_value")
+    end
+  end
+
   describe "DELETE /cache/entries/:id" do
     it "deletes the entry and redirects" do
       entry = create_entry

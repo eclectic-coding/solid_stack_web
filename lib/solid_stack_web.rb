@@ -7,7 +7,7 @@ module SolidStackWeb
                 :alert_webhook_url, :alert_webhook_cooldown,
                 :alert_failure_threshold, :alert_queue_thresholds,
                 :dashboard_refresh_interval, :default_refresh_interval,
-                :search_results_limit
+                :search_results_limit, :allow_value_preview
 
     def page_size
       @page_size || 25
@@ -47,6 +47,10 @@ module SolidStackWeb
 
     def search_results_limit
       @search_results_limit || 25
+    end
+
+    def allow_value_preview
+      @allow_value_preview || false
     end
 
     def configure
