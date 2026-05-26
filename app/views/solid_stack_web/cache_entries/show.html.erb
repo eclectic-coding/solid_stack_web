@@ -26,11 +26,17 @@
 </dl>
 
 <section class="sqw-value-preview">
-  <h2 class="sqw-section-title">Value</h2>
+  <div class="sqw-value-preview__header">
+    <h2 class="sqw-section-title">Value</h2>
+    <% if SolidStackWeb.allow_value_preview %>
+      <% formatted = format_cache_value(@entry.value) %>
+      <span class="sqw-badge sqw-badge--queue"><%= formatted[:label] %></span>
+    <% end %>
+  </div>
   <% if SolidStackWeb.allow_value_preview %>
-    <% raw_value = @entry.value.to_s.encode("UTF-8", invalid: :replace, undef: :replace, replace: "?") %>
-    <% truncated = raw_value.length > 4096 %>
-    <pre class="sqw-value-pre"><%= truncated ? raw_value[0, 4096] : raw_value %></pre>
+    <% content = formatted[:content] %>
+    <% truncated = content.length > 4096 %>
+    <pre class="sqw-value-pre"><%= truncated ? content[0, 4096] : content %></pre>
     <% if truncated %>
       <p class="sqw-muted sqw-value-truncated">Showing first 4 KB of <%= number_to_human_size(@entry.byte_size) %> total.</p>
     <% end %>
