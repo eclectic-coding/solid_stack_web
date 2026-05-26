@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Dashboard stats — Solid Queue overview card gains "Done (1h)" and "Done (24h)" counts (linked to History with period pre-applied), "Healthy" and "Stale" process counts replacing the single Processes stat, and an optional "Slow (24h)" count (shown only when `SolidStackWeb.slow_job_threshold` is configured, linked to the Stats page); `slow_job_threshold` added to engine configuration
 - Performance statistics page — `GET /stats` aggregates all finished jobs by class name and shows execution count, average duration, p50, p95, min, and max; each column header is a sort link; defaults to p95 descending so the slowest outliers appear first; duration formatting handles ms, seconds (with one decimal place), minutes, and hours; "Stats" link added to the queue subnav
 
 ## [0.3.0] - 2026-05-25

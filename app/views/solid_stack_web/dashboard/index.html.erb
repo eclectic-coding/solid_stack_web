@@ -29,10 +29,30 @@
         <span class="sqw-inline-stat__label">Failed</span>
         <span class="sqw-inline-stat__value"><%= @queue_stats[:failed] %></span>
       </a>
-      <a href="<%= processes_path %>" class="sqw-inline-stat sqw-inline-stat--neutral">
-        <span class="sqw-inline-stat__label">Processes</span>
-        <span class="sqw-inline-stat__value"><%= @queue_stats[:processes] %></span>
+      <a href="<%= history_path(period: "1h") %>" class="sqw-inline-stat sqw-inline-stat--neutral">
+        <span class="sqw-inline-stat__label">Done (1h)</span>
+        <span class="sqw-inline-stat__value"><%= @queue_stats[:done_1h] %></span>
       </a>
+      <a href="<%= history_path(period: "24h") %>" class="sqw-inline-stat sqw-inline-stat--neutral">
+        <span class="sqw-inline-stat__label">Done (24h)</span>
+        <span class="sqw-inline-stat__value"><%= @queue_stats[:done_24h] %></span>
+      </a>
+      <% if @queue_stats.key?(:slow_jobs) %>
+        <a href="<%= stats_path %>" class="sqw-inline-stat sqw-inline-stat--<%= @queue_stats[:slow_jobs] > 0 ? "failed" : "neutral" %>">
+          <span class="sqw-inline-stat__label">Slow (24h)</span>
+          <span class="sqw-inline-stat__value"><%= @queue_stats[:slow_jobs] %></span>
+        </a>
+      <% end %>
+      <a href="<%= processes_path %>" class="sqw-inline-stat sqw-inline-stat--neutral">
+        <span class="sqw-inline-stat__label">Healthy</span>
+        <span class="sqw-inline-stat__value"><%= @queue_stats[:processes_healthy] %></span>
+      </a>
+      <% if @queue_stats[:processes_stale] > 0 %>
+        <a href="<%= processes_path %>" class="sqw-inline-stat sqw-inline-stat--failed">
+          <span class="sqw-inline-stat__label">Stale</span>
+          <span class="sqw-inline-stat__value"><%= @queue_stats[:processes_stale] %></span>
+        </a>
+      <% end %>
     </div>
   </div>
 
