@@ -4,6 +4,7 @@ module SolidStackWeb
       @search         = params[:q].presence
       @total_messages = ::SolidCable::Message.count
       @channels       = channel_rows
+      @timeline       = CableTimeline.new
     end
 
     private

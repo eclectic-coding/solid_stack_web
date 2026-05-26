@@ -117,6 +117,7 @@ Filters are preserved when switching between status tabs (Ready / Scheduled / Ru
 ### Features
 
 - **Dashboard card** — the overview dashboard shows total messages, channels, messages per hour (last 60 minutes), oldest pending message age, and a top-3 channel breakdown by volume
+- **24-hour timeline** — bar chart of message volume on the Cable overview page; each bar represents one hour with a hover tooltip showing the exact count
 - **Channel browser** — `GET /cable` lists all active channels with per-channel message count and last-message timestamp, ordered by most recent activity; supports `?q=` filtering by channel name substring; empty state shown when no messages exist
 - **Per-channel message list** — `GET /cable/channels/:channel_hash` shows a paginated, reverse-chronological list of that channel's `SolidCable::Message` records; each row shows the message ID, a truncated payload preview (120 chars) with the full payload on hover, and a relative sent time with the exact timestamp on hover; supports `?q=` filtering by payload substring; **Purge Channel** button deletes all messages for the channel
 - **Message purge** — "Purge Old" form on the channel browser deletes all messages older than 1, 7, or 30 days; confirmation prompt before any destructive action

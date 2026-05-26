@@ -42,6 +42,18 @@ module SolidStackWeb
       end
     end
 
+    def cable_messages_timeline_svg(timeline)
+      build_sparkline_svg(
+        Struct.new(:buckets, :max).new(timeline.message_buckets, timeline.message_max),
+        css_class: "sqw-sparkline sqw-sparkline--lg",
+        aria_label: "Cable messages over the last 24 hours"
+      ) do |count, i|
+        hours_ago = CableTimeline::HOURS - 1 - i
+        label = count == 1 ? "message" : "messages"
+        hours_ago.zero? ? "#{count} #{label} this hour" : "#{count} #{label} #{hours_ago}h ago"
+      end
+    end
+
     def throughput_sparkline_svg(sparkline)
       build_sparkline_svg(sparkline, aria_label: "Throughput over the last 12 hours") do |count, i|
         hours_ago = SolidStackWeb::ThroughputSparkline::HOURS - i
