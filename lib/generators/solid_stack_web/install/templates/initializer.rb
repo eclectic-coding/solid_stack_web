@@ -31,6 +31,13 @@ SolidStackWeb.configure do |config|
   # Disable for stores that contain sensitive data.
   # config.allow_value_preview = false
 
+  # Link to the dashboard from anywhere in your app without hardcoding the path:
+  #
+  #   link_to "Queue Dashboard", SolidStackWeb.mount_path
+  #
+  # SolidStackWeb.mount_path is derived automatically from your routes — no
+  # configuration needed.
+
   # Alert webhook — POST to this URL when a threshold is breached.
   # Delivery failures are silently swallowed; configure a cooldown to avoid storms.
   #

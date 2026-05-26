@@ -53,6 +53,19 @@ module SolidStackWeb
       @allow_value_preview || false
     end
 
+    # Returns the path at which the engine is mounted in the host application,
+    # derived automatically from the host's routes. Host apps can use this to
+    # build links to the dashboard without hardcoding the mount path.
+    #
+    #   link_to "Dashboard", SolidStackWeb.mount_path
+    #
+    def mount_path
+      route = Rails.application.routes.routes.find do |r|
+        r.app.respond_to?(:app) && r.app.app == SolidStackWeb::Engine
+      end
+      route&.path&.spec&.to_s&.sub(%r{\(.*\)\z}, "") || "/"
+    end
+
     def configure
       yield self
     end
