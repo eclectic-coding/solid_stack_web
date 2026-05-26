@@ -5,6 +5,15 @@
   </div>
 </div>
 
+<form class="sqw-filters" action="<%= cable_channel_messages_path(params[:channel_hash]) %>" method="get" data-controller="search">
+  <input class="sqw-search-input" type="search" name="q" value="<%= @search %>"
+         placeholder="Filter by payload…" autocomplete="off" aria-label="Filter by payload"
+         data-action="input->search#filter">
+  <% if @search.present? %>
+    <%= link_to "Clear", cable_channel_messages_path(params[:channel_hash]), class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+  <% end %>
+</form>
+
 <% if @messages.any? %>
   <table class="sqw-table">
     <thead>
@@ -31,6 +40,6 @@
   <%== @pagy.series_nav if @pagy.pages > 1 %>
 <% else %>
   <div class="sqw-empty">
-    <p>No messages for this channel.</p>
+    <p><%= @search.present? ? "No messages matching &ldquo;#{@search}&rdquo;.".html_safe : "No messages for this channel." %></p>
   </div>
 <% end %>

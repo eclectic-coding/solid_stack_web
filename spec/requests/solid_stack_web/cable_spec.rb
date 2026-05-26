@@ -73,5 +73,31 @@ RSpec.describe "Cable", type: :request do
       get "#{engine_root}/cable"
       expect(response.body).to include("No cable messages")
     end
+
+    it "filters channels by name substring" do
+      SolidCable::Message.broadcast("sports:scores", "goal")
+      SolidCable::Message.broadcast("chat:general", "hello")
+
+      get "#{engine_root}/cable", params: { q: "sports" }
+
+      expect(response.body).to include("sports:scores")
+      expect(response.body).not_to include("chat:general")
+    end
+
+    it "shows contextual empty state when search yields no results" do
+      SolidCable::Message.broadcast("chat", "hi")
+
+      get "#{engine_root}/cable", params: { q: "nope" }
+
+      expect(response.body).to include("No channels matching")
+    end
+
+    it "shows a clear link when a search is active" do
+      SolidCable::Message.broadcast("chat", "hi")
+
+      get "#{engine_root}/cable", params: { q: "chat" }
+
+      expect(response.body).to include("Clear")
+    end
   end
 end

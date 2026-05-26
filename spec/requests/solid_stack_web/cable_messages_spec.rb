@@ -85,5 +85,34 @@ RSpec.describe "CableMessages", type: :request do
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("No messages for this channel")
     end
+
+    it "filters messages by payload substring" do
+      broadcast("events", "user_signed_in")
+      broadcast("events", "order_placed")
+      hash = channel_hash_for("events")
+
+      get "#{engine_root}/cable/channels/#{hash}", params: { q: "signed" }
+
+      expect(response.body).to include("user_signed_in")
+      expect(response.body).not_to include("order_placed")
+    end
+
+    it "shows contextual empty state when payload search yields no results" do
+      broadcast("events", "something")
+      hash = channel_hash_for("events")
+
+      get "#{engine_root}/cable/channels/#{hash}", params: { q: "nope" }
+
+      expect(response.body).to include("No messages matching")
+    end
+
+    it "shows a clear link when a payload search is active" do
+      broadcast("events", "ping")
+      hash = channel_hash_for("events")
+
+      get "#{engine_root}/cable/channels/#{hash}", params: { q: "ping" }
+
+      expect(response.body).to include("Clear")
+    end
   end
 end

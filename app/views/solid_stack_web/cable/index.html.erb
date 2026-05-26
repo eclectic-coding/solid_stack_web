@@ -13,6 +13,15 @@
   </div>
 </div>
 
+<form class="sqw-filters" action="<%= cable_path %>" method="get" data-controller="search">
+  <input class="sqw-search-input" type="search" name="q" value="<%= @search %>"
+         placeholder="Filter by channel…" autocomplete="off" aria-label="Filter by channel"
+         data-action="input->search#filter">
+  <% if @search.present? %>
+    <%= link_to "Clear", cable_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+  <% end %>
+</form>
+
 <% if @channels.any? %>
   <table class="sqw-table">
     <thead>
@@ -36,6 +45,6 @@
   </table>
 <% else %>
   <div class="sqw-empty">
-    <p>No cable messages.</p>
+    <p><%= @search.present? ? "No channels matching &ldquo;#{@search}&rdquo;.".html_safe : "No cable messages." %></p>
   </div>
 <% end %>
