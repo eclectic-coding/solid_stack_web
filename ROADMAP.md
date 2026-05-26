@@ -36,8 +36,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 > _Make the interface feel fast and operational, not just functional._
 
 ### Added
-- **Stimulus: debounced search** — live filter results update as you type without a full page reload
-- **Stimulus: auto-refresh** — Turbo Frame polling for dashboard stats and job tables at configurable intervals
 - **Dark mode** — Stimulus theme controller toggles a `data-theme` attribute; CSS custom properties drive both light and dark palettes; preference persisted in `localStorage`
 - **Empty-state improvements** — contextual empty states per section with actionable next steps
 - **Inline notifications** — flash-style Turbo Stream feedback on bulk actions
