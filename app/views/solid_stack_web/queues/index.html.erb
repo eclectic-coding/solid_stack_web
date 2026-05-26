@@ -15,8 +15,8 @@
     <tbody>
       <% @queues.each do |queue| %>
         <tr>
-          <td class="sqw-monospace"><%= queue[:name] %></td>
-          <td><%= queue[:size] %></td>
+          <td class="sqw-monospace"><%= link_to queue[:name], queue_path(queue[:name]) %></td>
+          <td><%= link_to queue[:size], queue_path(queue[:name]) %></td>
           <td>
             <% if queue[:paused] %>
               <span class="sqw-badge sqw-badge--paused">Paused</span>
@@ -26,10 +26,10 @@
           </td>
           <td class="sqw-actions">
             <% if queue[:paused] %>
-              <%= button_to "Resume", resume_queue_path(queue[:name]),
+              <%= button_to "Resume", queue_pause_path(queue[:name]),
                     method: :delete, class: "sqw-btn sqw-btn--sm" %>
             <% else %>
-              <%= button_to "Pause", pause_queue_path(queue[:name]),
+              <%= button_to "Pause", queue_pause_path(queue[:name]),
                     method: :post, class: "sqw-btn sqw-btn--sm" %>
             <% end %>
           </td>

@@ -1,0 +1,67 @@
+<div class="sqw-page-header sqw-page-header--split">
+  <div>
+    <div class="sqw-breadcrumb">
+      <%= link_to "Queues", queues_path %> &rsaquo; <%= @queue_name %>
+    </div>
+    <div class="sqw-page-title-row">
+      <h1 class="sqw-page-title sqw-monospace"><%= @queue_name %></h1>
+      <% if @paused %>
+        <span class="sqw-badge sqw-badge--paused">Paused</span>
+      <% else %>
+        <span class="sqw-badge sqw-badge--ready">Running</span>
+      <% end %>
+    </div>
+  </div>
+  <div class="sqw-header-actions">
+    <% if @paused %>
+      <%= button_to "Resume", queue_pause_path(@queue_name),
+            method: :delete, class: "sqw-btn sqw-btn--sm" %>
+    <% else %>
+      <%= button_to "Pause", queue_pause_path(@queue_name),
+            method: :post, class: "sqw-btn sqw-btn--sm" %>
+    <% end %>
+    <% if @executions.any? %>
+      <%= button_to "Discard All Ready (#{@pagy.count})",
+            discard_all_jobs_path(status: "ready", queue: @queue_name),
+            method: :post,
+            class: "sqw-btn sqw-btn--danger sqw-btn--sm",
+            data: { turbo_confirm: "Discard all #{@pagy.count} ready jobs in #{@queue_name}? This cannot be undone.",
+                    turbo_frame: "_top" } %>
+    <% end %>
+  </div>
+</div>
+
+<% if @executions.any? %>
+  <table class="sqw-table">
+    <thead>
+      <tr>
+        <th>Job Class</th>
+        <th>Priority</th>
+        <th>Enqueued At</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @executions.each do |execution| %>
+        <tr>
+          <td class="sqw-monospace">
+            <%= link_to execution.job.class_name, job_path(execution.id, status: "ready"),
+                  data: { turbo_frame: "_top" } %>
+          </td>
+          <td><%= execution.job.priority %></td>
+          <td class="sqw-muted"><%= execution.created_at.strftime("%b %d %H:%M") %></td>
+          <td class="sqw-actions">
+            <%= button_to "Discard", job_path(execution, status: "ready", queue: @queue_name),
+                  method: :delete, class: "sqw-btn sqw-btn--danger sqw-btn--sm",
+                  data: { turbo_confirm: "Discard this job?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+<% else %>
+  <div class="sqw-empty">
+    <p>No ready jobs in <strong><%= @queue_name %></strong>.</p>
+  </div>
+<% end %>

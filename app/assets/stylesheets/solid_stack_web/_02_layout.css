@@ -72,6 +72,7 @@
 
 .sqw-page-header { margin-bottom: 1.25rem; }
 .sqw-page-title  { font-size: 20px; font-weight: 600; }
+.sqw-page-title-row { display: flex; align-items: center; gap: 0.5rem; }
 
 @keyframes sqw-flash-dismiss {
   0%, 86%  { opacity: 1; max-height: 200px; margin-bottom: 1rem; }

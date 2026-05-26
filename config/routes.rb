@@ -25,11 +25,8 @@ SolidStackWeb::Engine.routes.draw do
     resource :arguments, only: [:update], controller: "failed_jobs/arguments"
   end
 
-  resources :queues, only: [:index] do
-    member do
-      post   :pause
-      delete :resume
-    end
+  resources :queues, only: [:index, :show] do
+    resource :pause, only: [:create, :destroy], controller: "queues/pauses"
   end
 
   resources :processes, only: [:index]
