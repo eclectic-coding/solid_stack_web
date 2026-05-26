@@ -70,7 +70,13 @@
   </div>
 <% else %>
   <div class="sqw-empty">
-    <p>No finished jobs found.</p>
+    <% if @search.present? || @queue.present? || @period.present? %>
+      <p class="sqw-empty__title">No finished jobs match your filters</p>
+      <p class="sqw-empty__hint"><%= link_to "Clear filters", history_path %></p>
+    <% else %>
+      <p class="sqw-empty__title">No finished jobs yet</p>
+      <p class="sqw-empty__hint">Completed jobs will appear here once workers process them.</p>
+    <% end %>
   </div>
 <% end %>
 <% end %>

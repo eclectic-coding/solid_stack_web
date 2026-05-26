@@ -44,6 +44,7 @@
   </table>
 <% else %>
   <div class="sqw-empty">
-    <p>No queues with ready jobs.</p>
+    <p class="sqw-empty__title">No queues with ready jobs</p>
+    <p class="sqw-empty__hint">Workers are idle or all jobs are in another state. <%= link_to "Check job statuses →", jobs_path %></p>
   </div>
 <% end %>
