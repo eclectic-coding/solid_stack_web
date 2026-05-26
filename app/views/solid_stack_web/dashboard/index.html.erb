@@ -76,14 +76,20 @@
       <%= link_to "View Cache →", cache_path, class: "sqw-gem-card__link" %>
     </div>
     <div class="sqw-gem-card__body">
-      <div class="sqw-inline-stat sqw-inline-stat--cache">
+      <%= link_to cache_entries_path, class: "sqw-inline-stat sqw-inline-stat--cache" do %>
         <span class="sqw-inline-stat__label">Entries</span>
         <span class="sqw-inline-stat__value"><%= @cache_stats[:entries] %></span>
-      </div>
+      <% end %>
       <div class="sqw-inline-stat sqw-inline-stat--cache">
         <span class="sqw-inline-stat__label">Size</span>
         <span class="sqw-inline-stat__value"><%= number_to_human_size(@cache_stats[:byte_size]) %></span>
       </div>
+      <% if @cache_stats[:oldest_entry] %>
+        <div class="sqw-inline-stat sqw-inline-stat--cache">
+          <span class="sqw-inline-stat__label">Oldest</span>
+          <span class="sqw-inline-stat__value sqw-inline-stat__value--sm" title="<%= @cache_stats[:oldest_entry].strftime("%b %d, %Y %H:%M") %>"><%= time_ago_in_words(@cache_stats[:oldest_entry]) %></span>
+        </div>
+      <% end %>
     </div>
   </div>
 

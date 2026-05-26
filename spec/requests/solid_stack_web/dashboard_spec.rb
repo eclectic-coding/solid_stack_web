@@ -86,5 +86,17 @@ RSpec.describe "Dashboard", type: :request do
     ensure
       SolidStackWeb.slow_job_threshold = nil
     end
+
+    it "shows oldest cache entry age when entries exist" do
+      SolidCache::Entry.write("dashboard:key", "v")
+      get engine_root
+      expect(response.body).to include("Oldest")
+    end
+
+    it "omits oldest cache entry stat when no entries exist" do
+      SolidCache::Entry.delete_all
+      get engine_root
+      expect(response.body).not_to include("Oldest")
+    end
   end
 end

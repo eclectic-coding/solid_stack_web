@@ -3,10 +3,10 @@
 </div>
 
 <div class="sqw-stats-grid">
-  <div class="sqw-stat sqw-stat--cache">
+  <%= link_to cache_entries_path, class: "sqw-stat sqw-stat--cache" do %>
     <span class="sqw-stat__label">Total Entries</span>
     <span class="sqw-stat__value"><%= @total_entries %></span>
-  </div>
+  <% end %>
   <div class="sqw-stat sqw-stat--cache">
     <span class="sqw-stat__label">Total Size</span>
     <span class="sqw-stat__value"><%= number_to_human_size(@total_byte_size) %></span>

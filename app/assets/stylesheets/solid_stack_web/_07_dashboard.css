@@ -69,6 +69,7 @@ a.sqw-inline-stat:hover { opacity: 0.7; text-decoration: none; }
 }
 
 .sqw-inline-stat__value { font-size: 28px; font-weight: 700; line-height: 1; }
+.sqw-inline-stat__value--sm { font-size: 16px; }
 
 .sqw-inline-stat--ready     .sqw-inline-stat__value { color: var(--success); }
 .sqw-inline-stat--scheduled .sqw-inline-stat__value { color: var(--info); }
