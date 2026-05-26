@@ -54,6 +54,11 @@ SolidStackWeb.configure do |config|
   # Number of items per paginated page (default: 25)
   config.page_size = 50
 
+  # Slow job threshold in seconds (default: nil — stat hidden).
+  # When set, the dashboard shows a "Slow (24h)" count of finished jobs
+  # whose wall time exceeded this value. Links to the Stats page.
+  config.slow_job_threshold = 30
+
   # Authentication — block runs in controller context.
   # Return a truthy value to allow access; falsy falls back to HTTP Basic.
   config.authenticate do

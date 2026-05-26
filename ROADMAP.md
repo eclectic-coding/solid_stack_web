@@ -11,7 +11,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 > _Give operators the data they need to detect problems before users do._
 
 ### Added
-- **Slow job detection** — configurable threshold (`slow_job_threshold`); slow jobs surfaced on the dashboard and performance page
 - **Throughput sparkline** — 12-hour rolling bar chart of completed jobs on the dashboard
 - **Queue depth sparklines** — per-queue 12-hour depth chart on the Queues index
 - **Dashboard & table auto-refresh** — configurable polling intervals (`dashboard_refresh_interval`, `default_refresh_interval`) via Stimulus
