@@ -22,6 +22,33 @@ a.sqw-stat:hover { box-shadow: 0 3px 8px rgba(0,0,0,.12); text-decoration: none;
 .sqw-stat__label { font-size: 12px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
 .sqw-stat__value { font-size: 28px; font-weight: 700; line-height: 1; }
 
+.sqw-size-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.sqw-size-section { }
+
+.sqw-dist-bar-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 160px;
+}
+
+.sqw-dist-bar {
+  height: 8px;
+  background: var(--purple);
+  border-radius: 4px;
+  min-width: 2px;
+  opacity: 0.7;
+  transition: width 0.3s ease;
+}
+
+.sqw-dist-pct { font-size: 12px; white-space: nowrap; }
+
 .sqw-stat--ready    .sqw-stat__value { color: var(--success); }
 .sqw-stat--scheduled .sqw-stat__value { color: var(--info); }
 .sqw-stat--claimed  .sqw-stat__value { color: var(--primary); }

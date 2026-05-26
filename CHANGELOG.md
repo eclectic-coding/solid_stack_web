@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Cache size distribution stats — Solid Cache overview page gains a **Size Distribution** table (5 byte-range buckets with proportional inline bars) and a **Largest Entries** table (top 10 by byte size, each linked to its detail page); both sections are hidden when the cache is empty
 - Cache stats dashboard card — adds **Oldest** entry age (via `time_ago_in_words` with exact timestamp on hover) to the Solid Cache overview card; stat is hidden when the cache is empty; **Entries** count is now a link to the entry browser; `oldest_entry` added to the `/metrics` JSON payload as ISO 8601 (or `null`)
 - Cache entry detail page — `GET /cache/entries/:id` shows the full key, byte size, and created-at for a single entry; value body is gated behind `SolidStackWeb.allow_value_preview` (default `false`); when enabled, displays up to 4 KB with JSON pretty-printing and a format badge (JSON / Text); entry key in the browser table is now a link to the detail page; **Delete** button on the detail page redirects back to the entry list
 - Solid Cache entry browser — `GET /cache/entries` lists all `SolidCache::Entry` records in a paginated, sortable table (key, byte size, created-at); sortable by any column; key-substring search filters the list; per-row **Delete** removes a single entry; **Flush All** header button deletes every entry with a confirmation prompt; Cache subnav (Overview / Entries) added to the layout

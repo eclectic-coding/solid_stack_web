@@ -11,7 +11,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 > _Move beyond a single count; give operators visibility into what's in the cache._
 
 ### Added
-- **Size distribution stats** — top-N entries by byte size; histogram bucketed by size range
 - **Cache timeline** — 24-hour chart of entry count and total byte size growth
 
 ---
