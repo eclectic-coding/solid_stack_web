@@ -121,9 +121,9 @@
               <td class="sqw-monospace"><%= link_to execution.job.class_name, job_path(execution.id, status: @status), data: { turbo_frame: "_top" } %></td>
               <td><span class="sqw-badge sqw-badge--queue"><%= execution.job.queue_name %></span></td>
               <td><%= execution.job.priority %></td>
-              <td class="sqw-muted"><%= execution.created_at.strftime("%b %d %H:%M") %></td>
+              <td class="sqw-muted"><%= local_time(execution.created_at) %></td>
               <% if @status == "scheduled" %>
-                <td id="scheduled_at_<%= execution.id %>" class="sqw-muted"><%= execution.scheduled_at&.strftime("%b %d %H:%M") %></td>
+                <td id="scheduled_at_<%= execution.id %>" class="sqw-muted"><%= local_time(execution.scheduled_at) %></td>
               <% end %>
               <td class="sqw-actions">
                 <% if @status == "scheduled" %>

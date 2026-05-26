@@ -35,8 +35,8 @@
           <td class="sqw-monospace sqw-truncate" title="<%= message.payload %>">
             <%= truncate(message.payload.to_s, length: 120) %>
           </td>
-          <td class="sqw-muted" title="<%= message.created_at.strftime("%b %d, %Y %H:%M:%S %Z") %>">
-            <%= time_ago_in_words(message.created_at) %> ago
+          <td class="sqw-muted">
+            <%= local_time(message.created_at, format: :relative) %>
           </td>
         </tr>
       <% end %>

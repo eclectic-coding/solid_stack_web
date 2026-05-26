@@ -61,7 +61,7 @@
                     class: "sqw-badge sqw-badge--queue" %>
             </td>
             <td class="sqw-monospace"><%= format_duration(job.finished_at - job.created_at) %></td>
-            <td class="sqw-muted"><%= job.finished_at.strftime("%b %d %H:%M:%S") %></td>
+            <td class="sqw-muted"><%= local_time(job.finished_at) %></td>
           </tr>
         <% end %>
       </tbody>

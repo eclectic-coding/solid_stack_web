@@ -1,5 +1,18 @@
 module SolidStackWeb
   module ApplicationHelper
+    def local_time(time, format: :short, placeholder: "—")
+      return placeholder if time.nil?
+
+      iso = time.utc.iso8601
+      fallback = case format
+      when :long     then time.utc.strftime("%Y-%m-%d %H:%M:%S UTC")
+      when :relative then "#{time_ago_in_words(time)} ago"
+      else                time.utc.strftime("%b %-d %H:%M UTC")
+      end
+      tag.time(fallback, datetime: iso,
+               data: { controller: "timestamp", timestamp_format_value: format })
+    end
+
     def format_cache_value(raw)
       str = raw.to_s.encode("UTF-8", invalid: :replace, undef: :replace, replace: "?")
       parsed = JSON.parse(str)

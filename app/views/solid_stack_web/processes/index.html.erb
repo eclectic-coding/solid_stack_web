@@ -22,7 +22,7 @@
           <td class="sqw-monospace"><%= process.name %></td>
           <td class="sqw-monospace"><%= process.pid %></td>
           <td class="sqw-muted"><%= process.hostname %></td>
-          <td class="sqw-muted"><%= process.last_heartbeat_at&.strftime("%b %d %H:%M:%S") %></td>
+          <td class="sqw-muted"><%= local_time(process.last_heartbeat_at) %></td>
         </tr>
       <% end %>
     </tbody>
