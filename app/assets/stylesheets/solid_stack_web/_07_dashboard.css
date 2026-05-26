@@ -110,7 +110,7 @@ a.sqw-inline-stat:hover { opacity: 0.7; text-decoration: none; }
 }
 
 .sqw-sparkline-tip {
-  position: absolute;
+  position: fixed;
   transform: translate(-50%, -100%);
   background: var(--text);
   color: var(--surface);
@@ -120,7 +120,7 @@ a.sqw-inline-stat:hover { opacity: 0.7; text-decoration: none; }
   padding: 3px 7px;
   border-radius: 4px;
   pointer-events: none;
-  z-index: 10;
+  z-index: 100;
 }
 
 .sqw-sparkline-axis {

@@ -11,10 +11,9 @@ export default class extends Controller {
     const label = currentTarget.dataset.tip
     if (!label) return
     const rect = currentTarget.getBoundingClientRect()
-    const svgRect = this.element.getBoundingClientRect()
     this._tip.textContent = label
-    this._tip.style.left = `${rect.left - svgRect.left + rect.width / 2}px`
-    this._tip.style.top = `${rect.top - svgRect.top - 8}px`
+    this._tip.style.left = `${rect.left + rect.width / 2}px`
+    this._tip.style.top = `${rect.top - 6}px`
     this._tip.hidden = false
   }
 
