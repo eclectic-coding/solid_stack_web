@@ -11,8 +11,12 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 > _Move beyond a single count; give operators visibility into what's in the cache._
 
 ### Added
-- **Entry browser** — paginated table of `SolidCache::Entry` records with key, byte size, created_at, and last accessed_at; sorted by size or recency
-- **Key-pattern search** — filter entries by key prefix or substring
+- **Delete entry** — remove a single cache entry from the browser
+- **Flush actions** — "Flush expired" (entries past their TTL), "Flush all" (with confirmation prompt)
+- **Size distribution stats** — top-N entries by byte size; histogram bucketed by size range
+- **Entry detail** — view the serialised value of a single cache entry (with a configurable `allow_value_preview` toggle for sensitive data)
+- **Cache timeline** — 24-hour chart of entry count and total byte size growth
+- **Stats dashboard card** — expand the overview card to include hit/miss rates if `SolidCache` exposes them, plus oldest-entry age
 - **Size distribution stats** — top-N entries by byte size; histogram bucketed by size range
 - **Entry detail** — view the serialised value of a single cache entry (with a configurable `allow_value_preview` toggle for sensitive data)
 - **Delete entry** — remove a single cache entry from the browser

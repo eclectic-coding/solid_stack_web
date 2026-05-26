@@ -94,7 +94,13 @@ Filters are preserved when switching between status tabs (Ready / Scheduled / Ru
 
 ## Solid Cache
 
-_Deep cache monitoring coming in v0.5.0. Currently shows entry count and total byte size on the overview dashboard._
+### Features
+
+- **Overview dashboard card** — live entry count and total byte size
+- **Entry browser** — `GET /cache/entries` lists all `SolidCache::Entry` records in a paginated, sortable table; columns: key, byte size, created-at; sortable by any column
+- **Key search** — filter entries by key substring
+- **Delete entry** — per-row delete button removes a single cache entry
+- **Flush All** — header button deletes every cache entry with a confirmation prompt
 
 ---
 

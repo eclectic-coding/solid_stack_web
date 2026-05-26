@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Solid Cache entry browser — `GET /cache/entries` lists all `SolidCache::Entry` records in a paginated, sortable table (key, byte size, created-at); sortable by any column; key-substring search filters the list; per-row **Delete** removes a single entry; **Flush All** header button deletes every entry with a confirmation prompt; Cache subnav (Overview / Entries) added to the layout
+
 ## [0.4.0] - 2026-05-26
 
 ### Added

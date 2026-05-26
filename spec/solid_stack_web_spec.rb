@@ -12,4 +12,17 @@ RSpec.describe SolidStackWeb do
       SolidStackWeb.page_size = 25
     end
   end
+
+  describe ".search_results_limit" do
+    it "defaults to 25" do
+      expect(SolidStackWeb.search_results_limit).to eq(25)
+    end
+
+    it "returns the configured value" do
+      SolidStackWeb.search_results_limit = 50
+      expect(SolidStackWeb.search_results_limit).to eq(50)
+    ensure
+      SolidStackWeb.search_results_limit = nil
+    end
+  end
 end
