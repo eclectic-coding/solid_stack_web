@@ -34,11 +34,8 @@ SolidStackWeb::Engine.routes.draw do
   get "metrics", to: "metrics#index", as: :metrics
   get "stats",   to: "stats#index",   as: :stats
   get "history", to: "history#index", as: :history
-  get "cache",       to: "cache#index",       as: :cache
-  resources :cache_entries, only: [:index, :destroy], path: "cache/entries" do
-    collection do
-      delete :flush, action: :flush
-    end
-  end
+  get "cache", to: "cache#index", as: :cache
+  resources :cache_entries, only: [:index, :destroy], path: "cache/entries"
+  resource  :cache_flush,   only: [:destroy],         path: "cache/flush",    controller: "cache/flushes"
   get "cable", to: "cable#index", as: :cable
 end

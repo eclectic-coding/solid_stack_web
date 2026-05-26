@@ -60,10 +60,10 @@ RSpec.describe "CacheEntries", type: :request do
     end
   end
 
-  describe "DELETE /cache/entries/flush" do
+  describe "DELETE /cache/flush" do
     it "deletes all entries and redirects" do
       3.times { |i| create_entry(key: "key#{i}", value: "v") }
-      delete "#{engine_root}/cache/entries/flush"
+      delete "#{engine_root}/cache/flush"
       expect(response).to redirect_to("#{engine_root}/cache/entries")
       expect(SolidCache::Entry.count).to eq(0)
     end

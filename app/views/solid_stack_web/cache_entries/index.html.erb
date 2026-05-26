@@ -2,7 +2,7 @@
   <h1 class="sqw-page-title">Cache Entries</h1>
   <div class="sqw-header-actions">
     <%= button_to "Flush All",
-          flush_cache_entries_path,
+          cache_flush_path,
           method: :delete,
           class: "sqw-btn sqw-btn--danger sqw-btn--sm",
           data: { turbo_confirm: "Delete all cache entries? This cannot be undone." } %>

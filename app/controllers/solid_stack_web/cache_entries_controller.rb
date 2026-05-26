@@ -17,11 +17,6 @@ module SolidStackWeb
                   notice: "Cache entry deleted."
     end
 
-    def flush
-      ::SolidCache::Entry.delete_all
-      redirect_to cache_entries_path, notice: "All cache entries flushed."
-    end
-
     private
 
     def resolve_sort
