@@ -6,15 +6,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 
 ---
 
-## v0.3.0 — Solid Queue: Scheduling, History & Recurring Tasks
-
-> _Close the remaining Solid Queue feature gaps._
-
-### Added
-- **Blocked job bulk discard** — "Discard all blocked" action on the blocked jobs view
-
----
-
 ## v0.4.0 — Solid Queue: Analytics & Alerting
 
 > _Give operators the data they need to detect problems before users do._
