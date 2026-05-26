@@ -31,9 +31,11 @@
             <tr>
               <td class="sqw-muted"><%=bucket[:label] %></td>
               <td><%= bucket[:count] %></td>
-              <td class="sqw-dist-bar-cell">
-                <div class="sqw-dist-bar" style="width: <%= pct %>%"></div>
-                <span class="sqw-dist-pct sqw-muted"><%= pct %>%</span>
+              <td>
+                <div class="sqw-dist-bar-cell">
+                  <div class="sqw-dist-bar" style="width: <%= pct %>%"></div>
+                  <span class="sqw-dist-pct sqw-muted"><%= pct %>%</span>
+                </div>
               </td>
             </tr>
           <% end %>
