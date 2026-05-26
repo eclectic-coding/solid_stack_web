@@ -4,6 +4,7 @@ module SolidStackWeb
       @queue_stats = QueueStats.new.to_h
       @cache_stats = CacheStats.new.to_h
       @cable_stats = CableStats.new.to_h
+      @throughput  = ThroughputSparkline.new
     end
   end
 end

@@ -12,7 +12,6 @@
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
-  position: relative;
   transition: box-shadow 0.15s;
 }
 .sqw-gem-card:hover { box-shadow: 0 3px 8px rgba(0,0,0,.12); }
@@ -44,16 +43,6 @@
 }
 .sqw-gem-card__link:hover { color: var(--primary); text-decoration: none; }
 
-/* Stretch the header link to cover the whole card */
-.sqw-gem-card__link::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-/* Stat links and other interactive elements sit above the overlay */
-.sqw-inline-stat { position: relative; z-index: 1; }
-
 .sqw-gem-card__body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
@@ -68,6 +57,7 @@
   color: var(--text);
   transition: opacity 0.15s;
 }
+
 a.sqw-inline-stat:hover { opacity: 0.7; text-decoration: none; }
 
 .sqw-inline-stat__label {
@@ -88,3 +78,56 @@ a.sqw-inline-stat:hover { opacity: 0.7; text-decoration: none; }
 .sqw-inline-stat--cache     .sqw-inline-stat__value { color: var(--purple); }
 .sqw-inline-stat--cable     .sqw-inline-stat__value { color: var(--info); }
 .sqw-inline-stat--neutral   .sqw-inline-stat__value { color: var(--muted); }
+
+.sqw-sparkline-wrap {
+  padding: 0.75rem 1.25rem 1rem;
+  border-top: 1px solid var(--border);
+  color: var(--primary);
+}
+
+.sqw-sparkline-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.sqw-sparkline-positioner {
+  position: relative;
+}
+
+.sqw-sparkline {
+  display: block;
+  width: 100%;
+  height: 40px;
+}
+
+.sqw-sparkline rect {
+  cursor: pointer;
+}
+
+.sqw-sparkline-tip {
+  position: fixed;
+  transform: translate(-50%, -100%);
+  background: var(--text);
+  color: var(--surface);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 3px 7px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.sqw-sparkline-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: var(--muted);
+  margin-top: 3px;
+  opacity: 0.7;
+}

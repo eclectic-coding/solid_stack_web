@@ -64,6 +64,19 @@ RSpec.describe "Dashboard", type: :request do
       expect(response.body).not_to include("Slow (24h)")
     end
 
+    it "renders the throughput sparkline SVG" do
+      get engine_root
+      expect(response.body).to include("sqw-sparkline")
+      expect(response.body).to include("Throughput")
+    end
+
+    it "renders a sparkline bar for a finished job" do
+      SolidQueue::Job.create!(class_name: "MyJob", queue_name: "default",
+                              finished_at: 1.hour.ago)
+      get engine_root
+      expect(response.body).to include("<rect")
+    end
+
     it "shows slow jobs stat when threshold is configured" do
       SolidStackWeb.slow_job_threshold = 5
       SolidQueue::Job.create!(class_name: "SlowJob", queue_name: "default",

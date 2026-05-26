@@ -10,6 +10,41 @@ module SolidStackWeb
       "#{s / 3600}h #{(s % 3600) / 60}m"
     end
 
+    def throughput_sparkline_svg(sparkline)
+      buckets = sparkline.buckets
+      peak    = [sparkline.max.to_f, 1.0].max
+      h       = 40
+      bar_w   = 8
+      gap     = 2
+      total_w = buckets.size * (bar_w + gap) - gap
+
+      bars = buckets.each_with_index.map do |count, i|
+        x       = i * (bar_w + gap)
+        bar_h   = [(count / peak * (h - 4)).round, 2].max
+        y       = h - bar_h
+        opacity = count.zero? ? "0.18" : "1"
+        hours_ago = SolidStackWeb::ThroughputSparkline::HOURS - i
+        tip = if hours_ago == 1
+          "#{count} #{count == 1 ? "job" : "jobs"} in the last hour"
+        else
+          "#{count} #{count == 1 ? "job" : "jobs"} (#{hours_ago}h–#{hours_ago - 1}h ago)"
+        end
+        attrs = %( x="#{x}" y="#{y}" width="#{bar_w}" height="#{bar_h}" rx="1") +
+                %( fill="currentColor" opacity="#{opacity}") +
+                %( data-sparkline-tooltip-target="bar") +
+                %( data-tip="#{ERB::Util.html_escape(tip)}") +
+                %( data-action="mouseenter->sparkline-tooltip#show mouseleave->sparkline-tooltip#hide")
+        "<rect#{attrs}></rect>"
+      end.join
+
+      content_tag(:svg, bars.html_safe,
+                  viewBox: "0 0 #{total_w} #{h}",
+                  preserveAspectRatio: "none",
+                  class: "sqw-sparkline",
+                  role: "img",
+                  "aria-label": "Throughput over the last 12 hours")
+    end
+
     def inline_styles
       dir = SolidStackWeb::Engine.root.join("app/assets/stylesheets/solid_stack_web")
       css = dir.glob("_*.css").sort.map(&:read).join("\n")
