@@ -12,8 +12,9 @@
   --success: #198754;
   --info:    #0dcaf0;
   --purple:  #6f42c1;
-  --radius:  6px;
-  --shadow:  0 1px 3px rgba(0,0,0,.08);
+  --radius:        6px;
+  --shadow:        0 1px 3px rgba(0,0,0,.08);
+  --surface-hover: #f9fafb;
 }
 
 body {

@@ -11,7 +11,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 > _Make the interface feel fast and operational, not just functional._
 
 ### Added
-- **CSS audit** — review all inline styles, consolidate utility classes, remove duplication, and enforce consistent use of CSS custom properties across all stylesheets
 
 ---
 
