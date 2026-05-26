@@ -18,6 +18,30 @@ module SolidStackWeb
       "#{s / 3600}h #{(s % 3600) / 60}m"
     end
 
+    def cache_entries_timeline_svg(timeline)
+      build_sparkline_svg(
+        Struct.new(:buckets, :max).new(timeline.entry_buckets, timeline.entry_max),
+        css_class: "sqw-sparkline sqw-sparkline--lg",
+        aria_label: "Cache entries written over the last 24 hours"
+      ) do |count, i|
+        hours_ago = CacheTimeline::HOURS - 1 - i
+        hours_ago.zero? ? "#{count} #{"entry".then { |w| count == 1 ? w : "entries" }} this hour" \
+                        : "#{count} #{"entry".then { |w| count == 1 ? w : "entries" }} #{hours_ago}h ago"
+      end
+    end
+
+    def cache_bytes_timeline_svg(timeline)
+      build_sparkline_svg(
+        Struct.new(:buckets, :max).new(timeline.byte_buckets, timeline.byte_max),
+        css_class: "sqw-sparkline sqw-sparkline--lg",
+        aria_label: "Cache bytes written over the last 24 hours"
+      ) do |bytes, i|
+        hours_ago = CacheTimeline::HOURS - 1 - i
+        size = number_to_human_size(bytes)
+        hours_ago.zero? ? "#{size} written this hour" : "#{size} written #{hours_ago}h ago"
+      end
+    end
+
     def throughput_sparkline_svg(sparkline)
       build_sparkline_svg(sparkline, aria_label: "Throughput over the last 12 hours") do |count, i|
         hours_ago = SolidStackWeb::ThroughputSparkline::HOURS - i
