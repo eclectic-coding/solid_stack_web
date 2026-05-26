@@ -6,14 +6,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 
 ---
 
-## v0.4.0 — Solid Queue: Analytics & Alerting
-
-> _Give operators the data they need to detect problems before users do._
-
-_All items shipped._
-
----
-
 ## v0.5.0 — Solid Cache: Deep Monitoring
 
 > _Move beyond a single count; give operators visibility into what's in the cache._
