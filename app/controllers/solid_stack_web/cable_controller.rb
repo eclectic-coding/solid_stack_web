@@ -1,6 +1,7 @@
 module SolidStackWeb
   class CableController < ApplicationController
     def index
+      @search         = params[:q].presence
       @total_messages = ::SolidCable::Message.count
       @channels       = channel_rows
     end
@@ -8,7 +9,11 @@ module SolidStackWeb
     private
 
     def channel_rows
-      ::SolidCable::Message
+      scope = ::SolidCable::Message
+      if @search
+        scope = scope.where("channel LIKE ?", "%#{::ActiveRecord::Base.sanitize_sql_like(@search)}%")
+      end
+      scope
         .group(:channel, :channel_hash)
         .order(Arel.sql("MAX(created_at) DESC"))
         .pluck(:channel, :channel_hash, Arel.sql("COUNT(*)"), Arel.sql("MAX(created_at)"))
