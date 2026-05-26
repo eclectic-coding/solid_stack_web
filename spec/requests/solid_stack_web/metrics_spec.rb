@@ -26,7 +26,21 @@ RSpec.describe "Metrics", type: :request do
     it "includes cache keys" do
       get "#{engine_root}/metrics"
       cache = JSON.parse(response.body)["cache"]
-      expect(cache.keys).to contain_exactly("entries", "byte_size")
+      expect(cache.keys).to contain_exactly("entries", "byte_size", "oldest_entry")
+    end
+
+    it "includes oldest_entry as ISO 8601 when entries exist" do
+      SolidCache::Entry.write("metrics:key", "v")
+      get "#{engine_root}/metrics"
+      cache = JSON.parse(response.body)["cache"]
+      expect(cache["oldest_entry"]).to match(/\d{4}-\d{2}-\d{2}T/)
+    end
+
+    it "includes oldest_entry as null when no entries exist" do
+      SolidCache::Entry.delete_all
+      get "#{engine_root}/metrics"
+      cache = JSON.parse(response.body)["cache"]
+      expect(cache["oldest_entry"]).to be_nil
     end
 
     it "includes cable keys" do
