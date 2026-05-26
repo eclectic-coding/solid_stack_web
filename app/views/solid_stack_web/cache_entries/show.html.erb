@@ -21,7 +21,7 @@
   </div>
   <div class="sqw-detail__row">
     <dt>Created</dt>
-    <dd class="sqw-muted"><%= @entry.created_at.strftime("%b %d, %Y %H:%M:%S %Z") %></dd>
+    <dd class="sqw-muted"><%= local_time(@entry.created_at, format: :long) %></dd>
   </div>
 </dl>
 

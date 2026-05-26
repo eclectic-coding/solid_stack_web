@@ -6,3 +6,4 @@ pin "solid_stack_web/search_controller", to: "solid_stack_web/search_controller.
 pin "solid_stack_web/selection_controller", to: "solid_stack_web/selection_controller.js"
 pin "solid_stack_web/sparkline_tooltip_controller", to: "solid_stack_web/sparkline_tooltip_controller.js"
 pin "solid_stack_web/theme_controller", to: "solid_stack_web/theme_controller.js"
+pin "solid_stack_web/timestamp_controller", to: "solid_stack_web/timestamp_controller.js"

@@ -46,7 +46,7 @@
             <%= link_to entry.key, cache_entry_path(entry), class: "sqw-link" %>
           </td>
           <td><%= number_to_human_size(entry.byte_size) %></td>
-          <td class="sqw-muted"><%= entry.created_at.strftime("%b %d %H:%M") %></td>
+          <td class="sqw-muted"><%= local_time(entry.created_at) %></td>
           <td class="sqw-actions">
             <%= button_to "Delete",
                   cache_entry_path(entry, q: @search, column: @sort["column"], direction: @sort["direction"]),

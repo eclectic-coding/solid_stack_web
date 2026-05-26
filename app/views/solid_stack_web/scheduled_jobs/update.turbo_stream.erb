@@ -3,7 +3,7 @@
 <% else %>
   <%= turbo_stream.replace "scheduled_at_#{@execution.id}" do %>
     <td id="scheduled_at_<%= @execution.id %>" class="sqw-muted">
-      <%= @execution.scheduled_at.strftime("%b %d %H:%M") %>
+      <%= local_time(@execution.scheduled_at) %>
     </td>
   <% end %>
 <% end %>

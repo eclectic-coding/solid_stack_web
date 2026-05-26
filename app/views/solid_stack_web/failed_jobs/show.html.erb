@@ -29,7 +29,7 @@
       <dd class="sqw-monospace sqw-truncate" title="<%= @execution.job.active_job_id %>"><%= @execution.job.active_job_id.presence || "—" %></dd>
 
       <dt>Failed At</dt>
-      <dd class="sqw-monospace"><%= @execution.created_at.strftime("%Y-%m-%d %H:%M:%S UTC") %></dd>
+      <dd class="sqw-monospace"><%= local_time(@execution.created_at, format: :long) %></dd>
 
       <dt>Error</dt>
       <dd class="sqw-monospace"><%= @execution.exception_class %></dd>

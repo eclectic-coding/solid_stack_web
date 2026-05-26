@@ -87,7 +87,7 @@
       <% if @cache_stats[:oldest_entry] %>
         <div class="sqw-inline-stat sqw-inline-stat--cache">
           <span class="sqw-inline-stat__label">Oldest</span>
-          <span class="sqw-inline-stat__value sqw-inline-stat__value--sm" title="<%= @cache_stats[:oldest_entry].strftime("%b %d, %Y %H:%M") %>"><%= time_ago_in_words(@cache_stats[:oldest_entry]) %></span>
+          <span class="sqw-inline-stat__value sqw-inline-stat__value--sm"><%= local_time(@cache_stats[:oldest_entry], format: :relative) %></span>
         </div>
       <% end %>
     </div>
@@ -114,7 +114,7 @@
       <% if @cable_stats[:oldest_message] %>
         <div class="sqw-inline-stat sqw-inline-stat--cable">
           <span class="sqw-inline-stat__label">Oldest</span>
-          <span class="sqw-inline-stat__value sqw-inline-stat__value--sm" title="<%= @cable_stats[:oldest_message].strftime("%b %d, %Y %H:%M") %>"><%= time_ago_in_words(@cable_stats[:oldest_message]) %></span>
+          <span class="sqw-inline-stat__value sqw-inline-stat__value--sm"><%= local_time(@cable_stats[:oldest_message], format: :relative) %></span>
         </div>
       <% end %>
     </div>

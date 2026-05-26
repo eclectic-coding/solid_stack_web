@@ -49,7 +49,7 @@
                   data: { turbo_frame: "_top" } %>
           </td>
           <td><%= execution.job.priority %></td>
-          <td class="sqw-muted"><%= execution.created_at.strftime("%b %d %H:%M") %></td>
+          <td class="sqw-muted"><%= local_time(execution.created_at) %></td>
           <td class="sqw-actions">
             <%= button_to "Discard", job_path(execution, status: "ready", queue: @queue_name),
                   method: :delete, class: "sqw-btn sqw-btn--danger sqw-btn--sm",

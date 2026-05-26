@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Responsive layout
+- Timezone-corrected timestamps — all timestamps across jobs, failed jobs, history, processes, queues, recurring tasks, cache entries, cable channels, and the dashboard are now rendered as `<time datetime="ISO8601">` elements; a `timestamp` Stimulus controller reformats each one in the browser's local timezone using `Intl.DateTimeFormat`; relative timestamps (oldest cache entry, oldest cable message, cable message list) use `Intl.RelativeTimeFormat` and expose the full local timestamp as a hover title; degrades gracefully to UTC text when JS is unavailable
 
 ### Fixed
 

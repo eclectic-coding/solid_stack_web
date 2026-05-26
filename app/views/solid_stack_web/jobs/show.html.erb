@@ -36,17 +36,17 @@
 
       <% if @status == "blocked" %>
         <dt>Blocked Until</dt>
-        <dd class="sqw-monospace"><%= @execution.expires_at ? @execution.expires_at.strftime("%Y-%m-%d %H:%M:%S UTC") : "—" %></dd>
+        <dd class="sqw-monospace"><%= local_time(@execution.expires_at, format: :long) %></dd>
       <% end %>
 
       <dt>Enqueued At</dt>
-      <dd class="sqw-monospace"><%= @execution.job.created_at.strftime("%Y-%m-%d %H:%M:%S UTC") %></dd>
+      <dd class="sqw-monospace"><%= local_time(@execution.job.created_at, format: :long) %></dd>
 
       <dt>Scheduled At</dt>
-      <dd class="sqw-monospace"><%= @execution.job.scheduled_at ? @execution.job.scheduled_at.strftime("%Y-%m-%d %H:%M:%S UTC") : "—" %></dd>
+      <dd class="sqw-monospace"><%= local_time(@execution.job.scheduled_at, format: :long) %></dd>
 
       <dt>Finished At</dt>
-      <dd class="sqw-monospace"><%= @execution.job.finished_at ? @execution.job.finished_at.strftime("%Y-%m-%d %H:%M:%S UTC") : "—" %></dd>
+      <dd class="sqw-monospace"><%= local_time(@execution.job.finished_at, format: :long) %></dd>
     </dl>
   </div>
 
