@@ -42,7 +42,9 @@
     <tbody>
       <% @entries.each do |entry| %>
         <tr id="cache_entry_<%= entry.id %>">
-          <td class="sqw-monospace sqw-truncate" title="<%= entry.key %>"><%= entry.key %></td>
+          <td class="sqw-monospace sqw-truncate" title="<%= entry.key %>">
+            <%= link_to entry.key, cache_entry_path(entry), class: "sqw-link" %>
+          </td>
           <td><%= number_to_human_size(entry.byte_size) %></td>
           <td class="sqw-muted"><%= entry.created_at.strftime("%b %d %H:%M") %></td>
           <td class="sqw-actions">

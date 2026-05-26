@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Cache entry detail page — `GET /cache/entries/:id` shows the full key, byte size, and created-at for a single entry; value body is gated behind `SolidStackWeb.allow_value_preview` (default `false`); when enabled, displays up to 4 KB of the raw serialized value with a truncation notice; entry key in the browser table is now a link to the detail page; **Delete** button on the detail page redirects back to the entry list
 - Solid Cache entry browser — `GET /cache/entries` lists all `SolidCache::Entry` records in a paginated, sortable table (key, byte size, created-at); sortable by any column; key-substring search filters the list; per-row **Delete** removes a single entry; **Flush All** header button deletes every entry with a confirmation prompt; Cache subnav (Overview / Entries) added to the layout
 
 ## [0.4.0] - 2026-05-26

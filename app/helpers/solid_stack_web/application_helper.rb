@@ -1,5 +1,13 @@
 module SolidStackWeb
   module ApplicationHelper
+    def format_cache_value(raw)
+      str = raw.to_s.encode("UTF-8", invalid: :replace, undef: :replace, replace: "?")
+      parsed = JSON.parse(str)
+      { label: "JSON", content: JSON.pretty_generate(parsed) }
+    rescue JSON::ParserError, JSON::GeneratorError
+      { label: "Text", content: str }
+    end
+
     def format_duration(seconds)
       return "—" if seconds.nil?
       return "#{(seconds * 1000).round}ms" if seconds < 1

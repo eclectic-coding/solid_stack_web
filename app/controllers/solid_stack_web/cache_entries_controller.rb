@@ -11,6 +11,10 @@ module SolidStackWeb
       @pagy, @entries = pagy(scope)
     end
 
+    def show
+      @entry = ::SolidCache::Entry.find(params[:id])
+    end
+
     def destroy
       ::SolidCache::Entry.find(params[:id]).destroy
       redirect_to cache_entries_path(q: params[:q], column: params[:column], direction: params[:direction]),
