@@ -11,6 +11,10 @@ module SolidStackWeb
           paused: paused.include?(name)
         }
       end
+
+      @sparklines = @queues.each_with_object({}) do |queue, h|
+        h[queue[:name]] = QueueDepthSparkline.new(queue[:name])
+      end
     end
 
     def show
