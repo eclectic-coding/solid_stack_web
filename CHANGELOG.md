@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-05-25
+
 ### Added
 
 - Per-queue job browser — queue names and sizes on the Queues index are now links to `GET /queues/:id`, which shows a paginated list of ready jobs for that queue with job class, priority, and enqueued-at; individual "Discard" buttons remove a single job; a "Discard All Ready (N)" header button discards every ready job in the queue in one request; pause/resume controls are present on the show page so operators never need to leave the queue context
@@ -54,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Two-tier contextual navigation per section (Queue / Cache / Cable)
 - No runtime JavaScript dependency — all interactions use standard form POSTs or Turbo Stream
 
-[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.3.0
 [0.2.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.2.0
 [0.1.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.1.0
