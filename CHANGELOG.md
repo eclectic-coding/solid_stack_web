@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Solid Cable channel browser — `GET /cable` lists all distinct channels with per-channel message count and last-message timestamp, ordered by most recent activity; a total-messages stat and channel-count stat are shown at the top; empty state shown when no messages exist; Cable subnav (Overview) added to the layout
+
 ## [0.5.0] - 2026-05-26
 
 ### Added

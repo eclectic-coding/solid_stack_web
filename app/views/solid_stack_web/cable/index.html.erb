@@ -16,12 +16,24 @@
 <% if @channels.any? %>
   <table class="sqw-table">
     <thead>
-      <tr><th>Channel</th></tr>
+      <tr>
+        <th>Channel</th>
+        <th>Messages</th>
+        <th>Last Message</th>
+      </tr>
     </thead>
     <tbody>
       <% @channels.each do |channel| %>
-        <tr><td class="sqw-monospace"><%= channel %></td></tr>
+        <tr>
+          <td class="sqw-monospace"><%= channel[:channel] %></td>
+          <td><%= channel[:message_count] %></td>
+          <td class="sqw-muted"><%= channel[:last_message_at]&.strftime("%b %d %H:%M") %></td>
+        </tr>
       <% end %>
     </tbody>
   </table>
+<% else %>
+  <div class="sqw-empty">
+    <p>No cable messages.</p>
+  </div>
 <% end %>

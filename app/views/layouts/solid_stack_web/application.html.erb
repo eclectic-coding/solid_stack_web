@@ -35,6 +35,15 @@
     </nav>
   <% end %>
 
+  <% if current_section == :cable %>
+    <nav class="sqw-subnav">
+      <div class="sqw-subnav__inner">
+        <%= link_to "Overview", cable_path,
+              class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "cable"}" %>
+      </div>
+    </nav>
+  <% end %>
+
   <% if current_section == :queue %>
     <nav class="sqw-subnav">
       <div class="sqw-subnav__inner">

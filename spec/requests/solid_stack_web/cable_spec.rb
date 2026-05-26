@@ -42,9 +42,36 @@ RSpec.describe "Cable", type: :request do
 
       get "#{engine_root}/cable"
 
-      # 2 distinct channels, stat value should be 2 (not 3 messages)
       expect(response.body).to include("Channels")
       expect(response.body).to match(/class="sqw-stat__value">\s*2\s*</)
+    end
+
+    it "shows message count and last message time per channel" do
+      SolidCable::Message.broadcast("sports:scores", "goal!")
+      SolidCable::Message.broadcast("sports:scores", "offside")
+
+      get "#{engine_root}/cable"
+
+      expect(response.body).to include("sports:scores")
+      expect(response.body).to include("Messages")
+      expect(response.body).to include("Last Message")
+    end
+
+    it "orders channels by most recent message first" do
+      SolidCable::Message.broadcast("older:channel", "first")
+      travel 1.second do
+        SolidCable::Message.broadcast("newer:channel", "second")
+      end
+
+      get "#{engine_root}/cable"
+
+      expect(response.body.index("newer:channel")).to be < response.body.index("older:channel")
+    end
+
+    it "shows empty state when no messages exist" do
+      SolidCable::Message.delete_all
+      get "#{engine_root}/cable"
+      expect(response.body).to include("No cable messages")
     end
   end
 end
