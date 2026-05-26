@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-05-26
+
 ### Added
 
 - Cache timeline — Solid Cache overview page gains two side-by-side 24-hour bar charts: **Entries written per hour** and **Bytes written per hour**; each bar has a hover tooltip via the `sparkline-tooltip` Stimulus controller; backed by a `CacheTimeline` PORO (single query, bucketed in Ruby)
@@ -80,7 +82,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Two-tier contextual navigation per section (Queue / Cache / Cable)
 - No runtime JavaScript dependency — all interactions use standard form POSTs or Turbo Stream
 
-[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.5.0
 [0.4.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.4.0
 [0.3.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.3.0
 [0.2.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.2.0
