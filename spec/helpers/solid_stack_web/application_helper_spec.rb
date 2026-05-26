@@ -1,6 +1,26 @@
 require "rails_helper"
 
 RSpec.describe SolidStackWeb::ApplicationHelper, type: :helper do
+  describe "#format_cache_value" do
+    it "returns JSON label and pretty-printed content for valid JSON input" do
+      result = helper.format_cache_value('{"key":"value"}')
+      expect(result[:label]).to eq("JSON")
+      expect(result[:content]).to include('"key": "value"')
+    end
+
+    it "returns Text label and raw content for non-JSON input" do
+      result = helper.format_cache_value("plain string")
+      expect(result[:label]).to eq("Text")
+      expect(result[:content]).to eq("plain string")
+    end
+
+    it "replaces invalid bytes and returns Text label" do
+      result = helper.format_cache_value("\xFF\xFE")
+      expect(result[:label]).to eq("Text")
+      expect(result[:content]).to include("?")
+    end
+  end
+
   describe "#format_duration" do
     it "returns seconds for values under 60" do
       expect(helper.format_duration(45)).to eq("45s")
