@@ -14,5 +14,6 @@ gem "rubocop-rails-omakase", require: false
 gem "bundler-audit", require: false
 
 gem "rspec-rails"
+gem "webmock", require: false
 gem "simplecov", require: false
 gem "simplecov-json", require: false
