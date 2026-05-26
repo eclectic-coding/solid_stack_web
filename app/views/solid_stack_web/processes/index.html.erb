@@ -1,3 +1,5 @@
+<%= turbo_frame_tag "sqw-processes", target: "_top",
+      data: { controller: "refresh", refresh_interval_value: SolidStackWeb.default_refresh_interval } do %>
 <div class="sqw-page-header">
   <h1 class="sqw-page-title">Processes</h1>
 </div>
@@ -29,4 +31,5 @@
   <div class="sqw-empty">
     <p>No active processes.</p>
   </div>
+<% end %>
 <% end %>
