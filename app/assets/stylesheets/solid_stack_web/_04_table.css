@@ -30,6 +30,10 @@
 .sqw-actions { text-align: right; white-space: nowrap; }
 .sqw-actions form { display: inline; }
 
+.sqw-table th a { color: inherit; text-decoration: none; }
+.sqw-table th a:hover { color: var(--text); }
+.sqw-sort-indicator { margin-left: 0.2rem; }
+
 .sqw-empty {
   background: var(--surface);
   border: 1px solid var(--border);

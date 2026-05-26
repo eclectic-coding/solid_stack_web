@@ -11,7 +11,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 > _Give operators the data they need to detect problems before users do._
 
 ### Added
-- **Performance statistics page** — per-class aggregates: execution count, average duration, p50, p95, min, max; sortable by p95
 - **Slow job detection** — configurable threshold (`slow_job_threshold`); slow jobs surfaced on the dashboard and performance page
 - **Dashboard stats** — add "done (1 h)", "done (24 h)", slow job count, and process health (healthy / stale) to the overview cards
 - **Throughput sparkline** — 12-hour rolling bar chart of completed jobs on the dashboard

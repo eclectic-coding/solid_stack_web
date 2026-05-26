@@ -35,6 +35,8 @@
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "queues"}" %>
         <%= link_to "Recurring", recurring_tasks_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "recurring_tasks"}" %>
+        <%= link_to "Stats", stats_path,
+              class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "stats"}" %>
         <%= link_to "History", history_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "history"}" %>
         <%= link_to "Processes", processes_path,
