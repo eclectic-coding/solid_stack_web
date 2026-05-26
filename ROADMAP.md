@@ -6,14 +6,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 
 ---
 
-## v0.7.0 — Interactivity & UX
-
-> _Make the interface feel fast and operational, not just functional._
-
-### Added
-
----
-
 ## v0.8.0 — Test Coverage
 
 > _Make the test suite match the surface area of the engine._
