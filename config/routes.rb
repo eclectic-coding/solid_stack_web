@@ -4,6 +4,10 @@ SolidStackWeb::Engine.routes.draw do
   resource :job_selection,        path: "jobs/selection",        only: [:destroy],         controller: "jobs/selections"
   resource :failed_job_selection, path: "failed_jobs/selection", only: [:create, :destroy], controller: "failed_jobs/selections"
 
+  resources :recurring_tasks, only: [:index], param: :key do
+    resource :run, only: [:create], controller: "recurring_tasks/runs"
+  end
+
   resources :scheduled_jobs, only: [:update] do
     collection do
       post :run_all_now, action: :create

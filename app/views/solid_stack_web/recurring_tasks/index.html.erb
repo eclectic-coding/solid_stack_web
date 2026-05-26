@@ -1,0 +1,67 @@
+<div class="sqw-page-header">
+  <h1 class="sqw-page-title">Recurring Tasks</h1>
+</div>
+
+<% if @recurring_tasks.any? %>
+  <table class="sqw-table">
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Schedule</th>
+        <th>Job / Command</th>
+        <th>Queue</th>
+        <th>Next Run</th>
+        <th>Last Run</th>
+        <th>Type</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @recurring_tasks.each do |task| %>
+        <tr>
+          <td class="sqw-monospace"><%= task.key %></td>
+          <td class="sqw-monospace"><%= task.schedule %></td>
+          <td>
+            <% if task.class_name.present? %>
+              <span class="sqw-monospace"><%= task.class_name %></span>
+              <% if task.arguments.present? %>
+                <div class="sqw-muted sqw-monospace" style="font-size: 11px;"><%= task.arguments.inspect %></div>
+              <% end %>
+            <% else %>
+              <span class="sqw-monospace sqw-muted"><%= task.command %></span>
+            <% end %>
+            <% if task.description.present? %>
+              <div class="sqw-muted" style="font-size: 12px; margin-top: 0.2rem;"><%= task.description %></div>
+            <% end %>
+          </td>
+          <td><span class="sqw-badge sqw-badge--queue"><%= task.queue_name.presence || "default" %></span></td>
+          <td class="sqw-muted sqw-monospace">
+            <% next_run = begin; task.next_time.strftime("%b %d %H:%M"); rescue; nil; end %>
+            <%= next_run || "—" %>
+          </td>
+          <td class="sqw-muted sqw-monospace">
+            <% last_run = task.last_enqueued_time %>
+            <%= last_run ? last_run.strftime("%b %d %H:%M") : "—" %>
+          </td>
+          <td>
+            <% if task.static? %>
+              <span class="sqw-badge sqw-badge--scheduled">Static</span>
+            <% else %>
+              <span class="sqw-badge sqw-badge--blocked">Dynamic</span>
+            <% end %>
+          </td>
+          <td class="sqw-actions">
+            <%= button_to "Run Now", recurring_task_run_path(task.key),
+                  method: :post,
+                  class: "sqw-btn sqw-btn--sm",
+                  data: { turbo_confirm: "Run \"#{task.key}\" immediately?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="sqw-empty">
+    <p>No recurring tasks configured.</p>
+  </div>
+<% end %>

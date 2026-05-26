@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Recurring task list — `GET /recurring_tasks` enumerates all `SolidQueue::RecurringTask` records with key, cron schedule, job class or command, queue, next-run time, last-run time, and static/dynamic badge; each row has a "Run Now" button that immediately enqueues the task via `RecurringTasks::RunsController`; "Recurring" link added to the queue subnav
 - Job history view — `GET /history` lists all finished jobs with class name, queue, duration, and finished-at time; filterable by queue, class substring, and time period (1h / 24h / 7d); clicking a queue badge filters the history to that queue; CSV export respects active filters; "History" link added to the queue subnav
 - Scheduled job management — "Run Now" and offset buttons (+1h / +24h / +7d) on each scheduled job row; Turbo Stream removes the row on run-now and updates the scheduled-at cell on offset reschedule; "Run All Now (N)" header button back-dates all matching scheduled executions; backed by `ScheduledJobsController` using standard CRUD (`update` for single, `create` for bulk via `run_all_now` collection route)
 

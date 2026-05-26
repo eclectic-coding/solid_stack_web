@@ -15,7 +15,7 @@ module SolidStackWeb
 
     def current_section
       case controller_name
-      when "jobs", "failed_jobs", "queues", "processes", "history", "scheduled_jobs" then :queue
+      when "jobs", "failed_jobs", "queues", "processes", "history", "scheduled_jobs", "recurring_tasks" then :queue
       when "cache" then :cache
       when "cable" then :cable
       else :overview
