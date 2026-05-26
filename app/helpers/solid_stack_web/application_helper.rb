@@ -24,12 +24,17 @@ module SolidStackWeb
         y       = h - bar_h
         opacity = count.zero? ? "0.18" : "1"
         hours_ago = SolidStackWeb::ThroughputSparkline::HOURS - i
-        tooltip = if hours_ago == 1
+        tip = if hours_ago == 1
           "#{count} #{count == 1 ? "job" : "jobs"} in the last hour"
         else
           "#{count} #{count == 1 ? "job" : "jobs"} (#{hours_ago}h–#{hours_ago - 1}h ago)"
         end
-        %(<rect x="#{x}" y="#{y}" width="#{bar_w}" height="#{bar_h}" rx="1" fill="currentColor" opacity="#{opacity}"><title>#{ERB::Util.html_escape(tooltip)}</title></rect>)
+        attrs = %( x="#{x}" y="#{y}" width="#{bar_w}" height="#{bar_h}" rx="1") +
+                %( fill="currentColor" opacity="#{opacity}") +
+                %( data-sparkline-tooltip-target="bar") +
+                %( data-tip="#{ERB::Util.html_escape(tip)}") +
+                %( data-action="mouseenter->sparkline-tooltip#show mouseleave->sparkline-tooltip#hide")
+        "<rect#{attrs}></rect>"
       end.join
 
       content_tag(:svg, bars.html_safe,

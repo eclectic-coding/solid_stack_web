@@ -54,9 +54,12 @@
         </a>
       <% end %>
     </div>
-    <div class="sqw-sparkline-wrap">
+    <div class="sqw-sparkline-wrap" data-controller="sparkline-tooltip">
       <span class="sqw-sparkline-label">Throughput — last 12 hours</span>
-      <%= throughput_sparkline_svg(@throughput) %>
+      <div class="sqw-sparkline-positioner">
+        <%= throughput_sparkline_svg(@throughput) %>
+        <div class="sqw-sparkline-tip" data-sparkline-tooltip-target="tip" hidden></div>
+      </div>
       <div class="sqw-sparkline-axis">
         <span>12h ago</span>
         <span>6h ago</span>
