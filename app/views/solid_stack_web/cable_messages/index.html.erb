@@ -1,0 +1,36 @@
+<div class="sqw-page-header sqw-page-header--split">
+  <h1 class="sqw-page-title sqw-truncate" title="<%= @channel_name %>"><%= @channel_name %></h1>
+  <div class="sqw-header-actions">
+    <%= link_to "← Channels", cable_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+  </div>
+</div>
+
+<% if @messages.any? %>
+  <table class="sqw-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Payload</th>
+        <th>Sent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @messages.each do |message| %>
+        <tr>
+          <td class="sqw-muted sqw-monospace"><%= message.id %></td>
+          <td class="sqw-monospace sqw-truncate" title="<%= message.payload %>">
+            <%= truncate(message.payload.to_s, length: 120) %>
+          </td>
+          <td class="sqw-muted" title="<%= message.created_at.strftime("%b %d, %Y %H:%M:%S %Z") %>">
+            <%= time_ago_in_words(message.created_at) %> ago
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%== @pagy.series_nav if @pagy.pages > 1 %>
+<% else %>
+  <div class="sqw-empty">
+    <p>No messages for this channel.</p>
+  </div>
+<% end %>

@@ -25,7 +25,9 @@
     <tbody>
       <% @channels.each do |channel| %>
         <tr>
-          <td class="sqw-monospace"><%= channel[:channel] %></td>
+          <td class="sqw-monospace sqw-truncate" title="<%= channel[:channel] %>">
+            <%= link_to channel[:channel], cable_channel_messages_path(channel[:channel_hash]), class: "sqw-link" %>
+          </td>
           <td><%= channel[:message_count] %></td>
           <td class="sqw-muted"><%= channel[:last_message_at]&.strftime("%b %d %H:%M") %></td>
         </tr>

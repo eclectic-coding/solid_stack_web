@@ -114,7 +114,7 @@ Filters are preserved when switching between status tabs (Ready / Scheduled / Ru
 
 ## Solid Cable
 
-_Channel monitoring coming in v0.6.0. Currently shows active message count and distinct channel count on the overview dashboard._
+`GET /cable` lists all active channels with per-channel message count and last-message timestamp, ordered by most recent activity. Clicking a channel opens `GET /cable/channels/:channel_hash` — a paginated, reverse-chronological list of that channel's messages with payload preview and relative timestamps.
 
 ---
 

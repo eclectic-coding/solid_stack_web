@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Per-channel message list — `GET /cable/channels/:channel_hash` shows a paginated, reverse-chronological list of `SolidCable::Message` records for a specific channel; each row shows the message ID, a truncated payload preview (120 chars), and relative sent time with exact timestamp on hover; channel names in the channel browser are now links to their message list
 - Solid Cable channel browser — `GET /cable` lists all distinct channels with per-channel message count and last-message timestamp, ordered by most recent activity; a total-messages stat and channel-count stat are shown at the top; empty state shown when no messages exist; Cable subnav (Overview) added to the layout
 
 ## [0.5.0] - 2026-05-26
