@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-05-26
+
 ### Added
 
 - Auto-refresh — dashboard, jobs, processes, and history views now poll automatically via a Stimulus `RefreshController`; refresh pauses when the browser tab is hidden or a checkbox is checked and resumes immediately on tab focus; intervals are configurable via `dashboard_refresh_interval` (default 5 s) and `default_refresh_interval` (default 10 s); `search_results_limit` (default 25) added as a configuration attribute for the upcoming search feature
@@ -70,7 +72,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Two-tier contextual navigation per section (Queue / Cache / Cable)
 - No runtime JavaScript dependency — all interactions use standard form POSTs or Turbo Stream
 
-[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.4.0
 [0.3.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.3.0
 [0.2.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.2.0
 [0.1.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.1.0
