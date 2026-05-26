@@ -6,12 +6,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 
 ---
 
-## v0.8.0 — Test Coverage ✓
-
-> All items complete — 315 examples, 99.36% line coverage.
-
----
-
 ## v0.9.0 — Polish & Developer Experience
 
 > _Make it easy to adopt and easy to contribute to._
