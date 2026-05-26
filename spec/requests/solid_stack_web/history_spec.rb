@@ -35,7 +35,7 @@ RSpec.describe "History", type: :request do
 
     it "shows an empty state when no finished jobs exist" do
       get "#{engine_root}/history"
-      expect(response.body).to include("No finished jobs found")
+      expect(response.body).to include("No finished jobs yet")
     end
 
     it "displays class name, queue, duration, and finished_at columns" do

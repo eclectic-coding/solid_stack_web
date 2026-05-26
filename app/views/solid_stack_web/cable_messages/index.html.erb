@@ -45,6 +45,12 @@
   <%== @pagy.series_nav if @pagy.pages > 1 %>
 <% else %>
   <div class="sqw-empty">
-    <p><%= @search.present? ? "No messages matching &ldquo;#{@search}&rdquo;.".html_safe : "No messages for this channel." %></p>
+    <% if @search.present? %>
+      <p class="sqw-empty__title">No messages matching &ldquo;<%= @search %>&rdquo;</p>
+      <p class="sqw-empty__hint"><%= link_to "Clear search", cable_channel_messages_path(params[:channel_hash]) %></p>
+    <% else %>
+      <p class="sqw-empty__title">No messages for this channel</p>
+      <p class="sqw-empty__hint">Messages may have been purged or the channel has gone quiet. <%= link_to "Back to channels →", cable_path %></p>
+    <% end %>
   </div>
 <% end %>

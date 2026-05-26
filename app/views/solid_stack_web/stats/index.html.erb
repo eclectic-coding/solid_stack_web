@@ -43,6 +43,7 @@
   </table>
 <% else %>
   <div class="sqw-empty">
-    <p>No finished jobs yet.</p>
+    <p class="sqw-empty__title">No finished jobs yet</p>
+    <p class="sqw-empty__hint">Performance stats appear here once jobs complete. <%= link_to "View active jobs →", jobs_path %></p>
   </div>
 <% end %>

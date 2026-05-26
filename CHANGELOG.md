@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Empty-state improvements — all list views now show a contextual title and an actionable hint; search result empty states include a "Clear search" link; history and stats link to active jobs; processes and recurring tasks explain what to do next
 - Inline notifications — bulk and single-job actions now surface a flash notice; Turbo Stream discard responses prepend the message to the page without a full reload; bulk discard/retry counts are shown ("3 jobs discarded")
 - Dark mode — toggle button in the header switches between light and dark palettes; preference persisted in `localStorage`; respects `prefers-color-scheme` on first visit; driven entirely by CSS custom properties on `[data-theme="dark"]`
 

@@ -1,3 +1,20 @@
 <div id="sqw-empty" class="sqw-empty">
-  <p>No <strong><%= @status %></strong> jobs.</p>
+  <% if @search.present? %>
+    <p class="sqw-empty__title">No <strong><%= @status %></strong> jobs matching &ldquo;<%= @search %>&rdquo;</p>
+    <p class="sqw-empty__hint"><%= link_to "Clear search", jobs_path(status: @status) %></p>
+  <% else %>
+    <p class="sqw-empty__title">No <strong><%= @status %></strong> jobs</p>
+    <p class="sqw-empty__hint">
+      <% case @status %>
+      <% when "ready" %>
+        Jobs will appear here once they are enqueued and ready to be picked up.
+      <% when "scheduled" %>
+        No jobs are scheduled to run in the future.
+      <% when "claimed" %>
+        No jobs are currently being processed by a worker.
+      <% when "blocked" %>
+        No jobs are blocked by concurrency controls.
+      <% end %>
+    </p>
+  <% end %>
 </div>
