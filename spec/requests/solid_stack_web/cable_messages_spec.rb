@@ -115,4 +115,33 @@ RSpec.describe "CableMessages", type: :request do
       expect(response.body).to include("Clear")
     end
   end
+
+  describe "pagination" do
+    it "shows pagination controls when messages exceed one page" do
+      26.times { |i| broadcast("logs", "msg#{i}") }
+      hash = channel_hash_for("logs")
+
+      get "#{engine_root}/cable/channels/#{hash}"
+
+      expect(response.body).to include("page=2")
+    end
+
+    it "returns 200 for page 2" do
+      26.times { |i| broadcast("logs", "msg#{i}") }
+      hash = channel_hash_for("logs")
+
+      get "#{engine_root}/cable/channels/#{hash}", params: { page: 2 }
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "returns 200 for an out-of-range page" do
+      broadcast("logs", "single")
+      hash = channel_hash_for("logs")
+
+      get "#{engine_root}/cable/channels/#{hash}", params: { page: 999 }
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
 end

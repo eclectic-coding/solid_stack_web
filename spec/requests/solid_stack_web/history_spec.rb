@@ -131,4 +131,30 @@ RSpec.describe "History", type: :request do
       expect(rows.first["duration_seconds"]).to eq("12")
     end
   end
+
+  describe "pagination" do
+    it "shows pagination controls when finished jobs exceed one page" do
+      26.times { finished_job }
+
+      get "#{engine_root}/history"
+
+      expect(response.body).to include("page=2")
+    end
+
+    it "returns 200 for page 2" do
+      26.times { finished_job }
+
+      get "#{engine_root}/history", params: { page: 2 }
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "returns 200 for an out-of-range page" do
+      finished_job
+
+      get "#{engine_root}/history", params: { page: 999 }
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
 end

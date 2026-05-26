@@ -10,12 +10,8 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 
 > _Make the test suite match the surface area of the engine._
 
-### Added
-- Request specs for every controller action (index, show, create, update, destroy) across all sections
-- Service class unit tests (stats aggregation, alert webhook, metrics payload)
-- Edge-case coverage: empty states, pagination boundaries, auth rejection, format variants (HTML / Turbo Stream / JSON / CSV)
-- Shared request spec helpers extracted to `spec/support/`
-- CI matrix coverage target raised to ≥ 90%
+### Remaining
+- Service class unit tests — `CableStats`, `CacheStats`, `QueueStats`, `CableTimeline`, `CacheSizeStats`, `CacheTimeline` have no specs; `AlertWebhook`, `QueueDepthSparkline`, `ThroughputSparkline` are already covered
 
 ---
 

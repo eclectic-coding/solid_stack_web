@@ -93,4 +93,30 @@ RSpec.describe "CacheEntries", type: :request do
       expect(SolidCache::Entry.count).to eq(0)
     end
   end
+
+  describe "pagination" do
+    it "shows pagination controls when entries exceed one page" do
+      26.times { |i| create_entry(key: "key#{i}", value: "v") }
+
+      get "#{engine_root}/cache/entries"
+
+      expect(response.body).to include("page=2")
+    end
+
+    it "returns 200 for page 2" do
+      26.times { |i| create_entry(key: "key#{i}", value: "v") }
+
+      get "#{engine_root}/cache/entries", params: { page: 2 }
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "returns 200 for an out-of-range page" do
+      create_entry
+
+      get "#{engine_root}/cache/entries", params: { page: 999 }
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
 end

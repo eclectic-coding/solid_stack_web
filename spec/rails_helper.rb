@@ -7,6 +7,8 @@ require File.expand_path("dummy/config/environment", __dir__)
 
 require "rspec/rails"
 
+Dir[File.join(__dir__, "support/**/*.rb")].each { |f| require f }
+
 ActionController::Base.allow_forgery_protection = false
 
 ActiveRecord::Schema.verbose = false

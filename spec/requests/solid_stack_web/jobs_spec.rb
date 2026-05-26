@@ -413,4 +413,30 @@ RSpec.describe "Jobs", type: :request do
       expect(response.body).to include("period=24h")
     end
   end
+
+  describe "pagination" do
+    it "shows pagination controls when jobs exceed one page" do
+      26.times { create_ready }
+
+      get "#{engine_root}/jobs"
+
+      expect(response.body).to include("page=2")
+    end
+
+    it "returns 200 for page 2" do
+      26.times { create_ready }
+
+      get "#{engine_root}/jobs", params: { page: 2 }
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "returns 200 for an out-of-range page" do
+      create_ready
+
+      get "#{engine_root}/jobs", params: { page: 999 }
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
 end
