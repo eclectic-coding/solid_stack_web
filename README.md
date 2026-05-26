@@ -46,6 +46,7 @@ The dashboard will be available at `/solid_stack` (or whatever path you choose).
 - **Recurring task list** — enumerates all `SolidQueue::RecurringTask` records with cron schedule, job class or command, queue, next-run and last-run times, and a static/dynamic badge; each row has a "Run Now" button
 - **Performance statistics page** — `GET /stats` aggregates finished jobs by class name with execution count, avg, p50, p95, min, and max duration; click any column header to sort; defaults to p95 descending
 - **Job history view** — paginated list of all finished jobs with class name, queue, duration, and finished-at time; filterable by queue (click a badge), class substring, and time period; CSV export respects active filters
+- **Auto-refresh** — dashboard, jobs, processes, and history views poll automatically; pauses when the tab is hidden or a checkbox is checked; intervals configurable via `dashboard_refresh_interval` and `default_refresh_interval`
 - **Turbo Stream** job discard — removes the row inline without a full page reload
 
 ### Configuration
@@ -66,6 +67,13 @@ SolidStackWeb.configure do |config|
     "default"  => 500
   }
   config.alert_webhook_cooldown  = 3600        # seconds between alerts (default: 3600)
+
+  # Auto-refresh intervals in milliseconds.
+  config.dashboard_refresh_interval = 5_000   # overview dashboard (default: 5000)
+  config.default_refresh_interval   = 10_000  # jobs, processes, history (default: 10000)
+
+  # Maximum results shown by the search feature (default: 25).
+  config.search_results_limit = 25
 end
 ```
 

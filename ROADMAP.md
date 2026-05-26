@@ -10,9 +10,7 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 
 > _Give operators the data they need to detect problems before users do._
 
-### Added
-- **Dashboard & table auto-refresh** — configurable polling intervals (`dashboard_refresh_interval`, `default_refresh_interval`) via Stimulus
-- **Configuration additions**: `dashboard_refresh_interval`, `default_refresh_interval`, `search_results_limit`
+_All items shipped._
 
 ---
 
