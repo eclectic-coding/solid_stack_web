@@ -9,6 +9,7 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
 SimpleCov.start "rails" do
   add_filter "/spec/"
   add_filter "/lib/solid_stack_web/version.rb"
+  add_filter "/lib/generators/"
 
   add_group "Controllers", "app/controllers"
   add_group "Helpers",     "app/helpers"

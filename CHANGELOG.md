@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Install generator — `rails generate solid_stack_web:install` creates `config/initializers/solid_stack_web.rb` with every config option documented inline and injects the mount line into `config/routes.rb`
+
 ## [0.8.0] - 2026-05-26
 
 ### Added
