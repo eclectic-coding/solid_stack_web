@@ -74,6 +74,10 @@ SolidStackWeb.configure do |config|
 
   # Maximum results shown by the search feature (default: 25).
   config.search_results_limit = 25
+
+  # Show the raw serialized value on the cache entry detail page (default: false).
+  # Disable for stores that contain sensitive data.
+  config.allow_value_preview = true
 end
 ```
 
@@ -97,9 +101,10 @@ Filters are preserved when switching between status tabs (Ready / Scheduled / Ru
 ### Features
 
 - **Overview dashboard card** — live entry count and total byte size
-- **Entry browser** — `GET /cache/entries` lists all `SolidCache::Entry` records in a paginated, sortable table; columns: key, byte size, created-at; sortable by any column
-- **Key search** — filter entries by key substring
-- **Delete entry** — per-row delete button removes a single cache entry
+- **Entry browser** — `GET /cache/entries` lists all `SolidCache::Entry` records in a paginated, sortable table; columns: key, byte size, created-at; sortable by any column; key auto-submits search after 4 characters
+- **Key search** — filter entries by key substring; results update automatically after 4 characters
+- **Entry detail page** — `GET /cache/entries/:id` shows the full key, byte size, and created-at; optionally displays the raw serialized value (see `allow_value_preview` below)
+- **Delete entry** — per-row delete button or detail-page button removes a single cache entry
 - **Flush All** — header button deletes every cache entry with a confirmation prompt
 
 ---
