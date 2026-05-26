@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Pagination boundary tests — `describe "pagination"` blocks added to jobs, failed jobs, cache entries, history, and cable message list specs; covers pagination controls appearing at 26+ records, page 2 returning 200, and out-of-range pages returning 200 without error
+- `spec/support/request_helpers.rb` — shared `engine_root` let for all request specs; `rails_helper.rb` auto-loads `spec/support/**/*.rb`
+
 ## [0.7.0] - 2026-05-26
 
 ### Added
