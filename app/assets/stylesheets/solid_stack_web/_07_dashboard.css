@@ -12,7 +12,6 @@
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
-  position: relative;
   transition: box-shadow 0.15s;
 }
 .sqw-gem-card:hover { box-shadow: 0 3px 8px rgba(0,0,0,.12); }
@@ -44,16 +43,6 @@
 }
 .sqw-gem-card__link:hover { color: var(--primary); text-decoration: none; }
 
-/* Stretch the header link to cover the whole card */
-.sqw-gem-card__link::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-/* Stat links and other interactive elements sit above the overlay */
-.sqw-inline-stat { position: relative; z-index: 1; }
-
 .sqw-gem-card__body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
@@ -68,6 +57,7 @@
   color: var(--text);
   transition: opacity 0.15s;
 }
+
 a.sqw-inline-stat:hover { opacity: 0.7; text-decoration: none; }
 
 .sqw-inline-stat__label {
