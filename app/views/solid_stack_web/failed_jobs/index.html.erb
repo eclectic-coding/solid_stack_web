@@ -1,6 +1,15 @@
 <div class="sqw-page-header sqw-page-header--split">
-  <h1 class="sqw-page-title">Failed Jobs</h1>
+  <div>
+    <h1 class="sqw-page-title">Failed Jobs</h1>
+    <% if @error_class %>
+      <div class="sqw-breadcrumb">
+        Filtered by <span class="sqw-monospace"><%= @error_class %></span>
+        — <%= link_to "Clear filter", failed_jobs_path %>
+      </div>
+    <% end %>
+  </div>
   <div class="sqw-header-actions">
+    <%= link_to "Error Summary", failed_job_errors_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
     <%= link_to "Export CSV", failed_jobs_path(format: :csv),
           class: "sqw-btn sqw-btn--muted sqw-btn--sm", data: { turbo: false } %>
   </div>

@@ -4,6 +4,8 @@ module SolidStackWeb
       respond_to do |format|
         format.html do
           scope = ::SolidQueue::FailedExecution.includes(:job).order(created_at: :desc)
+          @error_class = params[:error_class].presence
+          scope = scope.where(id: ids_for_error_class(@error_class)) if @error_class
           @pagy, @executions = pagy(scope)
         end
         format.csv do
@@ -40,6 +42,15 @@ module SolidStackWeb
     end
 
     private
+
+    def ids_for_error_class(ec)
+      ::SolidQueue::FailedExecution.pluck(:id, :error).filter_map do |id, raw|
+        error = raw.is_a?(Hash) ? raw : JSON.parse(raw)
+        id if error["exception_class"] == ec
+      rescue StandardError
+        nil
+      end
+    end
 
     def failed_jobs_csv
       CSV.generate(headers: true) do |csv|

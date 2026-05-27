@@ -20,6 +20,8 @@ SolidStackWeb::Engine.routes.draw do
     end
   end
 
+  get "failed_jobs/errors", to: "failed_jobs/errors#index", as: :failed_job_errors
+
   resources :failed_jobs, only: [:index, :show, :destroy] do
     member { post :retry }
     resource :arguments, only: [:update], controller: "failed_jobs/arguments"

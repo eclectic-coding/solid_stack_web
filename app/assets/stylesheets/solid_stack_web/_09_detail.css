@@ -84,6 +84,29 @@
 
 .sqw-value-truncated { font-size: 12px; margin-top: 0.5rem; }
 
+.sqw-error-details > summary {
+  cursor: pointer;
+  list-style: none;
+  display: block;
+  max-width: 480px;
+}
+.sqw-error-details > summary::-webkit-details-marker { display: none; }
+.sqw-error-details[open] > summary { margin-bottom: 0.5rem; }
+
+.sqw-error-backtrace {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 11px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.75rem;
+  overflow-x: auto;
+  white-space: pre;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 0.25rem;
+}
+
 .sqw-link { color: var(--primary); text-decoration: none; }
 .sqw-link:hover { text-decoration: underline; }
 
