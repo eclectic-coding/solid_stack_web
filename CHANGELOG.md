@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- P99 + standard deviation columns in performance stats — `p99` and `Std Dev` columns added to the stats table; both are sortable; high std dev flags inconsistent jobs worth investigating
 - Failed job trend chart — "Failures — last 12 hours" sparkline added to the Solid Queue dashboard card below the throughput sparkline; bars render in the danger color to make failure spikes immediately visible
 - Error frequency report — `GET /failed_jobs/errors` groups all failed jobs by exception class and message prefix, showing count and an expandable sample backtrace per group; links through to a filtered failed jobs list via `?error_class=`; the failed jobs index gains an "Error Summary" button and shows an active-filter breadcrumb with a clear link
 

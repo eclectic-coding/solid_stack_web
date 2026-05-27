@@ -12,6 +12,8 @@
           ["avg",        "Avg"],
           ["p50",        "p50"],
           ["p95",        "p95"],
+          ["p99",        "p99"],
+          ["stddev",     "Std Dev"],
           ["min",        "Min"],
           ["max",        "Max"]
         ].each do |col, label| %>
@@ -35,6 +37,8 @@
           <td class="sqw-muted"><%= format_duration(row[:avg]) %></td>
           <td class="sqw-muted"><%= format_duration(row[:p50]) %></td>
           <td><strong><%= format_duration(row[:p95]) %></strong></td>
+          <td class="sqw-muted"><%= format_duration(row[:p99]) %></td>
+          <td class="sqw-muted"><%= format_duration(row[:stddev]) %></td>
           <td class="sqw-muted"><%= format_duration(row[:min]) %></td>
           <td class="sqw-muted"><%= format_duration(row[:max]) %></td>
         </tr>
