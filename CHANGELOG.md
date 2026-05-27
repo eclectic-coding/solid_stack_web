@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-05-27
+
 ### Added
 
 - Sticky filter preferences — last-used status, period, and queue filter saved to `localStorage`; a fresh visit to `/jobs` or `/history` with no URL params restores the previous selection automatically; uses a new `filter-persist` Stimulus controller; gracefully no-ops when `localStorage` is unavailable
@@ -163,7 +165,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Two-tier contextual navigation per section (Queue / Cache / Cable)
 - No runtime JavaScript dependency — all interactions use standard form POSTs or Turbo Stream
 
-[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.2.0
 [1.1.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.1.0
 [1.0.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.0.0
 [0.9.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.9.0
