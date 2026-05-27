@@ -31,6 +31,75 @@ The dashboard will be available at `/solid_stack` (or whatever path you choose).
 
 ---
 
+## Metrics endpoint
+
+`GET /metrics` (relative to your mount path) returns a JSON payload suitable for external monitoring tools, uptime checkers, or custom alerting:
+
+```json
+{
+  "queue": {
+    "ready": 4,
+    "scheduled": 1,
+    "claimed": 2,
+    "blocked": 0,
+    "failed": 3,
+    "done_1h": 45,
+    "done_24h": 312,
+    "processes_healthy": 2,
+    "processes_stale": 0,
+    "slow_jobs": 7
+  },
+  "cache": { "entries": 1024, "byte_size": 2097152, "oldest_entry": "2026-05-20T10:00:00Z" },
+  "cable": { "messages": 50, "channels": 3, "messages_per_hour": 12, "oldest_message": "2026-05-20T10:00:00Z", "top_channels": { "ActionCable::Channel::Base": 30, "ChatChannel": 15, "NotificationsChannel": 5 } },
+  "generated_at": "2026-05-26T10:00:00Z"
+}
+```
+
+`slow_jobs` is only present when `slow_job_threshold` is configured. The endpoint is protected by the same authentication as the rest of the dashboard.
+
+---
+
+## General configuration
+
+Create an initializer at `config/initializers/solid_stack_web.rb`:
+
+```ruby
+SolidStackWeb.configure do |config|
+  # Number of items per paginated page (default: 25)
+  config.page_size = 50
+
+  # Authentication — block runs in controller context.
+  # Return a truthy value to allow access; falsy falls back to HTTP Basic.
+  config.authenticate do
+    current_user&.admin?
+  end
+end
+```
+
+### Authentication
+
+The `authenticate` block is evaluated in the context of each request's controller instance, so any helper method available to controllers (e.g. `current_user` from Devise) works directly. If the block returns `false` or `nil`, the engine falls back to HTTP Basic authentication. If no `authenticate` block is configured, the dashboard is open.
+
+### Linking to the dashboard
+
+`SolidStackWeb.mount_path` returns the path at which the engine is mounted, derived automatically from your routes. Use it to link to the dashboard from your application layout without hardcoding the path:
+
+```ruby
+link_to "Queue Dashboard", SolidStackWeb.mount_path
+```
+
+### Install generator
+
+Run the install generator to create a documented initializer and wire up the mount point in one step:
+
+```bash
+rails generate solid_stack_web:install
+```
+
+This creates `config/initializers/solid_stack_web.rb` with every configuration option commented inline, and injects `mount SolidStackWeb::Engine, at: "/solid_stack"` into `config/routes.rb`.
+
+---
+
 ## Solid Queue
 
 ### Features
@@ -125,75 +194,6 @@ Filters are preserved when switching between status tabs (Ready / Scheduled / Ru
 - **Channel browser** — `GET /cable` lists all active channels with per-channel message count and last-message timestamp, ordered by most recent activity; supports `?q=` filtering by channel name substring; empty state shown when no messages exist
 - **Per-channel message list** — `GET /cable/channels/:channel_hash` shows a paginated, reverse-chronological list of that channel's `SolidCable::Message` records; each row shows the message ID, a truncated payload preview (120 chars) with the full payload on hover, and a relative sent time with the exact timestamp on hover; supports `?q=` filtering by payload substring; **Purge Channel** button deletes all messages for the channel
 - **Message purge** — "Purge Old" form on the channel browser deletes all messages older than 1, 7, or 30 days; confirmation prompt before any destructive action
-
----
-
-## Metrics endpoint
-
-`GET /metrics` (relative to your mount path) returns a JSON payload suitable for external monitoring tools, uptime checkers, or custom alerting:
-
-```json
-{
-  "queue": {
-    "ready": 4,
-    "scheduled": 1,
-    "claimed": 2,
-    "blocked": 0,
-    "failed": 3,
-    "done_1h": 45,
-    "done_24h": 312,
-    "processes_healthy": 2,
-    "processes_stale": 0,
-    "slow_jobs": 7
-  },
-  "cache": { "entries": 1024, "byte_size": 2097152, "oldest_entry": "2026-05-20T10:00:00Z" },
-  "cable": { "messages": 50, "channels": 3, "messages_per_hour": 12, "oldest_message": "2026-05-20T10:00:00Z", "top_channels": { "ActionCable::Channel::Base": 30, "ChatChannel": 15, "NotificationsChannel": 5 } },
-  "generated_at": "2026-05-26T10:00:00Z"
-}
-```
-
-`slow_jobs` is only present when `slow_job_threshold` is configured. The endpoint is protected by the same authentication as the rest of the dashboard.
-
----
-
-## General configuration
-
-Create an initializer at `config/initializers/solid_stack_web.rb`:
-
-```ruby
-SolidStackWeb.configure do |config|
-  # Number of items per paginated page (default: 25)
-  config.page_size = 50
-
-  # Authentication — block runs in controller context.
-  # Return a truthy value to allow access; falsy falls back to HTTP Basic.
-  config.authenticate do
-    current_user&.admin?
-  end
-end
-```
-
-### Authentication
-
-The `authenticate` block is evaluated in the context of each request's controller instance, so any helper method available to controllers (e.g. `current_user` from Devise) works directly. If the block returns `false` or `nil`, the engine falls back to HTTP Basic authentication. If no `authenticate` block is configured, the dashboard is open.
-
-### Linking to the dashboard
-
-`SolidStackWeb.mount_path` returns the path at which the engine is mounted, derived automatically from your routes. Use it to link to the dashboard from your application layout without hardcoding the path:
-
-```ruby
-link_to "Queue Dashboard", SolidStackWeb.mount_path
-```
-
-### Install generator
-
-Run the install generator to create a documented initializer and wire up the mount point in one step:
-
-```bash
-rails generate solid_stack_web:install
-```
-
-This creates `config/initializers/solid_stack_web.rb` with every configuration option commented inline, and injects `mount SolidStackWeb::Engine, at: "/solid_stack"` into `config/routes.rb`.
 
 ---
 
