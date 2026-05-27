@@ -60,5 +60,24 @@ RSpec.describe "Stats", type: :request do
       get "#{engine_root}/stats"
       expect(response.body).to match(/\d+(\.\d+)?s|ms/)
     end
+
+    it "renders p99 and Std Dev column headers" do
+      create_finished(class_name: "MyJob")
+      get "#{engine_root}/stats"
+      expect(response.body).to include("p99")
+      expect(response.body).to include("Std Dev")
+    end
+
+    it "accepts sort by p99" do
+      create_finished(class_name: "MyJob")
+      get "#{engine_root}/stats", params: { sort: "p99", direction: "desc" }
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "accepts sort by stddev" do
+      create_finished(class_name: "MyJob")
+      get "#{engine_root}/stats", params: { sort: "stddev", direction: "desc" }
+      expect(response).to have_http_status(:ok)
+    end
   end
 end
