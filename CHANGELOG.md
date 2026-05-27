@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Install generator — `rails generate solid_stack_web:install` creates `config/initializers/solid_stack_web.rb` with every config option documented inline and injects the mount line into `config/routes.rb`
 - `SolidStackWeb.mount_path` — returns the path at which the engine is mounted in the host app, derived automatically from routes; use `link_to "Dashboard", SolidStackWeb.mount_path` to link to the dashboard without hardcoding the path
+- Accessibility pass — skip-to-content link; ARIA labels on all navigation elements; `scope="col"` on every table header; visually-hidden "Actions" label on empty action-column headers; `aria-sort` on active sort columns in stats and cache entries; `aria_label: "Pagination"` on all pagination navs; `.sqw-sr-only` and `.sqw-skip-link` CSS utilities added to base stylesheet
 
 ## [0.8.0] - 2026-05-26
 
