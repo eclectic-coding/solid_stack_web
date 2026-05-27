@@ -74,5 +74,27 @@ module SolidStackWeb
       @authenticate = block if block_given?
       @authenticate
     end
+
+    def deprecator
+      @deprecator ||= ActiveSupport::Deprecation.new("1.0", "SolidStackWeb")
+    end
+
+    private
+
+    # Define a deprecated writer for a renamed config key.
+    # The old writer issues a deprecation warning and forwards to the new key.
+    #
+    # Usage (add entries here as keys are renamed before 1.0):
+    #   deprecated_config :old_key, :new_key
+    def deprecated_config(old_key, new_key)
+      singleton_class.define_method(:"#{old_key}=") do |value|
+        deprecator.warn(
+          "config.#{old_key}= is deprecated and will be removed in SolidStackWeb 1.0. " \
+          "Use config.#{new_key}= instead.",
+          caller_locations
+        )
+        public_send(:"#{new_key}=", value)
+      end
+    end
   end
 end
