@@ -55,6 +55,16 @@ sed -i '' \
 [$VERSION]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/$TAG" \
   CHANGELOG.md
 
+echo "==> Removing completed section from ROADMAP..."
+if grep -q "^## v$VERSION" ROADMAP.md; then
+  awk -v ver="v$VERSION" '
+    /^## / && index($0, ver) > 0 { skip=1; next }
+    skip && /^---$/ { skip=0; next }
+    !skip
+  ' ROADMAP.md > ROADMAP.tmp && mv ROADMAP.tmp ROADMAP.md
+  git add ROADMAP.md
+fi
+
 echo "==> Committing release..."
 git add "$VERSION_FILE" Gemfile.lock CHANGELOG.md
 git commit -m "Release $TAG"
