@@ -10,11 +10,13 @@ module SolidStackWeb
         count   = SolidQueue::Job.where(id: job_ids).destroy_all.size
 
         redirect_to jobs_path(
-          status: status,
-          q:        params[:q].presence,
-          queue:    params[:queue].presence,
-          period:   params[:period].presence_in(PERIOD_DURATIONS.keys),
-          priority: params[:priority].presence
+          status:    status,
+          q:         params[:q].presence,
+          queue:     params[:queue].presence,
+          period:    params[:period].presence_in(PERIOD_DURATIONS.keys),
+          priority:  params[:priority].presence,
+          sort:      params[:sort].presence,
+          direction: params[:direction].presence
         ), notice: "#{count} #{count == 1 ? "job" : "jobs"} discarded."
       rescue ArgumentError => e
         redirect_to jobs_path(status: params[:status]), alert: e.message

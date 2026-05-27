@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Sortable columns on jobs, failed jobs, and history — server-side `?sort=&direction=` params; jobs sortable by class, queue, priority, enqueued at; failed jobs by class, queue, failed at; history by class, queue, finished at; sort state is preserved across filter and period changes
+
 ## [1.1.0] - 2026-05-27
 
 ### Added

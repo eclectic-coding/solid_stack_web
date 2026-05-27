@@ -130,6 +130,34 @@ RSpec.describe "Jobs", type: :request do
     end
   end
 
+  describe "GET /jobs?sort=" do
+    it "accepts sort by class_name" do
+      create_ready(class_name: "MyJob")
+      get "#{engine_root}/jobs", params: { sort: "class_name", direction: "asc" }
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("MyJob")
+    end
+
+    it "accepts sort by queue_name" do
+      create_ready
+      get "#{engine_root}/jobs", params: { sort: "queue_name", direction: "desc" }
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "accepts sort by priority" do
+      create_ready
+      get "#{engine_root}/jobs", params: { sort: "priority", direction: "asc" }
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "defaults to created_at desc for invalid sort column" do
+      create_ready(class_name: "MyJob")
+      get "#{engine_root}/jobs", params: { sort: "DROP TABLE", direction: "evil" }
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("MyJob")
+    end
+  end
+
   describe "GET /jobs/:id" do
     it "returns 200 and shows the job class" do
       job = create_ready(class_name: "ReportJob")
@@ -202,7 +230,7 @@ RSpec.describe "Jobs", type: :request do
         job = create_ready
         delete "#{engine_root}/jobs/#{job.ready_execution.id}", params: { status: "ready" }
 
-        expect(response).to redirect_to("#{engine_root}/jobs?status=ready")
+        expect(response).to redirect_to("#{engine_root}/jobs?direction=desc&sort=created_at&status=ready")
         expect(SolidQueue::Job.exists?(job.id)).to be false
       end
 
@@ -313,7 +341,7 @@ RSpec.describe "Jobs", type: :request do
 
       post "#{engine_root}/jobs/discard_all", params: { status: "ready" }
 
-      expect(response).to redirect_to("#{engine_root}/jobs?status=ready")
+      expect(response).to redirect_to("#{engine_root}/jobs?direction=desc&sort=created_at&status=ready")
       expect(SolidQueue::ReadyExecution.count).to eq(0)
     end
 

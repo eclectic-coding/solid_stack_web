@@ -41,10 +41,11 @@
             <th scope="col"><input type="checkbox" class="sqw-checkbox" aria-label="Select all"
                        data-selection-target="selectAll"
                        data-action="change->selection#selectAll"></th>
-            <th scope="col">Job Class</th>
-            <th scope="col">Queue</th>
+            <% sort_url = ->(p) { failed_jobs_path(error_class: @error_class, **p) } %>
+            <%= sort_header_th("Job Class", "class_name", sort_url, current_sort: @sort, current_dir: @direction) %>
+            <%= sort_header_th("Queue",     "queue_name", sort_url, current_sort: @sort, current_dir: @direction) %>
             <th scope="col">Error</th>
-            <th scope="col">Failed At</th>
+            <%= sort_header_th("Failed At", "created_at", sort_url, current_sort: @sort, current_dir: @direction) %>
             <th scope="col"><span class="sqw-sr-only">Actions</span></th>
           </tr>
         </thead>
