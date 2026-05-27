@@ -23,9 +23,9 @@
   <table class="sqw-table">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Payload</th>
-        <th>Sent</th>
+        <th scope="col">ID</th>
+        <th scope="col">Payload</th>
+        <th scope="col">Sent</th>
       </tr>
     </thead>
     <tbody>
@@ -42,7 +42,7 @@
       <% end %>
     </tbody>
   </table>
-  <%== @pagy.series_nav if @pagy.pages > 1 %>
+  <%== @pagy.series_nav(aria_label: "Pagination") if @pagy.pages > 1 %>
 <% else %>
   <div class="sqw-empty">
     <% if @search.present? %>

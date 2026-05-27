@@ -15,7 +15,7 @@
           ["min",        "Min"],
           ["max",        "Max"]
         ].each do |col, label| %>
-          <th>
+          <th scope="col" <%= "aria-sort=\"#{@direction == 'asc' ? 'ascending' : 'descending'}\"".html_safe if @sort == col %>>
             <% next_dir = (@sort == col && @direction == "desc") ? "asc" : "desc" %>
             <%= link_to stats_path(sort: col, direction: next_dir) do %>
               <%= label %>

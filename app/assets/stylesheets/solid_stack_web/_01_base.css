@@ -31,3 +31,15 @@ a:hover { text-decoration: underline; }
 .sqw-monospace { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 13px; }
 .sqw-muted     { color: var(--muted); }
 .sqw-truncate  { max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.sqw-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+.sqw-skip-link {
+  position: absolute; top: -100%; left: 0; z-index: 9999;
+  padding: 0.5rem 1rem; background: var(--accent); color: #fff;
+  font-weight: 600; text-decoration: none; border-radius: 0 0 4px 0;
+}
+.sqw-skip-link:focus { top: 0; }

@@ -96,16 +96,16 @@
         <thead>
           <tr>
             <% if SolidStackWeb::Job::DISCARDABLE.include?(@status) %>
-              <th><input type="checkbox" class="sqw-checkbox" aria-label="Select all"
+              <th scope="col"><input type="checkbox" class="sqw-checkbox" aria-label="Select all"
                          data-selection-target="selectAll"
                          data-action="change->selection#selectAll"></th>
             <% end %>
-            <th>Job Class</th>
-            <th>Queue</th>
-            <th>Priority</th>
-            <th>Enqueued At</th>
-            <% if @status == "scheduled" %><th>Scheduled At</th><% end %>
-            <th></th>
+            <th scope="col">Job Class</th>
+            <th scope="col">Queue</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Enqueued At</th>
+            <% if @status == "scheduled" %><th scope="col">Scheduled At</th><% end %>
+            <th scope="col"><span class="sqw-sr-only">Actions</span></th>
           </tr>
         </thead>
         <tbody>
@@ -149,7 +149,7 @@
           <% end %>
         </tbody>
       </table>
-      <%== @pagy.series_nav if @pagy.pages > 1 %>
+      <%== @pagy.series_nav(aria_label: "Pagination") if @pagy.pages > 1 %>
     </div>
   <% else %>
     <%= render "empty" %>
