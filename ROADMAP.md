@@ -11,7 +11,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 
 > _Surface patterns in failures, not just individual failed jobs._
 
-- **Error frequency report** — group all failed jobs by error class + message prefix; show count and a sample backtrace; makes "ArgumentError (x212), TimeoutError (x88)" visible at a glance without clicking into each job
 - **Failed job trend chart** — "Failures — Last 12 Hours" sparkline on the queue dashboard overview card; makes failure spikes visible before you click into the failed jobs list
 - **P99 + standard deviation in performance stats** — extend the stats table with a 99th-percentile and std-dev column; high std dev signals inconsistent jobs worth investigating
 

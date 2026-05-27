@@ -1,0 +1,48 @@
+<div class="sqw-page-header sqw-page-header--split">
+  <h1 class="sqw-page-title">Error Summary</h1>
+  <div class="sqw-header-actions">
+    <%= link_to "← Failed Jobs", failed_jobs_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+  </div>
+</div>
+
+<% if @groups.any? %>
+  <table class="sqw-table">
+    <thead>
+      <tr>
+        <th scope="col">Error Class</th>
+        <th scope="col">Message</th>
+        <th scope="col">Count</th>
+        <th scope="col"><span class="sqw-sr-only">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @groups.each do |group| %>
+        <tr>
+          <td class="sqw-monospace"><%= group.exception_class.presence || "—" %></td>
+          <td>
+            <% if group.sample_backtrace.present? %>
+              <details class="sqw-error-details">
+                <summary class="sqw-muted sqw-truncate" title="<%= group.message_prefix %>">
+                  <%= group.message_prefix.presence || "—" %>
+                </summary>
+                <pre class="sqw-error-backtrace"><%= Array(group.sample_backtrace).first(10).join("\n") %></pre>
+              </details>
+            <% else %>
+              <span class="sqw-muted sqw-truncate" title="<%= group.message_prefix %>"><%= group.message_prefix.presence || "—" %></span>
+            <% end %>
+          </td>
+          <td><%= group.count %></td>
+          <td class="sqw-actions">
+            <%= link_to "View Jobs", failed_jobs_path(error_class: group.exception_class),
+                  class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="sqw-empty">
+    <p class="sqw-empty__title">No failed jobs</p>
+    <p class="sqw-empty__hint">All clear — your jobs are running without errors.</p>
+  </div>
+<% end %>

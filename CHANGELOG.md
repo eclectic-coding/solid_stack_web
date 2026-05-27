@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Error frequency report — `GET /failed_jobs/errors` groups all failed jobs by exception class and message prefix, showing count and an expandable sample backtrace per group; links through to a filtered failed jobs list via `?error_class=`; the failed jobs index gains an "Error Summary" button and shows an active-filter breadcrumb with a clear link
+
 ## [1.0.0] - 2026-05-27
 
 ### Added
