@@ -18,16 +18,20 @@ module SolidStackWeb
     end
 
     def buckets
-      @buckets ||= BUCKETS.map do |b|
-        scope = ::SolidCache::Entry.all
-        scope = scope.where("byte_size >= ?", b[:min]) if b[:min] > 0
-        scope = scope.where("byte_size < ?",  b[:max]) if b[:max]
-        { label: b[:label], count: scope.count }
+      @buckets ||= begin
+        row = ::SolidCache::Entry.pluck(
+          Arel.sql("COALESCE(SUM(CASE WHEN byte_size < 1024 THEN 1 ELSE 0 END), 0)"),
+          Arel.sql("COALESCE(SUM(CASE WHEN byte_size >= 1024 AND byte_size < 10240 THEN 1 ELSE 0 END), 0)"),
+          Arel.sql("COALESCE(SUM(CASE WHEN byte_size >= 10240 AND byte_size < 102400 THEN 1 ELSE 0 END), 0)"),
+          Arel.sql("COALESCE(SUM(CASE WHEN byte_size >= 102400 AND byte_size < 1048576 THEN 1 ELSE 0 END), 0)"),
+          Arel.sql("COALESCE(SUM(CASE WHEN byte_size >= 1048576 THEN 1 ELSE 0 END), 0)")
+        ).first || Array.new(5, 0)
+        BUCKETS.zip(row).map { |b, count| { label: b[:label], count: count.to_i } }
       end
     end
 
     def total
-      @total ||= ::SolidCache::Entry.count
+      @total ||= buckets.sum { |b| b[:count] }
     end
   end
 end
