@@ -29,14 +29,14 @@
       <table class="sqw-table">
         <thead>
           <tr>
-            <th><input type="checkbox" class="sqw-checkbox" aria-label="Select all"
+            <th scope="col"><input type="checkbox" class="sqw-checkbox" aria-label="Select all"
                        data-selection-target="selectAll"
                        data-action="change->selection#selectAll"></th>
-            <th>Job Class</th>
-            <th>Queue</th>
-            <th>Error</th>
-            <th>Failed At</th>
-            <th></th>
+            <th scope="col">Job Class</th>
+            <th scope="col">Queue</th>
+            <th scope="col">Error</th>
+            <th scope="col">Failed At</th>
+            <th scope="col"><span class="sqw-sr-only">Actions</span></th>
           </tr>
         </thead>
         <tbody>
@@ -62,7 +62,7 @@
           <% end %>
         </tbody>
       </table>
-      <%== @pagy.series_nav if @pagy.pages > 1 %>
+      <%== @pagy.series_nav(aria_label: "Pagination") if @pagy.pages > 1 %>
     </div>
   <% else %>
     <div class="sqw-empty">

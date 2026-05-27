@@ -11,10 +11,11 @@
   <%= javascript_importmap_tags "solid_stack_web" %>
 </head>
 <body data-controller="theme">
+  <a href="#main-content" class="sqw-skip-link">Skip to main content</a>
   <header class="sqw-header">
     <div class="sqw-header__inner">
       <%= link_to "Solid Stack", root_path, class: "sqw-header__logo" %>
-      <nav class="sqw-nav">
+      <nav class="sqw-nav" aria-label="Main navigation">
         <%= link_to "Queue", jobs_path,
               class: "sqw-nav__link#{" sqw-nav__link--active" if current_section == :queue}" %>
         <%= link_to "Cache", cache_path,
@@ -28,7 +29,7 @@
   </header>
 
   <% if current_section == :cache %>
-    <nav class="sqw-subnav">
+    <nav class="sqw-subnav" aria-label="Cache section">
       <div class="sqw-subnav__inner">
         <%= link_to "Overview", cache_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "cache"}" %>
@@ -39,7 +40,7 @@
   <% end %>
 
   <% if current_section == :cable %>
-    <nav class="sqw-subnav">
+    <nav class="sqw-subnav" aria-label="Cable section">
       <div class="sqw-subnav__inner">
         <%= link_to "Overview", cable_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "cable"}" %>
@@ -48,7 +49,7 @@
   <% end %>
 
   <% if current_section == :queue %>
-    <nav class="sqw-subnav">
+    <nav class="sqw-subnav" aria-label="Queue section">
       <div class="sqw-subnav__inner">
         <%= link_to "Jobs", jobs_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "jobs"}" %>
@@ -68,7 +69,7 @@
     </nav>
   <% end %>
 
-  <main class="sqw-main">
+  <main id="main-content" class="sqw-main">
     <div id="sqw-flash-container">
       <% flash.each do |type, message| %>
         <div class="sqw-flash sqw-flash--<%= type %>"><%= message %></div>

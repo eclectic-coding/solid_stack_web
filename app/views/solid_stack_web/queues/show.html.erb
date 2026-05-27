@@ -35,10 +35,10 @@
   <table class="sqw-table">
     <thead>
       <tr>
-        <th>Job Class</th>
-        <th>Priority</th>
-        <th>Enqueued At</th>
-        <th></th>
+        <th scope="col">Job Class</th>
+        <th scope="col">Priority</th>
+        <th scope="col">Enqueued At</th>
+        <th scope="col"><span class="sqw-sr-only">Actions</span></th>
       </tr>
     </thead>
     <tbody>
@@ -59,7 +59,7 @@
       <% end %>
     </tbody>
   </table>
-  <%== @pagy.series_nav if @pagy.pages > 1 %>
+  <%== @pagy.series_nav(aria_label: "Pagination") if @pagy.pages > 1 %>
 <% else %>
   <div class="sqw-empty">
     <p>No ready jobs in <strong><%= @queue_name %></strong>.</p>

@@ -26,7 +26,7 @@
     <thead>
       <tr>
         <% [["key", "Key"], ["byte_size", "Size"], ["created_at", "Created"]].each do |col, label| %>
-          <th>
+          <th scope="col">
             <% next_dir = (@sort["column"] == col && @sort["direction"] == "desc") ? "asc" : "desc" %>
             <%= link_to cache_entries_path(q: @search, column: col, direction: next_dir) do %>
               <%= label %>
@@ -36,7 +36,7 @@
             <% end %>
           </th>
         <% end %>
-        <th></th>
+        <th scope="col"><span class="sqw-sr-only">Actions</span></th>
       </tr>
     </thead>
     <tbody>
@@ -58,7 +58,7 @@
       <% end %>
     </tbody>
   </table>
-  <%== @pagy.series_nav if @pagy.pages > 1 %>
+  <%== @pagy.series_nav(aria_label: "Pagination") if @pagy.pages > 1 %>
 <% else %>
   <div class="sqw-empty">
     <% if @search.present? %>
