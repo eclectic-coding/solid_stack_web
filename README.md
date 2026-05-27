@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/eclectic-coding/solid_stack_web/actions/workflows/ci.yml/badge.svg)](https://github.com/eclectic-coding/solid_stack_web/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/solid_stack_web.svg)](https://badge.fury.io/rb/solid_stack_web)
+[![Downloads](https://img.shields.io/gem/dt/solid_stack_web.svg)](https://rubygems.org/gems/solid_stack_web)
 [![Ruby](https://img.shields.io/badge/ruby-%3E%3D%203.3-ruby)](https://www.ruby-lang.org)
 [![codecov](https://codecov.io/gh/eclectic-coding/solid_stack_web/branch/main/graph/badge.svg)](https://codecov.io/gh/eclectic-coding/solid_stack_web)
 
