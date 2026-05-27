@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-05-27
+
 ### Added
 
 - P99 + standard deviation columns in performance stats — `p99` and `Std Dev` columns added to the stats table; both are sortable; high std dev flags inconsistent jobs worth investigating
@@ -156,7 +158,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Two-tier contextual navigation per section (Queue / Cache / Cable)
 - No runtime JavaScript dependency — all interactions use standard form POSTs or Turbo Stream
 
-[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.1.0
 [1.0.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.0.0
 [0.9.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.9.0
 [0.8.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.8.0
