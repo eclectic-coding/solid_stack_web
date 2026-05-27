@@ -5,6 +5,7 @@ module SolidStackWeb
       @cache_stats = CacheStats.new.to_h
       @cable_stats = CableStats.new.to_h
       @throughput  = ThroughputSparkline.new
+      @failures    = FailedJobSparkline.new
     end
   end
 end

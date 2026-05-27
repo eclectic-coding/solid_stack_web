@@ -68,6 +68,18 @@
         <span>now</span>
       </div>
     </div>
+    <div class="sqw-sparkline-wrap sqw-sparkline-wrap--failures" data-controller="sparkline-tooltip">
+      <span class="sqw-sparkline-label">Failures — last 12 hours</span>
+      <div class="sqw-sparkline-positioner">
+        <%= failed_job_sparkline_svg(@failures) %>
+        <div class="sqw-sparkline-tip" data-sparkline-tooltip-target="tip" hidden></div>
+      </div>
+      <div class="sqw-sparkline-axis">
+        <span>12h ago</span>
+        <span>6h ago</span>
+        <span>now</span>
+      </div>
+    </div>
   </div>
 
   <div class="sqw-gem-card sqw-gem-card--cache">

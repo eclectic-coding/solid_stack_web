@@ -87,6 +87,17 @@ module SolidStackWeb
       end
     end
 
+    def failed_job_sparkline_svg(sparkline)
+      build_sparkline_svg(sparkline, aria_label: "Failed jobs over the last 12 hours") do |count, i|
+        hours_ago = SolidStackWeb::FailedJobSparkline::HOURS - i
+        if hours_ago == 1
+          "#{count} #{count == 1 ? "failure" : "failures"} in the last hour"
+        else
+          "#{count} #{count == 1 ? "failure" : "failures"} (#{hours_ago}h–#{hours_ago - 1}h ago)"
+        end
+      end
+    end
+
     private
 
     def build_sparkline_svg(sparkline, css_class: "sqw-sparkline", aria_label: nil, &tooltip_text)
