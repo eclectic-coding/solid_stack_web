@@ -43,20 +43,7 @@ This creates `config/initializers/solid_stack_web.rb` with every configuration o
 
 ## Screenshots
 
-**Queue — overview dashboard**
-![Queue overview](docs/screenshots/queue-overview.png)
-
-**Queue — jobs browser with filters**
-![Jobs browser](docs/screenshots/jobs.png)
-
-**Queue — failed job detail with inline argument editor**
-![Failed job detail](docs/screenshots/failed-job.png)
-
-**Cache — overview with size distribution and write timeline**
-![Cache overview](docs/screenshots/cache-overview.png)
-
-**Solid Cable — channel browser**
-![Cable channel browser](docs/screenshots/cable.png)
+![SolidStackWeb dashboard](docs/screenshots/demo.gif)
 
 ---
 
