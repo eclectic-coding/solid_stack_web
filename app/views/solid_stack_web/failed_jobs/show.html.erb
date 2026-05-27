@@ -45,7 +45,7 @@
   </div>
 </div>
 
-<div class="sqw-detail-card sqw-detail-section" style="margin-top: 1.5rem;">
+<div class="sqw-detail-card sqw-detail-section sqw-detail-card--mt">
   <h2 class="sqw-section-title">Arguments</h2>
   <%= form_with url: failed_job_arguments_path(@execution), method: :patch do |f| %>
     <%= f.text_area :arguments, value: @arguments, rows: 12,
