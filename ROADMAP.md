@@ -11,7 +11,8 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 > _Make it easy to adopt and easy to contribute to._
 
 ### Remaining
-- **Changelog-driven upgrade notes** — `UPGRADING.md` for any breaking configuration changes
+
+_All items complete._
 
 ---
 
