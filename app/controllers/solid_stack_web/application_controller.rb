@@ -9,6 +9,13 @@ module SolidStackWeb
     before_action :authenticate!
     around_action :with_database_connection
 
+    rescue_from StandardError do |exception|
+      raise exception if Rails.application.config.consider_all_requests_local
+      render_internal_server_error
+    end
+
+    rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+
     helper_method :current_section
 
     private
@@ -42,6 +49,14 @@ module SolidStackWeb
 
     def request_basic_auth
       request_http_basic_authentication("Solid Stack Dashboard")
+    end
+
+    def render_not_found
+      render "solid_stack_web/errors/not_found", status: :not_found
+    end
+
+    def render_internal_server_error
+      render "solid_stack_web/errors/internal_server_error", status: :internal_server_error
     end
   end
 end
