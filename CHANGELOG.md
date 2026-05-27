@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `UPGRADING.md` — standing upgrade guide; documents that all 0.x releases are additive with no breaking configuration changes
 - Engine-scoped error pages — 404 (`ActiveRecord::RecordNotFound`) and 500 (unhandled `StandardError` in production) now render within the dashboard chrome instead of falling through to the host app's error pages; in development `consider_all_requests_local` keeps the standard Rails debug page
 - Covering indexes added to dummy app schema — `solid_queue_jobs (finished_at, created_at)` for the slow-job scan; `(queue_name, created_at)` on `solid_queue_scheduled_executions` and `solid_queue_blocked_executions` (both previously lacked a queue-name index)
 - Install generator — `rails generate solid_stack_web:install` creates `config/initializers/solid_stack_web.rb` with every config option documented inline and injects the mount line into `config/routes.rb`
