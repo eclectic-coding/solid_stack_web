@@ -56,8 +56,9 @@ sed -i '' \
   CHANGELOG.md
 
 echo "==> Removing completed section from ROADMAP..."
-if grep -q "^## v$VERSION" ROADMAP.md; then
-  awk -v ver="v$VERSION" '
+MINOR_VERSION=$(echo "$VERSION" | cut -d. -f1,2)
+if grep -q "^## v$MINOR_VERSION" ROADMAP.md; then
+  awk -v ver="v$MINOR_VERSION" '
     /^## / && index($0, ver) > 0 { skip=1; next }
     skip && /^---$/ { skip=0; next }
     !skip

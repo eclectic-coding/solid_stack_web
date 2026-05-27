@@ -7,15 +7,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 ---
 
 
-## v1.1 — Error Intelligence
-
-> _Surface patterns in failures, not just individual failed jobs._
-
-- **Failed job trend chart** — "Failures — Last 12 Hours" sparkline on the queue dashboard overview card; makes failure spikes visible before you click into the failed jobs list
-- **P99 + standard deviation in performance stats** — extend the stats table with a 99th-percentile and std-dev column; high std dev signals inconsistent jobs worth investigating
-
----
-
 ## v1.2 — UX Polish
 
 > _Quality-of-life improvements for teams using the dashboard daily._
