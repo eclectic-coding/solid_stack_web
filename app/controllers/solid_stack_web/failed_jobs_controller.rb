@@ -1,9 +1,12 @@
 module SolidStackWeb
   class FailedJobsController < ApplicationController
     def index
+      @sort      = params[:sort].presence_in(sortable_columns) || "created_at"
+      @direction = params[:direction] == "asc" ? "asc" : "desc"
+
       respond_to do |format|
         format.html do
-          scope = ::SolidQueue::FailedExecution.includes(:job).order(created_at: :desc)
+          scope = ::SolidQueue::FailedExecution.includes(:job).references(:job).order(sort_expression)
           @error_class = params[:error_class].presence
           scope = scope.where(id: ids_for_error_class(@error_class)) if @error_class
           @pagy, @executions = pagy(scope)
@@ -42,6 +45,19 @@ module SolidStackWeb
     end
 
     private
+
+    def sortable_columns
+      %w[class_name queue_name created_at]
+    end
+
+    def sort_expression
+      sql_col = case @sort
+      when "class_name" then "solid_queue_jobs.class_name"
+      when "queue_name" then "solid_queue_jobs.queue_name"
+      else "solid_queue_failed_executions.created_at"
+      end
+      Arel.sql("#{sql_col} #{@direction == 'asc' ? 'ASC' : 'DESC'}")
+    end
 
     def ids_for_error_class(ec)
       ::SolidQueue::FailedExecution.pluck(:id, :error).filter_map do |id, raw|

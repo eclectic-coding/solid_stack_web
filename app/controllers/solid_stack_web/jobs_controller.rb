@@ -36,13 +36,13 @@ module SolidStackWeb
         @notice = "Job discarded."
 
         respond_to do |format|
-          format.html { redirect_to jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority) }
+          format.html { redirect_to jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority, sort: @sort, direction: @direction) }
           format.turbo_stream
         end
       else
         job_ids = filtered_scope.pluck(:job_id)
         count = SolidQueue::Job.where(id: job_ids).destroy_all.size
-        redirect_to jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority),
+        redirect_to jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority, sort: @sort, direction: @direction),
                     notice: "#{count} #{count == 1 ? "job" : "jobs"} discarded."
       end
     end
@@ -54,10 +54,26 @@ module SolidStackWeb
     end
 
     def set_filters
-      @search   = params[:q].presence
-      @queue    = params[:queue].presence
-      @period   = params[:period].presence_in(PERIOD_DURATIONS.keys)
-      @priority = params[:priority].presence
+      @search    = params[:q].presence
+      @queue     = params[:queue].presence
+      @period    = params[:period].presence_in(PERIOD_DURATIONS.keys)
+      @priority  = params[:priority].presence
+      @sort      = params[:sort].presence_in(sortable_columns) || "created_at"
+      @direction = params[:direction] == "asc" ? "asc" : "desc"
+    end
+
+    def sortable_columns
+      %w[class_name queue_name priority created_at]
+    end
+
+    def sort_expression
+      sql_col = case @sort
+      when "class_name" then "solid_queue_jobs.class_name"
+      when "queue_name" then "solid_queue_jobs.queue_name"
+      when "priority"   then "solid_queue_jobs.priority"
+      else "#{Job::EXECUTION_MODELS[@status].quoted_table_name}.created_at"
+      end
+      Arel.sql("#{sql_col} #{@direction == 'asc' ? 'ASC' : 'DESC'}")
     end
 
     def require_discardable
@@ -75,11 +91,11 @@ module SolidStackWeb
     end
 
     def filtered_scope
-      scope = Job::EXECUTION_MODELS[@status].includes(:job).order(created_at: :desc)
-      scope = scope.references(:job).where("solid_queue_jobs.class_name LIKE ?", "%#{@search}%") if @search.present?
-      scope = scope.references(:job).where("solid_queue_jobs.queue_name = ?", @queue)             if @queue.present?
-      scope = scope.references(:job).where("solid_queue_jobs.created_at >= ?", PERIOD_DURATIONS[@period].ago) if @period.present?
-      scope = scope.references(:job).where("solid_queue_jobs.priority = ?", @priority.to_i)       if @priority.present?
+      scope = Job::EXECUTION_MODELS[@status].includes(:job).references(:job).order(sort_expression)
+      scope = scope.where("solid_queue_jobs.class_name LIKE ?", "%#{@search}%") if @search.present?
+      scope = scope.where("solid_queue_jobs.queue_name = ?", @queue)             if @queue.present?
+      scope = scope.where("solid_queue_jobs.created_at >= ?", PERIOD_DURATIONS[@period].ago) if @period.present?
+      scope = scope.where("solid_queue_jobs.priority = ?", @priority.to_i)       if @priority.present?
       scope
     end
   end

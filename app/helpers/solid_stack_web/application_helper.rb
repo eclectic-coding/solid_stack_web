@@ -87,6 +87,19 @@ module SolidStackWeb
       end
     end
 
+    def sort_header_th(label, col, url_proc, current_sort:, current_dir:)
+      is_active = current_sort == col
+      next_dir  = (is_active && current_dir == "desc") ? "asc" : "desc"
+      indicator = is_active ? content_tag(:span, current_dir == "desc" ? "↓" : "↑", class: "sqw-sort-indicator") : nil
+      tag_opts  = { scope: "col" }
+      tag_opts[:"aria-sort"] = is_active ? (current_dir == "asc" ? "ascending" : "descending") : nil if is_active
+      content_tag(:th, **tag_opts) do
+        link_to(url_proc.call(sort: col, direction: next_dir)) do
+          safe_join([label, indicator].compact)
+        end
+      end
+    end
+
     def failed_job_sparkline_svg(sparkline)
       build_sparkline_svg(sparkline, aria_label: "Failed jobs over the last 12 hours") do |count, i|
         hours_ago = SolidStackWeb::FailedJobSparkline::HOURS - i

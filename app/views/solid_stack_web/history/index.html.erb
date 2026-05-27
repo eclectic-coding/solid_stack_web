@@ -15,6 +15,8 @@
     <input type="hidden" name="queue" value="<%= @queue %>">
   <% end %>
   <input type="hidden" name="period" value="<%= @period %>">
+  <input type="hidden" name="sort" value="<%= @sort %>">
+  <input type="hidden" name="direction" value="<%= @direction %>">
   <input class="sqw-search-input" type="search" name="q" value="<%= @search %>"
          placeholder="Filter by job class…" autocomplete="off" aria-label="Filter by job class"
          data-action="input->search#filter">
@@ -44,11 +46,12 @@
   <div class="sqw-detail-card">
     <table class="sqw-table">
       <thead>
+        <% sort_url = ->(p) { history_path(queue: @queue, q: @search, period: @period, **p) } %>
         <tr>
-          <th scope="col">Job Class</th>
-          <th scope="col">Queue</th>
+          <%= sort_header_th("Job Class",   "class_name", sort_url, current_sort: @sort, current_dir: @direction) %>
+          <%= sort_header_th("Queue",       "queue_name", sort_url, current_sort: @sort, current_dir: @direction) %>
           <th scope="col">Duration</th>
-          <th scope="col">Finished At</th>
+          <%= sort_header_th("Finished At", "finished_at", sort_url, current_sort: @sort, current_dir: @direction) %>
         </tr>
       </thead>
       <tbody>
