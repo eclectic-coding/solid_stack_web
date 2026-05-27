@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Public API stability policy — `README.md#versioning` documents what is and is not covered by semver guarantees from v1.0.0; `UPGRADING.md` cross-references the policy
+- README: Security section covering authentication requirements, `allow_value_preview` caution, CSRF handling, and rate-limiting guidance
+- README: Screenshots section with a single `docs/screenshots/demo.gif` slot (animated GIF showing a dashboard tour)
+- README: `connects_to` added to the General configuration reference
 - Deprecation warning infrastructure — `SolidStackWeb.deprecator` exposes a gem-scoped `ActiveSupport::Deprecation` instance registered with `app.deprecators`; a private `deprecated_config` helper generates forwarding writers with warnings for any config keys renamed before 1.0
 
 ### Changed
