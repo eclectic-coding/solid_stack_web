@@ -21,23 +21,13 @@ Run:
 bundle install
 ```
 
-Mount the engine in `config/routes.rb`:
-
-```ruby
-mount SolidStackWeb::Engine, at: "/solid_stack"
-```
-
-The dashboard will be available at `/solid_stack` (or whatever path you choose).
-
-### Install generator
-
 Run the install generator to create a documented initializer and wire up the mount point in one step:
 
 ```bash
 rails generate solid_stack_web:install
 ```
 
-This creates `config/initializers/solid_stack_web.rb` with every configuration option commented inline, and injects `mount SolidStackWeb::Engine, at: "/solid_stack"` into `config/routes.rb`.
+This creates `config/initializers/solid_stack_web.rb` with every configuration option commented inline, and injects `mount SolidStackWeb::Engine, at: "/solid_stack"` into `config/routes.rb`. The dashboard will then be available at `/solid_stack` (or whatever path you choose).
 
 ---
 
@@ -77,7 +67,7 @@ This creates `config/initializers/solid_stack_web.rb` with every configuration o
 
 ## General configuration
 
-Create an initializer at `config/initializers/solid_stack_web.rb`:
+The install generator creates `config/initializers/solid_stack_web.rb` with all options documented inline. The available options are:
 
 ```ruby
 SolidStackWeb.configure do |config|
@@ -159,6 +149,7 @@ The dashboard is designed to be mounted behind your application's existing authe
 - **Queue depth sparklines** — Queues index shows a 12-hour depth chart per queue; each bar is the ready-job count at an hourly snapshot with an instant hover tooltip
 - **Job detail page** — full arguments (pretty-printed JSON), queue, priority, enqueued time, Active Job ID, concurrency key, scheduled/blocked-until metadata, and a Discard button
 - **Failed jobs** — list with retry / discard / bulk retry / bulk discard; **Failed job detail page** — full error, backtrace, and an inline JSON argument editor; submit to update arguments and retry in one action
+- **Error frequency report** — `GET /failed_jobs/errors` groups all failed jobs by exception class and message prefix with a count and expandable sample backtrace; links through to a filtered list for each error group
 - **Scheduled job management** — "Run Now" and offset buttons (+1h / +24h / +7d) per row update the scheduled time inline via Turbo Stream; "Run All Now (N)" back-dates all matching executions at once
 - **Recurring task list** — enumerates all `SolidQueue::RecurringTask` records with cron schedule, job class or command, queue, next-run and last-run times, and a static/dynamic badge; each row has a "Run Now" button
 - **Performance statistics page** — `GET /stats` aggregates finished jobs by class name with execution count, avg, p50, p95, min, and max duration; click any column header to sort; defaults to p95 descending
