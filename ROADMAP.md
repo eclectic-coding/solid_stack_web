@@ -7,14 +7,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 ---
 
 
-## v1.2 — UX Polish
-
-> _Quality-of-life improvements for teams using the dashboard daily._
-
-- **Sticky filter preferences** — persist last-used status, period, and queue filter to `localStorage` so filter state survives page reloads
-
----
-
 ## v1.3 — Alerting Depth
 
 > _More signals, fewer blind spots._
