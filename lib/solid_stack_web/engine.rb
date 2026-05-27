@@ -25,6 +25,10 @@ module SolidStackWeb
       end
     end
 
+    initializer "solid_stack_web.deprecator" do |app|
+      app.deprecators[:solid_stack_web] = SolidStackWeb.deprecator
+    end
+
     initializer "solid_stack_web.pagy" do |app|
       app.config.after_initialize do
         Pagy::OPTIONS[:limit] = SolidStackWeb.page_size

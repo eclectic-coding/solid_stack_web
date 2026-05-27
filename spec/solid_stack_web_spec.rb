@@ -23,6 +23,33 @@ RSpec.describe SolidStackWeb do
     end
   end
 
+  describe ".deprecator" do
+    it "returns an ActiveSupport::Deprecation instance scoped to SolidStackWeb" do
+      expect(SolidStackWeb.deprecator).to be_a(ActiveSupport::Deprecation)
+    end
+
+    it "returns the same instance on repeated calls" do
+      expect(SolidStackWeb.deprecator).to be(SolidStackWeb.deprecator)
+    end
+  end
+
+  describe ".deprecated_config" do
+    it "issues a deprecation warning and forwards the value to the new key" do
+      SolidStackWeb.send(:deprecated_config, :legacy_limit, :search_results_limit)
+
+      warned = false
+      SolidStackWeb.deprecator.behavior = ->(msg, *) { warned = true if msg.include?("config.legacy_limit=") }
+
+      SolidStackWeb.legacy_limit = 42
+      expect(warned).to be(true)
+      expect(SolidStackWeb.search_results_limit).to eq(42)
+    ensure
+      SolidStackWeb.search_results_limit = nil
+      SolidStackWeb.deprecator.behavior = :stderr
+      SolidStackWeb.singleton_class.remove_method(:legacy_limit=)
+    end
+  end
+
   describe ".search_results_limit" do
     it "defaults to 25" do
       expect(SolidStackWeb.search_results_limit).to eq(25)
