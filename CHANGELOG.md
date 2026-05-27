@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-05-27
+
 ### Added
 
 - Public API stability policy — `README.md#versioning` documents what is and is not covered by semver guarantees from v1.0.0; `UPGRADING.md` cross-references the policy
@@ -148,7 +150,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Two-tier contextual navigation per section (Queue / Cache / Cable)
 - No runtime JavaScript dependency — all interactions use standard form POSTs or Turbo Stream
 
-[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v0.9.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.0.0
 [0.9.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.9.0
 [0.8.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.8.0
 [0.7.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.7.0

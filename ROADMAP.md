@@ -6,15 +6,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 
 ---
 
-## v1.0.0 — Stable Release
-
-> _Declare a stable public API and commit to semantic versioning guarantees._
-
-### Remaining
-
-_All items complete._
-
----
 
 ## v1.1 — Error Intelligence
 
