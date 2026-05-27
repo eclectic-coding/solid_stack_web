@@ -7,8 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Eliminate N+1 queries on the queues index — replaced per-queue `COUNT` loop with a single `GROUP BY queue_name` aggregation
+- `CacheSizeStats#buckets` now runs a single `SUM(CASE WHEN ...)` aggregation instead of one `COUNT` query per size bucket; `#total` is derived from the already-computed bucket counts (no extra query)
+- `JobsController` filter options (queue and priority dropdowns) now resolved with one `pluck` call instead of two separate queries
+
 ### Added
 
+- Covering indexes added to dummy app schema — `solid_queue_jobs (finished_at, created_at)` for the slow-job scan; `(queue_name, created_at)` on `solid_queue_scheduled_executions` and `solid_queue_blocked_executions` (both previously lacked a queue-name index)
 - Install generator — `rails generate solid_stack_web:install` creates `config/initializers/solid_stack_web.rb` with every config option documented inline and injects the mount line into `config/routes.rb`
 - `SolidStackWeb.mount_path` — returns the path at which the engine is mounted in the host app, derived automatically from routes; use `link_to "Dashboard", SolidStackWeb.mount_path` to link to the dashboard without hardcoding the path
 - Accessibility pass — skip-to-content link; ARIA labels on all navigation elements; `scope="col"` on every table header; visually-hidden "Actions" label on empty action-column headers; `aria-sort` on active sort columns in stats and cache entries; `aria_label: "Pagination"` on all pagination navs; `.sqw-sr-only` and `.sqw-skip-link` CSS utilities added to base stylesheet

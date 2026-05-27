@@ -29,6 +29,16 @@ mount SolidStackWeb::Engine, at: "/solid_stack"
 
 The dashboard will be available at `/solid_stack` (or whatever path you choose).
 
+### Install generator
+
+Run the install generator to create a documented initializer and wire up the mount point in one step:
+
+```bash
+rails generate solid_stack_web:install
+```
+
+This creates `config/initializers/solid_stack_web.rb` with every configuration option commented inline, and injects `mount SolidStackWeb::Engine, at: "/solid_stack"` into `config/routes.rb`.
+
 ---
 
 ## Metrics endpoint
@@ -87,16 +97,6 @@ The `authenticate` block is evaluated in the context of each request's controlle
 ```ruby
 link_to "Queue Dashboard", SolidStackWeb.mount_path
 ```
-
-### Install generator
-
-Run the install generator to create a documented initializer and wire up the mount point in one step:
-
-```bash
-rails generate solid_stack_web:install
-```
-
-This creates `config/initializers/solid_stack_web.rb` with every configuration option commented inline, and injects `mount SolidStackWeb::Engine, at: "/solid_stack"` into `config/routes.rb`.
 
 ---
 

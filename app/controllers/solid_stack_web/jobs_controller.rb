@@ -5,8 +5,11 @@ module SolidStackWeb
     before_action :require_discardable, only: [:destroy]
 
     def index
-      @queue_options    = Job::EXECUTION_MODELS[@status].joins(:job).distinct.pluck("solid_queue_jobs.queue_name").sort
-      @priority_options = Job::EXECUTION_MODELS[@status].joins(:job).distinct.pluck("solid_queue_jobs.priority").sort
+      pairs = Job::EXECUTION_MODELS[@status].joins(:job)
+                .distinct
+                .pluck("solid_queue_jobs.queue_name", "solid_queue_jobs.priority")
+      @queue_options    = pairs.map(&:first).uniq.sort
+      @priority_options = pairs.map(&:last).uniq.sort
 
       respond_to do |format|
         format.html { @pagy, @executions = pagy(filtered_scope) }

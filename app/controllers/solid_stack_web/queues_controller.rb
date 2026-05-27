@@ -1,16 +1,11 @@
 module SolidStackWeb
   class QueuesController < ApplicationController
     def index
-      queue_names = ::SolidQueue::ReadyExecution.distinct.pluck(:queue_name)
-      paused      = ::SolidQueue::Pause.pluck(:queue_name).to_set
+      counts = ::SolidQueue::ReadyExecution.group(:queue_name).count
+      paused = ::SolidQueue::Pause.pluck(:queue_name).to_set
 
-      @queues = queue_names.sort.map do |name|
-        {
-          name:   name,
-          size:   ::SolidQueue::ReadyExecution.where(queue_name: name).count,
-          paused: paused.include?(name)
-        }
-      end
+      @queues = counts.map { |name, size| { name:, size:, paused: paused.include?(name) } }
+                      .sort_by { |q| q[:name] }
 
       @sparklines = @queues.each_with_object({}) do |queue, h|
         h[queue[:name]] = QueueDepthSparkline.new(queue[:name])

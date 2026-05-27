@@ -11,7 +11,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 > _Make it easy to adopt and easy to contribute to._
 
 ### Remaining
-- **Query optimisation** — eliminate N+1 queries across all list views; add covering indexes to the dummy app schema
 - **Error pages** — engine-scoped 404/500 views so errors stay within the dashboard chrome
 - **Changelog-driven upgrade notes** — `UPGRADING.md` for any breaking configuration changes
 
