@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-05-27
+
 ### Changed
 
 - Eliminate N+1 queries on the queues index — replaced per-queue `COUNT` loop with a single `GROUP BY queue_name` aggregation
@@ -134,7 +136,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Two-tier contextual navigation per section (Queue / Cache / Cable)
 - No runtime JavaScript dependency — all interactions use standard form POSTs or Turbo Stream
 
-[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.9.0
 [0.8.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.8.0
 [0.7.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.7.0
 [0.6.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v0.6.0
