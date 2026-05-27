@@ -41,6 +41,16 @@ This creates `config/initializers/solid_stack_web.rb` with every configuration o
 
 ---
 
+## Screenshots
+
+Screenshots are published with each release on the [GitHub releases page](https://github.com/eclectic-coding/solid_stack_web/releases). The dashboard covers three sections:
+
+- **Queue** — overview card with live status counts and throughput sparkline; job browser with filters; failed job detail with inline argument editor
+- **Cache** — entry count and byte-size stats; size-distribution histogram; 24-hour write timeline; entry browser with key search and per-entry detail
+- **Cable** — channel browser with message counts; per-channel message list with payload preview; 24-hour message volume chart
+
+---
+
 ## Metrics endpoint
 
 `GET /metrics` (relative to your mount path) returns a JSON payload suitable for external monitoring tools, uptime checkers, or custom alerting:
@@ -83,6 +93,10 @@ SolidStackWeb.configure do |config|
   config.authenticate do
     current_user&.admin?
   end
+
+  # Multi-database — pass a connects_to hash when Solid Queue / Cache / Cable
+  # live on a separate database from your primary (default: nil, uses primary).
+  config.connects_to = { database: { writing: :queue, reading: :queue } }
 end
 ```
 
@@ -97,6 +111,44 @@ The `authenticate` block is evaluated in the context of each request's controlle
 ```ruby
 link_to "Queue Dashboard", SolidStackWeb.mount_path
 ```
+
+---
+
+## Security
+
+### Authentication
+
+**The dashboard is open to all visitors by default.** Any production deployment must configure an `authenticate` block or the dashboard will be publicly accessible.
+
+```ruby
+SolidStackWeb.configure do |config|
+  # Devise
+  config.authenticate { current_user&.admin? }
+
+  # HTTP Basic fallback (used when no authenticate block is set, or when
+  # the block returns false/nil and you want a browser credential prompt)
+  # Configure via HTTP_BASIC_AUTH_NAME / HTTP_BASIC_AUTH_PASSWORD env vars
+  # in your host app, or use a reverse proxy.
+end
+```
+
+If the `authenticate` block returns `false` or `nil`, the engine falls back to HTTP Basic authentication. If no block is configured at all, the dashboard is open.
+
+### Sensitive cache values
+
+`allow_value_preview` is `false` by default. Enabling it renders the raw serialised cache value on the entry detail page. Do not enable this if your cache stores session tokens, PII, or other sensitive data.
+
+### CSRF protection
+
+All state-mutating actions (job discard, retry, queue pause/resume, cache flush) use form POST requests. Turbo handles CSRF tokens automatically for any standard Rails app with `protect_from_forgery`.
+
+### Rate limiting and network exposure
+
+The dashboard is designed to be mounted behind your application's existing authentication. For additional hardening, consider:
+
+- Mounting at a non-guessable path (e.g. `at: "/ops/#{Rails.application.credentials.dashboard_token}"`)
+- Restricting access by IP at the reverse-proxy level
+- Applying [Rack::Attack](https://github.com/rack/rack-attack) rules to the mount path
 
 ---
 
