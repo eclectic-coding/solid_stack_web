@@ -86,6 +86,10 @@ a.sqw-inline-stat:hover { opacity: 0.7; text-decoration: none; }
   color: var(--primary);
 }
 
+.sqw-sparkline-wrap--failures {
+  color: var(--danger);
+}
+
 .sqw-sparkline-label {
   display: block;
   font-size: 10px;
