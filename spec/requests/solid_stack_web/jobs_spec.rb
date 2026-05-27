@@ -29,6 +29,12 @@ RSpec.describe "Jobs", type: :request do
       expect(response.body).to include('name="q"')
       expect(response.body).to include("sqw-period-filter")
     end
+
+    it "includes filter-persist controller with the jobs key" do
+      get "#{engine_root}/jobs"
+      expect(response.body).to include("filter-persist")
+      expect(response.body).to include("sqw-jobs-filters")
+    end
   end
 
   describe "GET /jobs?q=" do

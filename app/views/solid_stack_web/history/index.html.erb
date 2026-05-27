@@ -10,7 +10,9 @@
   </div>
 </div>
 
-<form class="sqw-filters" action="<%= history_path %>" method="get" data-controller="search">
+<form class="sqw-filters" action="<%= history_path %>" method="get"
+      data-controller="search filter-persist"
+      data-filter-persist-key-value="sqw-history-filters">
   <% if @queue.present? %>
     <input type="hidden" name="queue" value="<%= @queue %>">
   <% end %>

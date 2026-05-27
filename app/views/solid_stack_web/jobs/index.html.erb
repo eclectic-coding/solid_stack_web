@@ -32,7 +32,9 @@
 <%= turbo_frame_tag "sqw-jobs-filter",
       data: { turbo_action: "advance", controller: "refresh",
               refresh_interval_value: SolidStackWeb.default_refresh_interval } do %>
-<form class="sqw-filters" action="<%= jobs_path %>" method="get" data-controller="search">
+<form class="sqw-filters" action="<%= jobs_path %>" method="get"
+      data-controller="search filter-persist"
+      data-filter-persist-key-value="sqw-jobs-filters">
   <%= hidden_field_tag :status, @status %>
   <%= hidden_field_tag :period, @period %>
   <%= hidden_field_tag :sort, @sort %>

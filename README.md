@@ -156,6 +156,7 @@ The dashboard is designed to be mounted behind your application's existing authe
 - **Job history view** — paginated list of all finished jobs with class name, queue, duration, and finished-at time; filterable by queue (click a badge), class substring, and time period; sortable by class, queue, and finished-at; CSV export respects active filters
 - **Auto-refresh** — dashboard, jobs, processes, and history views poll automatically; pauses when the tab is hidden or a checkbox is checked; intervals configurable via `dashboard_refresh_interval` and `default_refresh_interval`
 - **Turbo Stream** job discard — removes the row inline without a full page reload
+- **Sticky filter preferences** — last-used status, period, and queue filter saved to `localStorage`; a fresh visit to the jobs or history list with no URL params automatically restores the previous selection
 - **Dark mode** — toggle button in the header switches between light and dark palettes; preference persisted in `localStorage`; respects `prefers-color-scheme` on first visit
 - **Responsive layout** — stats cards, tables, and two-column grids adapt to narrow viewports; tables scroll horizontally rather than overflow; split page headers stack on small screens
 - **Empty-state improvements** — all list views show a contextual title and an actionable hint; search empty states include a "Clear search" link; filters-active history view offers "Clear filters"; processes and recurring tasks explain the next step
