@@ -50,6 +50,12 @@ RSpec.describe "History", type: :request do
       get "#{engine_root}/history"
       expect(response.body).to include("sqw-subnav__link--active")
     end
+
+    it "includes filter-persist controller with the history key" do
+      get "#{engine_root}/history"
+      expect(response.body).to include("filter-persist")
+      expect(response.body).to include("sqw-history-filters")
+    end
   end
 
   describe "GET /history?period=" do
