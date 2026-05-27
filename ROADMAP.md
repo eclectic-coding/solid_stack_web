@@ -11,7 +11,6 @@ The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_das
 
 > _Quality-of-life improvements for teams using the dashboard daily._
 
-- **Sortable columns on jobs, failed jobs, and history** — server-side `?sort=&dir=` params matching the pattern already used for cache entries and stats
 - **Sticky filter preferences** — persist last-used status, period, and queue filter to `localStorage` so filter state survives page reloads
 
 ---
