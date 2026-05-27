@@ -5,7 +5,7 @@
 [![Ruby](https://img.shields.io/badge/ruby-%3E%3D%203.3-ruby)](https://www.ruby-lang.org)
 [![codecov](https://codecov.io/gh/eclectic-coding/solid_stack_web/branch/main/graph/badge.svg)](https://codecov.io/gh/eclectic-coding/solid_stack_web)
 
-A mountable Rails engine that provides a unified web dashboard for the full [Solid Stack](https://github.com/rails/solid_queue) — **Solid Queue**, **Solid Cache**, and **Solid Cable** — in a single interface with no asset pipeline dependency and no JavaScript runtime requirement.
+A production-ready operations dashboard for the full Rails Solid Stack. Mount one engine to get deep visibility into **Solid Queue** (job browser, failed job retry, queue controls, recurring tasks, performance stats), **Solid Cache** (entry browser, size distribution, write timeline), and **Solid Cable** (channel browser, message list, purge controls) — with dark mode, CSV export, alert webhooks, and a JSON metrics endpoint, all with no asset pipeline dependency.
 
 ## Installation
 
