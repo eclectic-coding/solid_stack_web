@@ -2,6 +2,8 @@
 
 This document covers breaking changes between versions and the steps required to upgrade. Only versions that introduce breaking changes are listed — if your current version is not mentioned, upgrading requires no configuration changes beyond adding the new gem version to your `Gemfile`.
 
+From v1.0.0, SolidStackWeb follows semantic versioning: patch releases are bug-fix only, minor releases are additive, and breaking changes to the public API only occur in major releases. See the [Versioning](README.md#versioning) section of the README for what is and is not covered by this guarantee.
+
 For a full list of changes in every release, see [CHANGELOG.md](CHANGELOG.md).
 
 ---

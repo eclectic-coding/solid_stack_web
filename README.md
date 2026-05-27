@@ -207,6 +207,36 @@ Filters are preserved when switching between status tabs (Ready / Scheduled / Ru
 - [turbo-rails](https://github.com/hotwired/turbo-rails) >= 2.0
 - [importmap-rails](https://github.com/rails/importmap-rails) >= 1.2
 
+## Versioning
+
+SolidStackWeb follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+### Public API
+
+The following are considered stable public API from v1.0.0 onwards — breaking changes to any of these require a major version bump:
+
+- The `SolidStackWeb.configure` block and all documented configuration keys
+- The `SolidStackWeb.mount_path` helper
+- The `authenticate` block interface
+- The `GET /metrics` JSON payload shape
+- The `SolidStackWeb::Engine` class and its mount interface
+- The `rails generate solid_stack_web:install` generator
+
+### Not part of the public API
+
+The following are internal and may change in any release without notice:
+
+- Internal service classes (`CacheStats`, `QueueStats`, etc.)
+- View templates, partial names, and CSS class names
+- Controller and helper internals
+- Private methods on any class
+
+### Deprecation policy
+
+When a public API item is renamed or removed, the old interface is deprecated in a **minor** release — it continues to work but issues an `ActiveSupport::Deprecation` warning pointing to the replacement. The old interface is removed in the next **major** release. The [UPGRADING.md](UPGRADING.md) file documents every breaking change and the migration steps.
+
+---
+
 ## Contributing
 
 1. Fork the repository
