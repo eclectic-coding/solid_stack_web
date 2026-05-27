@@ -7,9 +7,14 @@ Gem::Specification.new do |spec|
   spec.email       = ["eclectic-coding@users.noreply.github.com"]
   spec.homepage    = "https://github.com/eclectic-coding/solid_stack_web"
   spec.summary     = "A unified Rails engine dashboard for Solid Queue, Solid Cache, and Solid Cable."
-  spec.description = "Mount SolidStackWeb in any Rails app using the Solid Stack to get a single " \
-                     "dashboard covering Solid Queue job monitoring, Solid Cache statistics, " \
-                     "and Solid Cable connection observability — all without leaving your app."
+  spec.description = "SolidStackWeb is a mountable Rails engine that provides a production-ready " \
+                     "operations dashboard for the full Solid Stack. It covers Solid Queue " \
+                     "(job browser, failed job retry with inline argument editing, queue pause/resume, " \
+                     "recurring tasks, performance stats, CSV export, and alert webhooks), " \
+                     "Solid Cache (entry browser, size distribution, 24-hour write timeline, " \
+                     "and optional value preview), and Solid Cable (channel browser, per-channel " \
+                     "message list, and purge controls). Ships with dark mode, Turbo Stream " \
+                     "responses, a JSON metrics endpoint, and no asset pipeline dependency."
   spec.license     = "MIT"
 
   spec.metadata["homepage_uri"]    = spec.homepage
@@ -17,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.metadata["changelog_uri"]   = "https://github.com/eclectic-coding/solid_stack_web/blob/main/CHANGELOG.md"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+    Dir["{app,config,db,docs,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   end
 
   spec.required_ruby_version = ">= 3.3"
