@@ -10,33 +10,30 @@
   </div>
 </div>
 
-<dl class="sqw-detail">
-  <div class="sqw-detail__row">
+<div class="sqw-detail-card sqw-detail-section">
+  <h2 class="sqw-section-title">Details</h2>
+  <dl class="sqw-dl">
     <dt>Key</dt>
     <dd class="sqw-monospace"><%= @entry.key %></dd>
-  </div>
-  <div class="sqw-detail__row">
     <dt>Size</dt>
     <dd><%= number_to_human_size(@entry.byte_size) %></dd>
-  </div>
-  <div class="sqw-detail__row">
     <dt>Created</dt>
     <dd class="sqw-muted"><%= local_time(@entry.created_at, format: :long) %></dd>
-  </div>
-</dl>
+  </dl>
+</div>
 
-<section class="sqw-value-preview">
+<div class="sqw-detail-card sqw-detail-section">
+  <% formatted = SolidStackWeb.allow_value_preview ? format_cache_value(@entry.value) : nil %>
   <div class="sqw-value-preview__header">
     <h2 class="sqw-section-title">Value</h2>
-    <% if SolidStackWeb.allow_value_preview %>
-      <% formatted = format_cache_value(@entry.value) %>
+    <% if formatted %>
       <span class="sqw-badge sqw-badge--queue"><%= formatted[:label] %></span>
     <% end %>
   </div>
-  <% if SolidStackWeb.allow_value_preview %>
+  <% if formatted %>
     <% content = formatted[:content] %>
     <% truncated = content.length > 4096 %>
-    <pre class="sqw-value-pre"><%= truncated ? content[0, 4096] : content %></pre>
+    <pre class="sqw-code-block"><%= truncated ? content[0, 4096] : content %></pre>
     <% if truncated %>
       <p class="sqw-muted sqw-value-truncated">Showing first 4 KB of <%= number_to_human_size(@entry.byte_size) %> total.</p>
     <% end %>
@@ -45,4 +42,4 @@
       <p>Value preview is disabled. Set <code>config.allow_value_preview = true</code> in your initializer to enable.</p>
     </div>
   <% end %>
-</section>
+</div>
