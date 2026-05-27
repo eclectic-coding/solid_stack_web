@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Unify detail page layout across all three sections — cache entry detail now uses the same card-based layout as job and failed job detail pages; consolidate `sqw-detail`/`sqw-value-pre` CSS into the shared `sqw-dl`/`sqw-code-block` classes; inline margin style on the failed-job arguments card replaced with a CSS sibling-selector rule
+
 ## [0.9.0] - 2026-05-27
 
 ### Changed
