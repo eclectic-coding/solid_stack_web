@@ -43,11 +43,20 @@ This creates `config/initializers/solid_stack_web.rb` with every configuration o
 
 ## Screenshots
 
-Screenshots are published with each release on the [GitHub releases page](https://github.com/eclectic-coding/solid_stack_web/releases). The dashboard covers three sections:
+**Queue — overview dashboard**
+![Queue overview](docs/screenshots/queue-overview.png)
 
-- **Queue** — overview card with live status counts and throughput sparkline; job browser with filters; failed job detail with inline argument editor
-- **Cache** — entry count and byte-size stats; size-distribution histogram; 24-hour write timeline; entry browser with key search and per-entry detail
-- **Cable** — channel browser with message counts; per-channel message list with payload preview; 24-hour message volume chart
+**Queue — jobs browser with filters**
+![Jobs browser](docs/screenshots/jobs.png)
+
+**Queue — failed job detail with inline argument editor**
+![Failed job detail](docs/screenshots/failed-job.png)
+
+**Cache — overview with size distribution and write timeline**
+![Cache overview](docs/screenshots/cache-overview.png)
+
+**Solid Cable — channel browser**
+![Cable channel browser](docs/screenshots/cable.png)
 
 ---
 
