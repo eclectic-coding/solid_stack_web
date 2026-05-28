@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-05-28
+
 ### Added
 
 - Slow job webhook alert — fires when the number of currently-claimed jobs exceeding `slow_job_threshold` reaches `alert_slow_job_count_threshold`; respects the shared `alert_webhook_url` and `alert_webhook_cooldown` settings; payload includes `type: "slow_jobs"`, `count`, and `threshold`
@@ -171,7 +173,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Two-tier contextual navigation per section (Queue / Cache / Cable)
 - No runtime JavaScript dependency — all interactions use standard form POSTs or Turbo Stream
 
-[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.3.0
 [1.2.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.2.0
 [1.1.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.1.0
 [1.0.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.0.0
