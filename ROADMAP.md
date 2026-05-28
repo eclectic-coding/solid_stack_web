@@ -11,7 +11,6 @@ The project has shipped through v1.2.0, covering full Solid Queue depth — job 
 
 > _More signals, fewer blind spots._
 
-- **Slow job webhook alert** — fire when the slow-job count crosses a configurable threshold; pairs with the existing `slow_job_threshold` config — adds the alerting half
 - **Process stale webhook alert** — fire when a worker's `last_heartbeat_at` expires; a worker going silent means jobs stop processing without any visible signal
 - **Job wait time column** — show time from `enqueued_at` to `created_at` on claimed executions; a direct measure of queue SLA (how long jobs waited before a worker picked them up)
 
