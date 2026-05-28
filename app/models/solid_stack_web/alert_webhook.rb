@@ -39,6 +39,11 @@ module SolidStackWeb
         alerts << { type: "queue_depth", queue: queue_name.to_s, count: count, threshold: threshold } if count >= threshold
       end
 
+      if (job_threshold = SolidStackWeb.slow_job_threshold) && (count_threshold = SolidStackWeb.alert_slow_job_count_threshold)
+        count = ::SolidQueue::ClaimedExecution.where("created_at <= ?", job_threshold.seconds.ago).count
+        alerts << { type: "slow_jobs", count: count, threshold: count_threshold } if count >= count_threshold
+      end
+
       alerts
     end
 

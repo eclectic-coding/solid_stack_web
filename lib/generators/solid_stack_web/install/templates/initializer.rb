@@ -41,11 +41,12 @@ SolidStackWeb.configure do |config|
   # Alert webhook — POST to this URL when a threshold is breached.
   # Delivery failures are silently swallowed; configure a cooldown to avoid storms.
   #
-  # config.alert_webhook_url       = "https://hooks.example.com/my-alert"
-  # config.alert_failure_threshold = 10      # fire when failed jobs >= this
-  # config.alert_queue_thresholds  = {       # fire when a queue's ready depth >= value
+  # config.alert_webhook_url              = "https://hooks.example.com/my-alert"
+  # config.alert_failure_threshold        = 10      # fire when failed jobs >= this
+  # config.alert_queue_thresholds         = {       # fire when a queue's ready depth >= value
   #   "critical" => 50,
   #   "default"  => 500
   # }
-  # config.alert_webhook_cooldown  = 3600   # seconds between repeat alerts
+  # config.alert_slow_job_count_threshold = 3       # fire when N+ claimed jobs exceed slow_job_threshold duration
+  # config.alert_webhook_cooldown         = 3600    # seconds between repeat alerts
 end
