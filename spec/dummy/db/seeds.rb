@@ -237,6 +237,29 @@ puts "  cable messages..."
   messages.each { |payload| SolidCable::Message.broadcast(channel, payload.to_json) }
 end
 
+# ── Audit log ────────────────────────────────────────────────────────────────
+
+puts "  audit events..."
+
+ACTORS = %w[alice@example.com bob@example.com carol@example.com].freeze
+
+[
+  { action: "job_discarded",        actor: ACTORS.sample, job_class: "WebhookDeliveryJob",  queue_name: "default",      created_at: 2.minutes.ago  },
+  { action: "job_discarded",        actor: ACTORS.sample, job_class: "DataImportJob",        queue_name: "low_priority", created_at: 15.minutes.ago },
+  { action: "jobs_discarded",       actor: ACTORS.sample, job_class: nil,                    queue_name: nil,            item_count: 7, created_at: 1.hour.ago   },
+  { action: "failed_job_retried",   actor: ACTORS.sample, job_class: "UserReportJob",        queue_name: "mailers",      created_at: 30.minutes.ago },
+  { action: "failed_job_retried",   actor: ACTORS.sample, job_class: "SyncInventoryJob",     queue_name: "default",      created_at: 3.hours.ago    },
+  { action: "failed_jobs_retried",  actor: ACTORS.sample, job_class: nil,                    queue_name: nil,            item_count: 3, created_at: 5.hours.ago  },
+  { action: "failed_job_discarded", actor: ACTORS.sample, job_class: "GeneratePdfJob",       queue_name: "critical",     created_at: 45.minutes.ago },
+  { action: "failed_jobs_discarded",actor: ACTORS.sample, job_class: nil,                    queue_name: nil,            item_count: 2, created_at: 2.hours.ago  },
+  { action: "queue_paused",         actor: ACTORS.sample, job_class: nil,                    queue_name: "critical",     created_at: 20.minutes.ago },
+  { action: "queue_resumed",        actor: ACTORS.sample, job_class: nil,                    queue_name: "critical",     created_at: 10.minutes.ago },
+  { action: "queue_paused",         actor: nil,           job_class: nil,                    queue_name: "low_priority", created_at: 4.days.ago     },
+  { action: "job_discarded",        actor: nil,           job_class: "RecalculateScoresJob", queue_name: "default",      created_at: 3.days.ago     },
+].each do |attrs|
+  SolidStackWeb::AuditEvent.create!(attrs)
+end
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 
 puts ""
@@ -252,3 +275,4 @@ puts "  Solid Queue — #{SolidQueue::Job.count} jobs " \
      "#{SolidQueue::RecurringTask.count} recurring tasks"
 puts "  Solid Cache  — #{SolidCache::Entry.count} entries"
 puts "  Solid Cable  — #{SolidCable::Message.count} messages across #{SolidCable::Message.distinct.count(:channel)} channels"
+puts "  Audit log    — #{SolidStackWeb::AuditEvent.count} events"
