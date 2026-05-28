@@ -6,6 +6,7 @@ module SolidStackWeb
       @cable_stats = CableStats.new.to_h
       @throughput  = ThroughputSparkline.new
       @failures    = FailedJobSparkline.new
+      AlertWebhook.check(@queue_stats)
     end
   end
 end

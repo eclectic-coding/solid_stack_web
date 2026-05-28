@@ -6,6 +6,7 @@ module SolidStackWeb
     attr_writer :page_size, :connects_to, :slow_job_threshold,
                 :alert_webhook_url, :alert_webhook_cooldown,
                 :alert_failure_threshold, :alert_queue_thresholds,
+                :alert_slow_job_count_threshold,
                 :dashboard_refresh_interval, :default_refresh_interval,
                 :search_results_limit, :allow_value_preview
 
@@ -35,6 +36,10 @@ module SolidStackWeb
 
     def alert_queue_thresholds
       @alert_queue_thresholds || {}
+    end
+
+    def alert_slow_job_count_threshold
+      @alert_slow_job_count_threshold
     end
 
     def dashboard_refresh_interval
