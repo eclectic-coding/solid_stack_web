@@ -44,6 +44,11 @@ module SolidStackWeb
         alerts << { type: "slow_jobs", count: count, threshold: count_threshold } if count >= count_threshold
       end
 
+      if (threshold = SolidStackWeb.alert_stale_process_threshold)
+        count = @queue_stats[:processes_stale]
+        alerts << { type: "stale_processes", count: count, threshold: threshold } if count >= threshold
+      end
+
       alerts
     end
 

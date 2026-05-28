@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Slow job webhook alert — fires when the number of currently-claimed jobs exceeding `slow_job_threshold` reaches `alert_slow_job_count_threshold`; respects the shared `alert_webhook_url` and `alert_webhook_cooldown` settings; payload includes `type: "slow_jobs"`, `count`, and `threshold`
+- Stale process webhook alert — fires when the number of workers with a heartbeat older than 5 minutes meets `alert_stale_process_threshold`; reuses the shared webhook URL and cooldown; payload includes `type: "stale_processes"`, `count`, and `threshold`
 
 ## [1.2.0] - 2026-05-27
 

@@ -2,15 +2,16 @@ require "rails_helper"
 
 RSpec.describe SolidStackWeb::AlertWebhook do
   let(:webhook_url) { "https://hooks.example.com/alert" }
-  let(:queue_stats) { { failed: 0, ready: 0 } }
+  let(:queue_stats) { { failed: 0, ready: 0, processes_stale: 0 } }
 
   after do
     SolidStackWeb.alert_webhook_url              = nil
     SolidStackWeb.alert_failure_threshold        = nil
     SolidStackWeb.alert_queue_thresholds         = nil
-    SolidStackWeb.alert_slow_job_count_threshold = nil
-    SolidStackWeb.alert_webhook_cooldown         = nil
-    SolidStackWeb.slow_job_threshold             = nil
+    SolidStackWeb.alert_slow_job_count_threshold  = nil
+    SolidStackWeb.alert_stale_process_threshold   = nil
+    SolidStackWeb.alert_webhook_cooldown          = nil
+    SolidStackWeb.slow_job_threshold              = nil
     Rails.cache.clear
   end
 
@@ -134,6 +135,37 @@ RSpec.describe SolidStackWeb::AlertWebhook do
           claimed_job(created_at: 10.minutes.ago)
           stub = stub_request(:post, webhook_url).to_return(status: 200)
           described_class.check(queue_stats)
+          expect(stub).not_to have_been_requested
+        end
+      end
+
+      context "stale process threshold" do
+        before { SolidStackWeb.alert_stale_process_threshold = 1 }
+
+        it "does not POST when stale process count is below the threshold" do
+          stub = stub_request(:post, webhook_url).to_return(status: 200)
+          described_class.check(queue_stats.merge(processes_stale: 0))
+          expect(stub).not_to have_been_requested
+        end
+
+        it "POSTs when stale process count meets the threshold" do
+          stub = stub_request(:post, webhook_url).to_return(status: 200)
+          described_class.check(queue_stats.merge(processes_stale: 1))
+          expect(stub).to have_been_requested
+        end
+
+        it "includes stale_processes type in the payload" do
+          stub = stub_request(:post, webhook_url)
+            .with { |req| JSON.parse(req.body)["alerts"].any? { |a| a["type"] == "stale_processes" } }
+            .to_return(status: 200)
+          described_class.check(queue_stats.merge(processes_stale: 2))
+          expect(stub).to have_been_requested
+        end
+
+        it "does not POST when threshold is not configured" do
+          SolidStackWeb.alert_stale_process_threshold = nil
+          stub = stub_request(:post, webhook_url).to_return(status: 200)
+          described_class.check(queue_stats.merge(processes_stale: 5))
           expect(stub).not_to have_been_requested
         end
       end
