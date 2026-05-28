@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Admin audit log — records who retried, discarded, or paused what and when; requires opt-in migration (`rails solid_stack_web:install:migrations`); actor identity via new `config.current_actor` block; filterable by action, actor, and queue; CSV export included; accessible at `/audit` under the Queue subnav
+
 ## [1.3.0] - 2026-05-28
 
 ### Added

@@ -36,6 +36,7 @@ SolidStackWeb::Engine.routes.draw do
   get "metrics", to: "metrics#index", as: :metrics
   get "stats",   to: "stats#index",   as: :stats
   get "history", to: "history#index", as: :history
+  get "audit",   to: "audit#index",   as: :audit
   get "cache", to: "cache#index", as: :cache
   resources :cache_entries, only: [:index, :show, :destroy], path: "cache/entries"
   resource  :cache_flush,   only: [:destroy],         path: "cache/flush",    controller: "cache/flushes"

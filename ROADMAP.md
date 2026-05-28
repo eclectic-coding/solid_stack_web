@@ -5,14 +5,6 @@
 ---
 
 
-## v1.4 — Audit & Compliance
-
-> _Requires an opt-in migration — kept separate from the no-migration-required releases above._
-
-- **Admin audit log** — record who retried, discarded, or paused what and when; needs a `solid_stack_web_audit_events` table via an engine-provided migration (`rails solid_stack_web:install:migrations`); identity comes from the `authenticate` block; CSV export included
-
----
-
 ## v2.0 — Extensibility
 
 > _Breaking changes or large architectural additions._
