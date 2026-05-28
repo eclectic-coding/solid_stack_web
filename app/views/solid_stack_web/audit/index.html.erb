@@ -1,0 +1,86 @@
+<div class="sqw-page-header sqw-page-header--split">
+  <h1 class="sqw-page-title">Audit Log</h1>
+  <% if @events&.any? %>
+    <%= link_to "Export CSV",
+          audit_path(format: :csv, audit_action: @action_filter, actor: @actor_filter, queue: @queue_filter),
+          class: "sqw-btn sqw-btn--muted sqw-btn--sm", data: { turbo: false } %>
+  <% end %>
+</div>
+
+<form class="sqw-filters" action="<%= audit_path %>" method="get">
+  <select name="audit_action" class="sqw-select" aria-label="Filter by action"
+          onchange="this.form.submit()">
+    <option value="">All actions</option>
+    <% SolidStackWeb::AuditEvent::ACTIONS.each do |action| %>
+      <option value="<%= action %>" <%= "selected" if @action_filter == action %>><%= action.tr("_", " ") %></option>
+    <% end %>
+  </select>
+
+  <% if @actor_filter.present? %>
+    <span class="sqw-badge">
+      Actor: <%= @actor_filter %>
+      <%= link_to "×", audit_path(audit_action: @action_filter, queue: @queue_filter), class: "sqw-muted", aria: { label: "Clear actor filter" } %>
+    </span>
+  <% end %>
+
+  <% if @queue_filter.present? %>
+    <span class="sqw-badge">
+      Queue: <%= @queue_filter %>
+      <%= link_to "×", audit_path(audit_action: @action_filter, actor: @actor_filter), class: "sqw-muted", aria: { label: "Clear queue filter" } %>
+    </span>
+  <% end %>
+
+  <% if @action_filter.present? || @actor_filter.present? || @queue_filter.present? %>
+    <%= link_to "Clear all", audit_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+  <% end %>
+</form>
+
+<% if @events.any? %>
+  <table class="sqw-table">
+    <thead>
+      <tr>
+        <th scope="col">Time</th>
+        <th scope="col">Action</th>
+        <th scope="col">Actor</th>
+        <th scope="col">Job Class</th>
+        <th scope="col">Queue</th>
+        <th scope="col">Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @events.each do |event| %>
+        <tr>
+          <td class="sqw-muted"><%= local_time(event.created_at, format: :long) %></td>
+          <td>
+            <span class="sqw-badge <%= audit_action_badge_class(event.action) %>">
+              <%= event.action.tr("_", " ") %>
+            </span>
+          </td>
+          <td>
+            <% if event.actor.present? %>
+              <%= link_to event.actor, audit_path(audit_action: @action_filter, actor: event.actor, queue: @queue_filter) %>
+            <% else %>
+              <span class="sqw-muted">—</span>
+            <% end %>
+          </td>
+          <td class="sqw-monospace"><%= event.job_class.presence || content_tag(:span, "—", class: "sqw-muted") %></td>
+          <td>
+            <% if event.queue_name.present? %>
+              <span class="sqw-badge sqw-badge--queue">
+                <%= link_to event.queue_name, audit_path(audit_action: @action_filter, actor: @actor_filter, queue: event.queue_name) %>
+              </span>
+            <% else %>
+              <span class="sqw-muted">—</span>
+            <% end %>
+          </td>
+          <td><%= event.item_count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%== @pagy.series_nav(aria_label: "Pagination") if @pagy.pages > 1 %>
+<% else %>
+  <div class="sqw-empty" id="sqd-empty">
+    <p class="sqw-muted">No audit events recorded yet.</p>
+  </div>
+<% end %>

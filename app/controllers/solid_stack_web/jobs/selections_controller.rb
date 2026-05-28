@@ -8,6 +8,7 @@ module SolidStackWeb
         ids     = Array(params[:job_ids]).map(&:to_i).reject(&:zero?)
         job_ids = Job::EXECUTION_MODELS[status].where(id: ids).pluck(:job_id)
         count   = SolidQueue::Job.where(id: job_ids).destroy_all.size
+        record_audit("jobs_discarded", item_count: count)
 
         redirect_to jobs_path(
           status:    status,

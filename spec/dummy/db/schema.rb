@@ -1,4 +1,17 @@
 ActiveRecord::Schema[8.1].define(version: 1) do
+  # SolidStackWeb audit table
+  create_table "solid_stack_web_audit_events", force: :cascade do |t|
+    t.string   "action",     null: false
+    t.string   "actor"
+    t.string   "job_class"
+    t.string   "queue_name"
+    t.integer  "item_count", null: false, default: 1
+    t.datetime "created_at", null: false
+    t.index ["created_at"], name: "index_solid_stack_web_audit_events_on_created_at"
+    t.index ["action"],     name: "index_solid_stack_web_audit_events_on_action"
+    t.index ["actor"],      name: "index_solid_stack_web_audit_events_on_actor"
+  end
+
   # Solid Queue tables
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
     t.bigint "job_id", null: false

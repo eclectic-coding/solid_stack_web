@@ -31,7 +31,10 @@ module SolidStackWeb
     def destroy
       if params[:id]
         @execution = Job::EXECUTION_MODELS[@status].find(params[:id])
+        job_class  = @execution.job.class_name
+        queue_name = @execution.job.queue_name
         @execution.job.destroy!
+        record_audit("job_discarded", job_class: job_class, queue_name: queue_name)
         @executions_remain = Job::EXECUTION_MODELS[@status].exists?
         @notice = "Job discarded."
 
@@ -42,6 +45,7 @@ module SolidStackWeb
       else
         job_ids = filtered_scope.pluck(:job_id)
         count = SolidQueue::Job.where(id: job_ids).destroy_all.size
+        record_audit("jobs_discarded", item_count: count)
         redirect_to jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority, sort: @sort, direction: @direction),
                     notice: "#{count} #{count == 1 ? "job" : "jobs"} discarded."
       end

@@ -22,7 +22,7 @@ module SolidStackWeb
 
     def current_section
       case controller_name
-      when "jobs", "failed_jobs", "queues", "processes", "history", "scheduled_jobs", "recurring_tasks" then :queue
+      when "jobs", "failed_jobs", "queues", "processes", "history", "scheduled_jobs", "recurring_tasks", "audit" then :queue
       when "cache", "cache_entries" then :cache
       when "cable" then :cable
       else :overview
@@ -49,6 +49,28 @@ module SolidStackWeb
 
     def request_basic_auth
       request_http_basic_authentication("Solid Stack Dashboard")
+    end
+
+    def record_audit(action, job_class: nil, queue_name: nil, item_count: 1)
+      AuditEvent.create!(
+        action:     action,
+        actor:      resolve_current_actor,
+        job_class:  job_class,
+        queue_name: queue_name,
+        item_count: item_count
+      )
+    rescue => e
+      Rails.logger.error("[SolidStackWeb] Audit log failed: #{e.message}")
+    end
+
+    def resolve_current_actor
+      block = SolidStackWeb.current_actor
+      return nil unless block
+
+      instance_exec(&block)
+    rescue => e
+      Rails.logger.error("[SolidStackWeb] current_actor resolution failed: #{e.message}")
+      nil
     end
 
     def render_not_found

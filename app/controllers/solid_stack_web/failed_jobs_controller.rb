@@ -28,7 +28,10 @@ module SolidStackWeb
 
     def destroy
       @execution = ::SolidQueue::FailedExecution.find(params[:id])
+      job_class  = @execution.job.class_name
+      queue_name = @execution.job.queue_name
       @execution.job.destroy!
+      record_audit("failed_job_discarded", job_class: job_class, queue_name: queue_name)
       @executions_remain = ::SolidQueue::FailedExecution.exists?
       @notice = "Job discarded."
 
@@ -40,6 +43,7 @@ module SolidStackWeb
 
     def retry
       execution = ::SolidQueue::FailedExecution.find(params[:id])
+      record_audit("failed_job_retried", job_class: execution.job.class_name, queue_name: execution.job.queue_name)
       execution.retry
       redirect_to failed_jobs_path, notice: "Job retried."
     end

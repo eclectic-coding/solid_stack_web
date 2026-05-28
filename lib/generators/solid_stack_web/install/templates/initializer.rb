@@ -47,6 +47,13 @@ SolidStackWeb.configure do |config|
   #   "critical" => 50,
   #   "default"  => 500
   # }
+  # Audit log actor — block runs in controller context, return a string identifying the current user.
+  # Requires running `rails solid_stack_web:install:migrations && rails db:migrate` first.
+  #
+  #   config.current_actor do
+  #     current_user&.email
+  #   end
+
   # config.alert_slow_job_count_threshold  = 3       # fire when N+ claimed jobs exceed slow_job_threshold duration
   # config.alert_stale_process_threshold   = 1       # fire when N+ workers have a stale heartbeat (>5 min old)
   # config.alert_webhook_cooldown          = 3600    # seconds between repeat alerts

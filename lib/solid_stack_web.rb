@@ -84,6 +84,11 @@ module SolidStackWeb
       @authenticate
     end
 
+    def current_actor(&block)
+      @current_actor = block if block_given?
+      @current_actor
+    end
+
     def deprecator
       @deprecator ||= ActiveSupport::Deprecation.new("1.0", "SolidStackWeb")
     end

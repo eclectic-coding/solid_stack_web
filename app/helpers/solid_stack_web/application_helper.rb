@@ -87,6 +87,15 @@ module SolidStackWeb
       end
     end
 
+    def audit_action_badge_class(action)
+      case action
+      when /discard/ then "sqw-badge--failed"
+      when /retry/   then "sqw-badge--scheduled"
+      when "queue_paused"  then "sqw-badge--blocked"
+      when "queue_resumed" then "sqw-badge--ready"
+      end
+    end
+
     def sort_header_th(label, col, url_proc, current_sort:, current_dir:)
       is_active = current_sort == col
       next_dir  = (is_active && current_dir == "desc") ? "asc" : "desc"

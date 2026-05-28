@@ -65,6 +65,8 @@
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "history"}" %>
         <%= link_to "Processes", processes_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "processes"}" %>
+        <%= link_to "Audit", audit_path,
+              class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "audit"}" %>
       </div>
     </nav>
   <% end %>
