@@ -47,6 +47,7 @@ SolidStackWeb.configure do |config|
   #   "critical" => 50,
   #   "default"  => 500
   # }
-  # config.alert_slow_job_count_threshold = 3       # fire when N+ claimed jobs exceed slow_job_threshold duration
-  # config.alert_webhook_cooldown         = 3600    # seconds between repeat alerts
+  # config.alert_slow_job_count_threshold  = 3       # fire when N+ claimed jobs exceed slow_job_threshold duration
+  # config.alert_stale_process_threshold   = 1       # fire when N+ workers have a stale heartbeat (>5 min old)
+  # config.alert_webhook_cooldown          = 3600    # seconds between repeat alerts
 end
