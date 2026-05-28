@@ -419,6 +419,51 @@ RSpec.describe "Jobs", type: :request do
     end
   end
 
+  describe "wait time column (claimed tab)" do
+    def create_claimed(enqueued_ago:, claimed_ago:)
+      SolidQueue::Job.skip_callback(:create, :after, :prepare_for_execution)
+      job = SolidQueue::Job.create!(class_name: "WorkJob", queue_name: "default",
+                                    created_at: enqueued_ago.ago)
+      process = SolidQueue::Process.create!(kind: "Worker", name: "worker-wait-spec", pid: 88_888,
+                                            hostname: "test", last_heartbeat_at: Time.current)
+      execution = SolidQueue::ClaimedExecution.create!(job: job, process_id: process.id,
+                                                       created_at: claimed_ago.ago)
+      SolidQueue::Job.set_callback(:create, :after, :prepare_for_execution)
+      execution
+    end
+
+    it "shows the Wait Time column header on the claimed tab" do
+      create_claimed(enqueued_ago: 5.minutes, claimed_ago: 2.minutes)
+      get "#{engine_root}/jobs", params: { status: "claimed" }
+      expect(response.body).to include("Wait Time")
+    end
+
+    it "does not show the Wait Time column header on other tabs" do
+      get "#{engine_root}/jobs", params: { status: "ready" }
+      expect(response.body).not_to include("Wait Time")
+    end
+
+    it "renders the formatted wait time for each claimed job" do
+      create_claimed(enqueued_ago: 5.minutes, claimed_ago: 2.minutes)
+      get "#{engine_root}/jobs", params: { status: "claimed" }
+      expect(response.body).to include("3m")
+    end
+
+    it "includes wait_time_seconds in the claimed CSV export" do
+      create_claimed(enqueued_ago: 5.minutes, claimed_ago: 2.minutes)
+      get "#{engine_root}/jobs.csv", params: { status: "claimed" }
+      rows = CSV.parse(response.body, headers: true)
+      expect(rows.first.headers).to include("wait_time_seconds")
+      expect(rows.first["wait_time_seconds"].to_i).to be_within(5).of(180)
+    end
+
+    it "does not include wait_time_seconds in the ready CSV export" do
+      get "#{engine_root}/jobs.csv", params: { status: "ready" }
+      headers = response.body.lines.first.chomp
+      expect(headers).not_to include("wait_time_seconds")
+    end
+  end
+
   describe "combined filters" do
     it "applies class and queue filters together" do
       create_ready(class_name: "ReportJob",  queue_name: "reports")

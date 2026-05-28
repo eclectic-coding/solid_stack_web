@@ -112,6 +112,7 @@
             <%= sort_header_th("Priority",    "priority",   sort_url, current_sort: @sort, current_dir: @direction) %>
             <%= sort_header_th("Enqueued At", "created_at", sort_url, current_sort: @sort, current_dir: @direction) %>
             <% if @status == "scheduled" %><th scope="col">Scheduled At</th><% end %>
+            <% if @status == "claimed" %><th scope="col">Wait Time</th><% end %>
             <th scope="col"><span class="sqw-sr-only">Actions</span></th>
           </tr>
         </thead>
@@ -131,6 +132,9 @@
               <td class="sqw-muted"><%= local_time(execution.created_at) %></td>
               <% if @status == "scheduled" %>
                 <td id="scheduled_at_<%= execution.id %>" class="sqw-muted"><%= local_time(execution.scheduled_at) %></td>
+              <% end %>
+              <% if @status == "claimed" %>
+                <td class="sqw-monospace"><%= format_duration(execution.created_at - execution.job.created_at) %></td>
               <% end %>
               <td class="sqw-actions">
                 <% if @status == "scheduled" %>
