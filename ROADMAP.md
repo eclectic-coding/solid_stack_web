@@ -2,7 +2,7 @@
 
 `solid_stack_web` aims to be the definitive operational dashboard for the full Rails Solid Stack — a single mountable engine covering **Solid Queue**, **Solid Cache**, and **Solid Cable** with the depth needed for day-to-day production operations, not just a status page.
 
-The path to v1.0.0 is staged: first achieve feature parity with `solid_queue_dashboard` for the queue layer, then build equivalent depth for the cache and cable layers, then unify the experience with richer interactivity and a complete test suite. Past v1.0, the roadmap grows the dashboard into a full observability tool — error intelligence and trend charts (v1.1), daily-use UX polish (v1.2), configurable alerting (v1.3), opt-in audit logging (v1.4), and extensibility hooks for host apps (v2.0).
+The project has shipped through v1.2.0, covering full Solid Queue depth — job management, queue controls, worker visibility, failed job handling, job history, sortable columns, and persistent filter preferences. The roadmap ahead deepens the observability story: configurable alerting (v1.3), opt-in audit logging (v1.4), and extensibility hooks for host apps (v2.0).
 
 ---
 
