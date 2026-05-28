@@ -5,14 +5,6 @@
 ---
 
 
-## v1.3 — Alerting Depth
-
-> _More signals, fewer blind spots._
-
-- **Job wait time column** — show time from `enqueued_at` to `created_at` on claimed executions; a direct measure of queue SLA (how long jobs waited before a worker picked them up)
-
----
-
 ## v1.4 — Audit & Compliance
 
 > _Requires an opt-in migration — kept separate from the no-migration-required releases above._
