@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Bump `solid_cable` from 3.0.12 to 4.0.0
+- Bump `pagy` from 43.5.4 to 43.5.5
+- Bump `puma` from 8.0.1 to 8.0.2 (development dependency)
+
 ## [1.4.0] - 2026-05-28
 
 ### Added
