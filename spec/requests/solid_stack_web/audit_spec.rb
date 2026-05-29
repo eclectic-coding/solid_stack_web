@@ -10,6 +10,15 @@ RSpec.describe "Audit log", type: :request do
     )
   end
 
+  describe "GET /audit when table is missing" do
+    it "redirects to root with an alert" do
+      allow(SolidStackWeb::AuditEvent).to receive(:table_exists?).and_return(false)
+      get "#{engine_root}/audit"
+      expect(response).to redirect_to("#{engine_root}/")
+      expect(flash[:alert]).to include("rails solid_stack_web:install:migrations")
+    end
+  end
+
   describe "GET /audit" do
     it "returns 200" do
       get "#{engine_root}/audit"
@@ -154,6 +163,25 @@ RSpec.describe "Audit log", type: :request do
 
       expect(SolidStackWeb::AuditEvent.last.action).to eq("queue_paused")
       expect(SolidStackWeb::AuditEvent.last.queue_name).to eq("default")
+    end
+
+    context "when current_actor block raises" do
+      around do |example|
+        SolidStackWeb.current_actor { raise "actor boom" }
+        example.run
+      ensure
+        SolidStackWeb.instance_variable_set(:@current_actor, nil)
+      end
+
+      it "records the event with a nil actor and does not raise" do
+        SolidQueue::Job.create!(class_name: "MyJob", queue_name: "default")
+
+        expect {
+          post "#{engine_root}/queues/default/pause"
+        }.to change(SolidStackWeb::AuditEvent, :count).by(1)
+
+        expect(SolidStackWeb::AuditEvent.last.actor).to be_nil
+      end
     end
   end
 end
