@@ -42,4 +42,22 @@ RSpec.describe SolidStackWeb::ApplicationHelper, type: :helper do
       expect(helper.format_duration(7200)).to eq("2h 0m")
     end
   end
+
+  describe "#audit_action_badge_class" do
+    it "returns failed badge class for discard actions" do
+      expect(helper.audit_action_badge_class("discard")).to eq("sqw-badge--failed")
+    end
+
+    it "returns scheduled badge class for retry actions" do
+      expect(helper.audit_action_badge_class("retry")).to eq("sqw-badge--scheduled")
+    end
+
+    it "returns blocked badge class for queue_paused" do
+      expect(helper.audit_action_badge_class("queue_paused")).to eq("sqw-badge--blocked")
+    end
+
+    it "returns ready badge class for queue_resumed" do
+      expect(helper.audit_action_badge_class("queue_resumed")).to eq("sqw-badge--ready")
+    end
+  end
 end
