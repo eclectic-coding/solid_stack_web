@@ -1,58 +1,58 @@
 <div class="sqw-page-header sqw-page-header--split">
   <div>
     <div class="sqw-breadcrumb">
-      <%= link_to "Failed Jobs", failed_jobs_path %> &rsaquo; Detail
+      <%= link_to t("solid_stack_web.failed_jobs.title"), failed_jobs_path %> &rsaquo; <%= t("solid_stack_web.failed_jobs.detail") %>
     </div>
     <h1 class="sqw-page-title sqw-monospace"><%= @execution.job.class_name %></h1>
   </div>
 
   <div class="sqw-detail-actions">
-    <%= button_to "Retry", retry_failed_job_path(@execution),
+    <%= button_to t("solid_stack_web.failed_jobs.retry"), retry_failed_job_path(@execution),
           method: :post, class: "sqw-btn sqw-btn--sm" %>
-    <%= button_to "Discard", failed_job_path(@execution),
+    <%= button_to t("solid_stack_web.failed_jobs.discard"), failed_job_path(@execution),
           method: :delete, class: "sqw-btn sqw-btn--danger",
-          data: { turbo_confirm: "Discard this job?" } %>
+          data: { turbo_confirm: t("solid_stack_web.failed_jobs.confirm_discard") } %>
   </div>
 </div>
 
 <div class="sqw-detail-grid">
   <div class="sqw-detail-card sqw-detail-section">
-    <h2 class="sqw-section-title">Details</h2>
+    <h2 class="sqw-section-title"><%= t("solid_stack_web.failed_jobs.section_details") %></h2>
     <dl class="sqw-dl">
-      <dt>Queue</dt>
+      <dt><%= t("solid_stack_web.failed_jobs.field_queue") %></dt>
       <dd class="sqw-monospace"><%= @execution.job.queue_name %></dd>
 
-      <dt>Priority</dt>
+      <dt><%= t("solid_stack_web.failed_jobs.field_priority") %></dt>
       <dd><%= @execution.job.priority %></dd>
 
-      <dt>Active Job ID</dt>
+      <dt><%= t("solid_stack_web.failed_jobs.field_active_job_id") %></dt>
       <dd class="sqw-monospace sqw-truncate" title="<%= @execution.job.active_job_id %>"><%= @execution.job.active_job_id.presence || "—" %></dd>
 
-      <dt>Failed At</dt>
+      <dt><%= t("solid_stack_web.failed_jobs.field_failed_at") %></dt>
       <dd class="sqw-monospace"><%= local_time(@execution.created_at, format: :long) %></dd>
 
-      <dt>Error</dt>
+      <dt><%= t("solid_stack_web.failed_jobs.field_error") %></dt>
       <dd class="sqw-monospace"><%= @execution.exception_class %></dd>
 
-      <dt>Message</dt>
+      <dt><%= t("solid_stack_web.failed_jobs.field_message") %></dt>
       <dd class="sqw-muted"><%= @execution.message %></dd>
     </dl>
   </div>
 
   <div class="sqw-detail-card sqw-detail-section">
-    <h2 class="sqw-section-title">Backtrace</h2>
+    <h2 class="sqw-section-title"><%= t("solid_stack_web.failed_jobs.section_backtrace") %></h2>
     <pre class="sqw-code-block"><%= Array(@execution.backtrace).first(10).join("\n").presence || "—" %></pre>
   </div>
 </div>
 
 <div class="sqw-detail-card sqw-detail-section sqw-detail-card--mt">
-  <h2 class="sqw-section-title">Arguments</h2>
+  <h2 class="sqw-section-title"><%= t("solid_stack_web.failed_jobs.section_arguments") %></h2>
   <%= form_with url: failed_job_arguments_path(@execution), method: :patch do |f| %>
     <%= f.text_area :arguments, value: @arguments, rows: 12,
-          class: "sqw-code-input", aria: { label: "Job arguments JSON" },
+          class: "sqw-code-input", aria: { label: t("solid_stack_web.failed_jobs.arguments_aria_label") },
           spellcheck: false %>
     <div style="margin-top: 0.75rem;">
-      <%= f.submit "Update &amp; Retry".html_safe, class: "sqw-btn sqw-btn--sm" %>
+      <%= f.submit t("solid_stack_web.failed_jobs.update_retry"), class: "sqw-btn sqw-btn--sm" %>
     </div>
   <% end %>
 </div>

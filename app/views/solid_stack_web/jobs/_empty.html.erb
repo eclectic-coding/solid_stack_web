@@ -1,19 +1,19 @@
 <div id="sqw-empty" class="sqw-empty">
   <% if @search.present? %>
-    <p class="sqw-empty__title">No <strong><%= @status %></strong> jobs matching &ldquo;<%= @search %>&rdquo;</p>
-    <p class="sqw-empty__hint"><%= link_to "Clear search", jobs_path(status: @status) %></p>
+    <p class="sqw-empty__title"><%= t("solid_stack_web.jobs.no_jobs_matching", status: @status, search: @search) %></p>
+    <p class="sqw-empty__hint"><%= link_to t("solid_stack_web.jobs.clear_search"), jobs_path(status: @status) %></p>
   <% else %>
-    <p class="sqw-empty__title">No <strong><%= @status %></strong> jobs</p>
+    <p class="sqw-empty__title"><%= t("solid_stack_web.jobs.no_jobs", status: @status) %></p>
     <p class="sqw-empty__hint">
       <% case @status %>
       <% when "ready" %>
-        Jobs will appear here once they are enqueued and ready to be picked up.
+        <%= t("solid_stack_web.jobs.hint_ready") %>
       <% when "scheduled" %>
-        No jobs are scheduled to run in the future.
+        <%= t("solid_stack_web.jobs.hint_scheduled") %>
       <% when "claimed" %>
-        No jobs are currently being processed by a worker.
+        <%= t("solid_stack_web.jobs.hint_claimed") %>
       <% when "blocked" %>
-        No jobs are blocked by concurrency controls.
+        <%= t("solid_stack_web.jobs.hint_blocked") %>
       <% end %>
     </p>
   <% end %>

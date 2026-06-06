@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= I18n.locale %>">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Solid Stack Dashboard</title>
+  <title><%= t("solid_stack_web.layout.title") %></title>
   <link rel="icon" href="data:,">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
@@ -11,61 +11,62 @@
   <%= javascript_importmap_tags "solid_stack_web" %>
 </head>
 <body data-controller="theme">
-  <a href="#main-content" class="sqw-skip-link">Skip to main content</a>
+  <a href="#main-content" class="sqw-skip-link"><%= t("solid_stack_web.layout.skip_to_content") %></a>
   <header class="sqw-header">
     <div class="sqw-header__inner">
-      <%= link_to "Solid Stack", root_path, class: "sqw-header__logo" %>
-      <nav class="sqw-nav" aria-label="Main navigation">
-        <%= link_to "Queue", jobs_path,
+      <%= link_to t("solid_stack_web.layout.logo"), root_path, class: "sqw-header__logo" %>
+      <nav class="sqw-nav" aria-label="<%= t("solid_stack_web.layout.nav.main_navigation") %>">
+        <%= link_to t("solid_stack_web.layout.nav.queue"), jobs_path,
               class: "sqw-nav__link#{" sqw-nav__link--active" if current_section == :queue}" %>
-        <%= link_to "Cache", cache_path,
+        <%= link_to t("solid_stack_web.layout.nav.cache"), cache_path,
               class: "sqw-nav__link#{" sqw-nav__link--active" if current_section == :cache}" %>
-        <%= link_to "Cable", cable_path,
+        <%= link_to t("solid_stack_web.layout.nav.cable"), cable_path,
               class: "sqw-nav__link#{" sqw-nav__link--active" if current_section == :cable}" %>
       </nav>
-      <button class="sqw-theme-toggle" aria-label="Switch to dark mode"
+      <%= render "solid_stack_web/shared/locale_switcher" %>
+      <button class="sqw-theme-toggle" aria-label="<%= t("solid_stack_web.layout.theme_toggle") %>"
               data-theme-target="toggle" data-action="theme#toggle">☽</button>
     </div>
   </header>
 
   <% if current_section == :cache %>
-    <nav class="sqw-subnav" aria-label="Cache section">
+    <nav class="sqw-subnav" aria-label="<%= t("solid_stack_web.layout.subnav.cache_section") %>">
       <div class="sqw-subnav__inner">
-        <%= link_to "Overview", cache_path,
+        <%= link_to t("solid_stack_web.layout.subnav.overview"), cache_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "cache"}" %>
-        <%= link_to "Entries", cache_entries_path,
+        <%= link_to t("solid_stack_web.layout.subnav.entries"), cache_entries_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "cache_entries"}" %>
       </div>
     </nav>
   <% end %>
 
   <% if current_section == :cable %>
-    <nav class="sqw-subnav" aria-label="Cable section">
+    <nav class="sqw-subnav" aria-label="<%= t("solid_stack_web.layout.subnav.cable_section") %>">
       <div class="sqw-subnav__inner">
-        <%= link_to "Overview", cable_path,
+        <%= link_to t("solid_stack_web.layout.subnav.overview"), cable_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "cable"}" %>
       </div>
     </nav>
   <% end %>
 
   <% if current_section == :queue %>
-    <nav class="sqw-subnav" aria-label="Queue section">
+    <nav class="sqw-subnav" aria-label="<%= t("solid_stack_web.layout.subnav.queue_section") %>">
       <div class="sqw-subnav__inner">
-        <%= link_to "Jobs", jobs_path,
+        <%= link_to t("solid_stack_web.layout.subnav.jobs"), jobs_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "jobs"}" %>
-        <%= link_to "Failed", failed_jobs_path,
+        <%= link_to t("solid_stack_web.layout.subnav.failed"), failed_jobs_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "failed_jobs"}" %>
-        <%= link_to "Queues", queues_path,
+        <%= link_to t("solid_stack_web.layout.subnav.queues"), queues_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "queues"}" %>
-        <%= link_to "Recurring", recurring_tasks_path,
+        <%= link_to t("solid_stack_web.layout.subnav.recurring"), recurring_tasks_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "recurring_tasks"}" %>
-        <%= link_to "Stats", stats_path,
+        <%= link_to t("solid_stack_web.layout.subnav.stats"), stats_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "stats"}" %>
-        <%= link_to "History", history_path,
+        <%= link_to t("solid_stack_web.layout.subnav.history"), history_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "history"}" %>
-        <%= link_to "Processes", processes_path,
+        <%= link_to t("solid_stack_web.layout.subnav.processes"), processes_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "processes"}" %>
-        <%= link_to "Audit", audit_path,
+        <%= link_to t("solid_stack_web.layout.subnav.audit"), audit_path,
               class: "sqw-subnav__link#{" sqw-subnav__link--active" if controller_name == "audit"}" %>
       </div>
     </nav>

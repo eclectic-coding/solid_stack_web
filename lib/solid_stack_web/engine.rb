@@ -11,6 +11,7 @@ module SolidStackWeb
     isolate_namespace SolidStackWeb
 
     config.i18n.load_path += Gem.find_files("pagy/locales/en.yml")
+    config.i18n.load_path += Dir[root.join("config/locales/*.yml").to_s]
 
     initializer "solid_stack_web.assets" do |app|
       if app.config.respond_to?(:assets)

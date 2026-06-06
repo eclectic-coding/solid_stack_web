@@ -1,16 +1,16 @@
 <div class="sqw-page-header sqw-page-header--split">
   <div>
-    <h1 class="sqw-page-title">Failed Jobs</h1>
+    <h1 class="sqw-page-title"><%= t("solid_stack_web.failed_jobs.title") %></h1>
     <% if @error_class %>
       <div class="sqw-breadcrumb">
-        Filtered by <span class="sqw-monospace"><%= @error_class %></span>
-        — <%= link_to "Clear filter", failed_jobs_path %>
+        <%= t("solid_stack_web.failed_jobs.filtered_by") %> <span class="sqw-monospace"><%= @error_class %></span>
+        — <%= link_to t("solid_stack_web.failed_jobs.clear_filter"), failed_jobs_path %>
       </div>
     <% end %>
   </div>
   <div class="sqw-header-actions">
-    <%= link_to "Error Summary", failed_job_errors_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
-    <%= link_to "Export CSV", failed_jobs_path(format: :csv),
+    <%= link_to t("solid_stack_web.failed_jobs.error_summary"), failed_job_errors_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+    <%= link_to t("solid_stack_web.failed_jobs.export_csv"), failed_jobs_path(format: :csv),
           class: "sqw-btn sqw-btn--muted sqw-btn--sm", data: { turbo: false } %>
   </div>
 </div>
@@ -22,31 +22,31 @@
       <% end %>
 
       <%= form_with url: failed_job_selection_path, method: :delete, id: "discard-selection-form",
-            data: { turbo_confirm: "Discard selected failed jobs? This cannot be undone." } do |f| %>
+            data: { turbo_confirm: t("solid_stack_web.failed_jobs.confirm_discard_selected") } do |f| %>
       <% end %>
 
       <div class="sqw-selection-bar" data-selection-target="bar" style="display: none;">
-        <span class="sqw-muted"><span data-selection-target="count">0</span> selected</span>
+        <span class="sqw-muted"><span data-selection-target="count">0</span> <%= t("solid_stack_web.jobs.selected_label") %></span>
         <button type="button" class="sqw-btn sqw-btn--sm"
                 data-action="click->selection#submit"
-                data-selection-form-id-param="retry-selection-form">Retry Selected</button>
+                data-selection-form-id-param="retry-selection-form"><%= t("solid_stack_web.failed_jobs.retry_selected") %></button>
         <button type="button" class="sqw-btn sqw-btn--danger sqw-btn--sm"
                 data-action="click->selection#submit"
-                data-selection-form-id-param="discard-selection-form">Discard Selected</button>
+                data-selection-form-id-param="discard-selection-form"><%= t("solid_stack_web.failed_jobs.discard_selected") %></button>
       </div>
 
       <table class="sqw-table">
         <thead>
           <tr>
-            <th scope="col"><input type="checkbox" class="sqw-checkbox" aria-label="Select all"
+            <th scope="col"><input type="checkbox" class="sqw-checkbox" aria-label="<%= t("solid_stack_web.shared.select_all") %>"
                        data-selection-target="selectAll"
                        data-action="change->selection#selectAll"></th>
             <% sort_url = ->(p) { failed_jobs_path(error_class: @error_class, **p) } %>
-            <%= sort_header_th("Job Class", "class_name", sort_url, current_sort: @sort, current_dir: @direction) %>
-            <%= sort_header_th("Queue",     "queue_name", sort_url, current_sort: @sort, current_dir: @direction) %>
-            <th scope="col">Error</th>
-            <%= sort_header_th("Failed At", "created_at", sort_url, current_sort: @sort, current_dir: @direction) %>
-            <th scope="col"><span class="sqw-sr-only">Actions</span></th>
+            <%= sort_header_th(t("solid_stack_web.failed_jobs.col_job_class"), "class_name", sort_url, current_sort: @sort, current_dir: @direction) %>
+            <%= sort_header_th(t("solid_stack_web.failed_jobs.col_queue"),     "queue_name", sort_url, current_sort: @sort, current_dir: @direction) %>
+            <th scope="col"><%= t("solid_stack_web.failed_jobs.col_error") %></th>
+            <%= sort_header_th(t("solid_stack_web.failed_jobs.col_failed_at"), "created_at", sort_url, current_sort: @sort, current_dir: @direction) %>
+            <th scope="col"><span class="sqw-sr-only"><%= t("solid_stack_web.shared.actions") %></span></th>
           </tr>
         </thead>
         <tbody>
@@ -62,22 +62,22 @@
               <td class="sqw-muted sqw-truncate" title="<%= execution.exception_class %>: <%= execution.message %>"><%= execution.exception_class %></td>
               <td class="sqw-muted"><%= local_time(execution.created_at) %></td>
               <td class="sqw-actions">
-                <%= button_to "Retry", retry_failed_job_path(execution),
+                <%= button_to t("solid_stack_web.failed_jobs.retry"), retry_failed_job_path(execution),
                       method: :post, class: "sqw-btn sqw-btn--sm" %>
-                <%= button_to "Discard", failed_job_path(execution),
+                <%= button_to t("solid_stack_web.failed_jobs.discard"), failed_job_path(execution),
                       method: :delete, class: "sqw-btn sqw-btn--danger sqw-btn--sm",
-                      data: { turbo_confirm: "Discard this job?" } %>
+                      data: { turbo_confirm: t("solid_stack_web.failed_jobs.confirm_discard") } %>
               </td>
             </tr>
           <% end %>
         </tbody>
       </table>
-      <%== @pagy.series_nav(aria_label: "Pagination") if @pagy.pages > 1 %>
+      <%== @pagy.series_nav(aria_label: t("solid_stack_web.shared.pagination")) if @pagy.pages > 1 %>
     </div>
   <% else %>
     <div class="sqw-empty">
-      <p class="sqw-empty__title">No failed jobs</p>
-      <p class="sqw-empty__hint">All clear — your jobs are running without errors.</p>
+      <p class="sqw-empty__title"><%= t("solid_stack_web.failed_jobs.empty_title") %></p>
+      <p class="sqw-empty__hint"><%= t("solid_stack_web.failed_jobs.empty_hint") %></p>
     </div>
   <% end %>
 </div>

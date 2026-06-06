@@ -8,7 +8,8 @@ module SolidStackWeb
                 :alert_failure_threshold, :alert_queue_thresholds,
                 :alert_slow_job_count_threshold, :alert_stale_process_threshold,
                 :dashboard_refresh_interval, :default_refresh_interval,
-                :search_results_limit, :allow_value_preview
+                :search_results_limit, :allow_value_preview,
+                :available_locales
 
     def page_size
       @page_size || 25
@@ -60,6 +61,10 @@ module SolidStackWeb
 
     def allow_value_preview
       @allow_value_preview || false
+    end
+
+    def available_locales
+      @available_locales || %i[en es]
     end
 
     # Returns the path at which the engine is mounted in the host application,

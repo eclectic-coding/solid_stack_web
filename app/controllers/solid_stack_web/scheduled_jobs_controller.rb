@@ -6,10 +6,10 @@ module SolidStackWeb
       SolidQueue::ScheduledExecution.where(job_id: job_ids).update_all(scheduled_at: 1.second.ago)
       SolidQueue::Job.where(id: job_ids).update_all(scheduled_at: 1.second.ago)
       redirect_to jobs_path(status: "scheduled", period: @period),
-                  notice: "#{job_ids.size} #{"job".pluralize(job_ids.size)} scheduled to run immediately."
+                  notice: t("solid_stack_web.flash.jobs_run_immediately", count: job_ids.size)
     rescue => e
       redirect_to jobs_path(status: "scheduled", period: @period),
-                  alert: "Could not run jobs: #{e.message}"
+                  alert: t("solid_stack_web.flash.cannot_run_jobs", error: e.message)
     end
 
     def update
@@ -24,14 +24,14 @@ module SolidStackWeb
       respond_to do |format|
         format.turbo_stream
         format.html do
-          notice = @run_now ? "Job scheduled to run immediately." : "Job rescheduled by +#{params[:offset]}."
+          notice = @run_now ? t("solid_stack_web.flash.job_run_immediately") : t("solid_stack_web.flash.job_rescheduled", offset: params[:offset])
           redirect_to jobs_path(status: "scheduled", period: @period), notice: notice
         end
       end
     rescue ArgumentError => e
       redirect_to jobs_path(status: "scheduled"), alert: e.message
     rescue => e
-      redirect_to jobs_path(status: "scheduled"), alert: "Could not reschedule job: #{e.message}"
+      redirect_to jobs_path(status: "scheduled"), alert: t("solid_stack_web.flash.cannot_reschedule_job", error: e.message)
     end
 
     private
@@ -44,7 +44,7 @@ module SolidStackWeb
 
     def resolve_new_time(execution, offset)
       return 1.second.ago if offset == "now"
-      raise ArgumentError, "Invalid offset." unless PERIOD_DURATIONS.key?(offset)
+      raise ArgumentError, t("solid_stack_web.flash.invalid_offset") unless PERIOD_DURATIONS.key?(offset)
 
       execution.scheduled_at + PERIOD_DURATIONS[offset]
     end

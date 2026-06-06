@@ -1,7 +1,7 @@
 <div class="sqw-page-header sqw-page-header--split">
-  <h1 class="sqw-page-title">Error Summary</h1>
+  <h1 class="sqw-page-title"><%= t("solid_stack_web.failed_jobs.errors_title") %></h1>
   <div class="sqw-header-actions">
-    <%= link_to "← Failed Jobs", failed_jobs_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+    <%= link_to t("solid_stack_web.failed_jobs.back_to_failed_jobs"), failed_jobs_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
   </div>
 </div>
 
@@ -9,10 +9,10 @@
   <table class="sqw-table">
     <thead>
       <tr>
-        <th scope="col">Error Class</th>
-        <th scope="col">Message</th>
-        <th scope="col">Count</th>
-        <th scope="col"><span class="sqw-sr-only">Actions</span></th>
+        <th scope="col"><%= t("solid_stack_web.failed_jobs.errors_col_class") %></th>
+        <th scope="col"><%= t("solid_stack_web.failed_jobs.errors_col_message") %></th>
+        <th scope="col"><%= t("solid_stack_web.failed_jobs.errors_col_count") %></th>
+        <th scope="col"><span class="sqw-sr-only"><%= t("solid_stack_web.shared.actions") %></span></th>
       </tr>
     </thead>
     <tbody>
@@ -33,7 +33,7 @@
           </td>
           <td><%= group.count %></td>
           <td class="sqw-actions">
-            <%= link_to "View Jobs", failed_jobs_path(error_class: group.exception_class),
+            <%= link_to t("solid_stack_web.failed_jobs.view_jobs"), failed_jobs_path(error_class: group.exception_class),
                   class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
           </td>
         </tr>
@@ -42,7 +42,7 @@
   </table>
 <% else %>
   <div class="sqw-empty">
-    <p class="sqw-empty__title">No failed jobs</p>
-    <p class="sqw-empty__hint">All clear — your jobs are running without errors.</p>
+    <p class="sqw-empty__title"><%= t("solid_stack_web.failed_jobs.empty_title") %></p>
+    <p class="sqw-empty__hint"><%= t("solid_stack_web.failed_jobs.empty_hint") %></p>
   </div>
 <% end %>

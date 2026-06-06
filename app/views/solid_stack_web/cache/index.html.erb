@@ -1,14 +1,14 @@
 <div class="sqw-page-header">
-  <h1 class="sqw-page-title">Solid Cache</h1>
+  <h1 class="sqw-page-title"><%= t("solid_stack_web.cache.title") %></h1>
 </div>
 
 <div class="sqw-stats-grid">
   <%= link_to cache_entries_path, class: "sqw-stat sqw-stat--cache" do %>
-    <span class="sqw-stat__label">Total Entries</span>
+    <span class="sqw-stat__label"><%= t("solid_stack_web.cache.total_entries") %></span>
     <span class="sqw-stat__value"><%= @total_entries %></span>
   <% end %>
   <div class="sqw-stat sqw-stat--cache">
-    <span class="sqw-stat__label">Total Size</span>
+    <span class="sqw-stat__label"><%= t("solid_stack_web.cache.total_size") %></span>
     <span class="sqw-stat__value"><%= number_to_human_size(@total_byte_size) %></span>
   </div>
 </div>
@@ -16,13 +16,13 @@
 <% if @total_entries > 0 %>
   <div class="sqw-size-grid">
     <section class="sqw-size-section">
-      <h2 class="sqw-section-title">Size Distribution</h2>
+      <h2 class="sqw-section-title"><%= t("solid_stack_web.cache.size_distribution") %></h2>
       <table class="sqw-table">
         <thead>
           <tr>
-            <th scope="col">Range</th>
-            <th scope="col">Entries</th>
-            <th scope="col"><span class="sqw-sr-only">Distribution</span></th>
+            <th scope="col"><%= t("solid_stack_web.cache.col_range") %></th>
+            <th scope="col"><%= t("solid_stack_web.cache.col_entries") %></th>
+            <th scope="col"><span class="sqw-sr-only"><%= t("solid_stack_web.cache.col_distribution") %></span></th>
           </tr>
         </thead>
         <tbody>
@@ -44,12 +44,12 @@
     </section>
 
     <section class="sqw-size-section">
-      <h2 class="sqw-section-title">Largest Entries</h2>
+      <h2 class="sqw-section-title"><%= t("solid_stack_web.cache.largest_entries") %></h2>
       <table class="sqw-table">
         <thead>
           <tr>
-            <th scope="col">Key</th>
-            <th scope="col">Size</th>
+            <th scope="col"><%= t("solid_stack_web.cache.col_key") %></th>
+            <th scope="col"><%= t("solid_stack_web.cache.col_size") %></th>
           </tr>
         </thead>
         <tbody>
@@ -69,28 +69,28 @@
 
 <div class="sqw-timeline-grid" data-controller="sparkline-tooltip">
   <div class="sqw-sparkline-wrap sqw-timeline-chart">
-    <span class="sqw-sparkline-label">Entries written — last 24 hours</span>
+    <span class="sqw-sparkline-label"><%= t("solid_stack_web.cache.entries_written") %></span>
     <div class="sqw-sparkline-positioner">
       <%= cache_entries_timeline_svg(@timeline) %>
       <div class="sqw-sparkline-tip" data-sparkline-tooltip-target="tip" hidden></div>
     </div>
     <div class="sqw-sparkline-axis">
-      <span>24h ago</span>
-      <span>12h ago</span>
-      <span>now</span>
+      <span><%= t("solid_stack_web.cache.axis_24h_ago") %></span>
+      <span><%= t("solid_stack_web.cache.axis_12h_ago") %></span>
+      <span><%= t("solid_stack_web.cache.axis_now") %></span>
     </div>
   </div>
 
   <div class="sqw-sparkline-wrap sqw-timeline-chart">
-    <span class="sqw-sparkline-label">Bytes written — last 24 hours</span>
+    <span class="sqw-sparkline-label"><%= t("solid_stack_web.cache.bytes_written") %></span>
     <div class="sqw-sparkline-positioner">
       <%= cache_bytes_timeline_svg(@timeline) %>
       <div class="sqw-sparkline-tip" data-sparkline-tooltip-target="tip" hidden></div>
     </div>
     <div class="sqw-sparkline-axis">
-      <span>24h ago</span>
-      <span>12h ago</span>
-      <span>now</span>
+      <span><%= t("solid_stack_web.cache.axis_24h_ago") %></span>
+      <span><%= t("solid_stack_web.cache.axis_12h_ago") %></span>
+      <span><%= t("solid_stack_web.cache.axis_now") %></span>
     </div>
   </div>
 </div>

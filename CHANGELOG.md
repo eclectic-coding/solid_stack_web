@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- i18n support — all UI labels, flash messages, table headers, empty states, confirmations, and sparkline tooltips are now backed by locale YAML files; ships with English (`en`) and Spanish (`es`) out of the box
+- Locale switcher — a `<select>` dropdown in the header lets users switch languages at runtime; locale is stored in the session and applied via `I18n.with_locale`; automatically hidden when only one locale is configured
+- `config.available_locales` — controls which locales appear in the switcher (default: `[:en, :es]`)
+
 ## [1.5.0] - 2026-05-29
 
 ### Changed

@@ -1,0 +1,14 @@
+<% if SolidStackWeb.available_locales.size > 1 %>
+  <form class="sqw-locale-form" action="<%= request.path %>" method="get" aria-label="<%= t("solid_stack_web.locale_switcher.label") %>">
+    <% request.query_parameters.except("locale").each do |k, v| %>
+      <%= hidden_field_tag k, v %>
+    <% end %>
+    <select name="locale" class="sqw-locale-select"
+            onchange="this.form.submit()"
+            aria-label="<%= t("solid_stack_web.locale_switcher.label") %>">
+      <% SolidStackWeb.available_locales.each do |loc| %>
+        <option value="<%= loc %>" <%= "selected" if I18n.locale.to_s == loc.to_s %>><%= loc.to_s.upcase %></option>
+      <% end %>
+    </select>
+  </form>
+<% end %>

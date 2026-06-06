@@ -36,7 +36,7 @@ module SolidStackWeb
         @execution.job.destroy!
         record_audit("job_discarded", job_class: job_class, queue_name: queue_name)
         @executions_remain = Job::EXECUTION_MODELS[@status].exists?
-        @notice = "Job discarded."
+        @notice = t("solid_stack_web.flash.job_discarded")
 
         respond_to do |format|
           format.html { redirect_to jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority, sort: @sort, direction: @direction) }
@@ -47,7 +47,7 @@ module SolidStackWeb
         count = SolidQueue::Job.where(id: job_ids).destroy_all.size
         record_audit("jobs_discarded", item_count: count)
         redirect_to jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority, sort: @sort, direction: @direction),
-                    notice: "#{count} #{count == 1 ? "job" : "jobs"} discarded."
+                    notice: t("solid_stack_web.flash.jobs_discarded", count: count)
       end
     end
 

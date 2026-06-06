@@ -7,6 +7,7 @@ module SolidStackWeb
     PERIOD_DURATIONS = { "1h" => 1.hour, "24h" => 24.hours, "7d" => 7.days }.freeze
 
     before_action :authenticate!
+    around_action :with_locale
     around_action :with_database_connection
 
     rescue_from StandardError do |exception|
@@ -27,6 +28,15 @@ module SolidStackWeb
       when "cable" then :cable
       else :overview
       end
+    end
+
+    def with_locale
+      available = SolidStackWeb.available_locales.map(&:to_s)
+      locale = params[:locale].presence_in(available) ||
+               session[:solid_stack_web_locale].presence_in(available) ||
+               I18n.default_locale.to_s
+      session[:solid_stack_web_locale] = locale
+      I18n.with_locale(locale) { yield }
     end
 
     def with_database_connection

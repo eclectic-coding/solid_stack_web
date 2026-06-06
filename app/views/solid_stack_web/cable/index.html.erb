@@ -1,48 +1,51 @@
 <div class="sqw-page-header sqw-page-header--split">
-  <h1 class="sqw-page-title">Solid Cable</h1>
+  <h1 class="sqw-page-title"><%= t("solid_stack_web.cable.title") %></h1>
   <div class="sqw-header-actions">
     <%= form_with url: cable_purge_path, method: :delete, class: "sqw-inline-form",
-                  data: { turbo_confirm: "Purge these messages? This cannot be undone." } do |f| %>
+                  data: { turbo_confirm: t("solid_stack_web.cable.confirm_purge") } do |f| %>
       <%= f.select :older_than,
-                   [["Older than 1 day", 1], ["Older than 7 days", 7], ["Older than 30 days", 30]],
+                   [[t("solid_stack_web.cable.older_than_1_day"), 1],
+                    [t("solid_stack_web.cable.older_than_7_days"), 7],
+                    [t("solid_stack_web.cable.older_than_30_days"), 30]],
                    {}, class: "sqw-select" %>
-      <%= f.submit "Purge Old", class: "sqw-btn sqw-btn--danger sqw-btn--sm" %>
+      <%= f.submit t("solid_stack_web.cable.purge_old"), class: "sqw-btn sqw-btn--danger sqw-btn--sm" %>
     <% end %>
   </div>
 </div>
 
 <div class="sqw-stats-grid">
   <div class="sqw-stat sqw-stat--cable">
-    <span class="sqw-stat__label">Total Messages</span>
+    <span class="sqw-stat__label"><%= t("solid_stack_web.cable.total_messages") %></span>
     <span class="sqw-stat__value"><%= @total_messages %></span>
   </div>
   <div class="sqw-stat sqw-stat--cable">
-    <span class="sqw-stat__label">Channels</span>
+    <span class="sqw-stat__label"><%= t("solid_stack_web.cable.channels") %></span>
     <span class="sqw-stat__value"><%= @channels.size %></span>
   </div>
 </div>
 
 <div class="sqw-timeline-grid sqw-timeline-grid--single" data-controller="sparkline-tooltip">
   <div class="sqw-sparkline-wrap sqw-timeline-chart sqw-timeline-chart--cable">
-    <span class="sqw-sparkline-label">Messages — last 24 hours</span>
+    <span class="sqw-sparkline-label"><%= t("solid_stack_web.cable.messages_timeline") %></span>
     <div class="sqw-sparkline-positioner">
       <%= cable_messages_timeline_svg(@timeline) %>
       <div class="sqw-sparkline-tip" data-sparkline-tooltip-target="tip" hidden></div>
     </div>
     <div class="sqw-sparkline-axis">
-      <span>24h ago</span>
-      <span>12h ago</span>
-      <span>now</span>
+      <span><%= t("solid_stack_web.cable.axis_24h_ago") %></span>
+      <span><%= t("solid_stack_web.cable.axis_12h_ago") %></span>
+      <span><%= t("solid_stack_web.cable.axis_now") %></span>
     </div>
   </div>
 </div>
 
 <form class="sqw-filters" action="<%= cable_path %>" method="get" data-controller="search">
   <input class="sqw-search-input" type="search" name="q" value="<%= @search %>"
-         placeholder="Filter by channel…" autocomplete="off" aria-label="Filter by channel"
+         placeholder="<%= t("solid_stack_web.cable.placeholder_channel") %>" autocomplete="off"
+         aria-label="<%= t("solid_stack_web.cable.aria_filter_channel") %>"
          data-action="input->search#filter">
   <% if @search.present? %>
-    <%= link_to "Clear", cable_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+    <%= link_to t("solid_stack_web.shared.clear"), cable_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
   <% end %>
 </form>
 
@@ -50,9 +53,9 @@
   <table class="sqw-table">
     <thead>
       <tr>
-        <th scope="col">Channel</th>
-        <th scope="col">Messages</th>
-        <th scope="col">Last Message</th>
+        <th scope="col"><%= t("solid_stack_web.cable.col_channel") %></th>
+        <th scope="col"><%= t("solid_stack_web.cable.col_messages") %></th>
+        <th scope="col"><%= t("solid_stack_web.cable.col_last_message") %></th>
       </tr>
     </thead>
     <tbody>
@@ -70,11 +73,11 @@
 <% else %>
   <div class="sqw-empty">
     <% if @search.present? %>
-      <p class="sqw-empty__title">No channels matching &ldquo;<%= @search %>&rdquo;</p>
-      <p class="sqw-empty__hint"><%= link_to "Clear search", cable_path %></p>
+      <p class="sqw-empty__title"><%= t("solid_stack_web.cable.no_channels_matching", search: @search) %></p>
+      <p class="sqw-empty__hint"><%= link_to t("solid_stack_web.cable.clear_search"), cable_path %></p>
     <% else %>
-      <p class="sqw-empty__title">No cable messages</p>
-      <p class="sqw-empty__hint">Messages will appear here once clients connect and broadcast over Action Cable.</p>
+      <p class="sqw-empty__title"><%= t("solid_stack_web.cable.empty_title") %></p>
+      <p class="sqw-empty__hint"><%= t("solid_stack_web.cable.empty_hint") %></p>
     <% end %>
   </div>
 <% end %>

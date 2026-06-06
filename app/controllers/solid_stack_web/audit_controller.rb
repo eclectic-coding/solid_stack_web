@@ -3,7 +3,7 @@ module SolidStackWeb
     def index
       unless AuditEvent.table_exists?
         redirect_to root_path,
-                    alert: "Audit log requires running `rails solid_stack_web:install:migrations && rails db:migrate`."
+                    alert: t("solid_stack_web.flash.audit_migration_required")
         return
       end
 

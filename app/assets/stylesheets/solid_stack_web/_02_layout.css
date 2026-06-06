@@ -117,3 +117,15 @@
 }
 .sqw-flash--notice { background: #d1e7dd; color: #0a3622; border: 1px solid #a3cfbb; }
 .sqw-flash--alert  { background: #f8d7da; color: #58151c; border: 1px solid #f1aeb5; }
+
+.sqw-locale-form { display: flex; align-items: center; flex-shrink: 0; }
+.sqw-locale-select {
+  font-size: 12px;
+  padding: 0.2rem 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  height: 28px;
+}

@@ -1,8 +1,8 @@
 <div class="sqw-page-header">
-  <h1 class="sqw-page-title">Not Found</h1>
+  <h1 class="sqw-page-title"><%= t("solid_stack_web.errors.not_found_title") %></h1>
 </div>
 
 <div class="sqw-empty">
-  <p class="sqw-empty__title">404 &mdash; The record you&rsquo;re looking for doesn&rsquo;t exist or has been removed.</p>
-  <p class="sqw-empty__hint"><%= link_to "Back to Dashboard", root_path, class: "sqw-btn sqw-btn--secondary" %></p>
+  <p class="sqw-empty__title"><%= t("solid_stack_web.errors.not_found_message") %></p>
+  <p class="sqw-empty__hint"><%= link_to t("solid_stack_web.shared.back_to_dashboard"), root_path, class: "sqw-btn sqw-btn--secondary" %></p>
 </div>

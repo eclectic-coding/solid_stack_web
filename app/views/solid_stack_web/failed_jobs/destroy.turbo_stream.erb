@@ -6,7 +6,7 @@
 <% else %>
   <%= turbo_stream.replace "sqw-jobs-table" do %>
     <div class="sqw-empty">
-      <p>No failed jobs.</p>
+      <p><%= t("solid_stack_web.failed_jobs.empty_title") %></p>
     </div>
   <% end %>
 <% end %>

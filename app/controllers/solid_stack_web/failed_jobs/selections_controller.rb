@@ -7,18 +7,18 @@ module SolidStackWeb
         count = @ids.size
         SolidQueue::FailedExecution.where(id: @ids).each(&:retry)
         record_audit("failed_jobs_retried", item_count: count)
-        redirect_to failed_jobs_path, notice: "#{count} #{count == 1 ? "job" : "jobs"} retried."
+        redirect_to failed_jobs_path, notice: t("solid_stack_web.flash.jobs_retried", count: count)
       rescue => e
-        redirect_to failed_jobs_path, alert: "Could not retry jobs: #{e.message}"
+        redirect_to failed_jobs_path, alert: t("solid_stack_web.flash.cannot_retry_jobs", error: e.message)
       end
 
       def destroy
         job_ids = SolidQueue::FailedExecution.where(id: @ids).pluck(:job_id)
         count = SolidQueue::Job.where(id: job_ids).destroy_all.size
         record_audit("failed_jobs_discarded", item_count: count)
-        redirect_to failed_jobs_path, notice: "#{count} #{count == 1 ? "job" : "jobs"} discarded."
+        redirect_to failed_jobs_path, notice: t("solid_stack_web.flash.jobs_discarded", count: count)
       rescue => e
-        redirect_to failed_jobs_path, alert: "Could not discard jobs: #{e.message}"
+        redirect_to failed_jobs_path, alert: t("solid_stack_web.flash.cannot_discard_jobs", error: e.message)
       end
 
       private

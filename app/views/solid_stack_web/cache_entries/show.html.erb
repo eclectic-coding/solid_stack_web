@@ -1,23 +1,23 @@
 <div class="sqw-page-header sqw-page-header--split">
   <h1 class="sqw-page-title sqw-truncate" title="<%= @entry.key %>"><%= @entry.key %></h1>
   <div class="sqw-header-actions">
-    <%= button_to "Delete",
+    <%= button_to t("solid_stack_web.cache_entries.delete"),
           cache_entry_path(@entry),
           method: :delete,
           class: "sqw-btn sqw-btn--danger sqw-btn--sm",
-          data: { turbo_confirm: "Delete this cache entry?" } %>
-    <%= link_to "← Entries", cache_entries_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+          data: { turbo_confirm: t("solid_stack_web.cache_entries.confirm_delete") } %>
+    <%= link_to t("solid_stack_web.cache_entries.back_to_entries"), cache_entries_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
   </div>
 </div>
 
 <div class="sqw-detail-card sqw-detail-section">
-  <h2 class="sqw-section-title">Details</h2>
+  <h2 class="sqw-section-title"><%= t("solid_stack_web.cache_entries.show_section_details") %></h2>
   <dl class="sqw-dl">
-    <dt>Key</dt>
+    <dt><%= t("solid_stack_web.cache_entries.show_key") %></dt>
     <dd class="sqw-monospace"><%= @entry.key %></dd>
-    <dt>Size</dt>
+    <dt><%= t("solid_stack_web.cache_entries.show_size") %></dt>
     <dd><%= number_to_human_size(@entry.byte_size) %></dd>
-    <dt>Created</dt>
+    <dt><%= t("solid_stack_web.cache_entries.show_created") %></dt>
     <dd class="sqw-muted"><%= local_time(@entry.created_at, format: :long) %></dd>
   </dl>
 </div>
@@ -25,7 +25,7 @@
 <div class="sqw-detail-card sqw-detail-section">
   <% formatted = SolidStackWeb.allow_value_preview ? format_cache_value(@entry.value) : nil %>
   <div class="sqw-value-preview__header">
-    <h2 class="sqw-section-title">Value</h2>
+    <h2 class="sqw-section-title"><%= t("solid_stack_web.cache_entries.show_section_value") %></h2>
     <% if formatted %>
       <span class="sqw-badge sqw-badge--queue"><%= formatted[:label] %></span>
     <% end %>
@@ -35,11 +35,11 @@
     <% truncated = content.length > 4096 %>
     <pre class="sqw-code-block"><%= truncated ? content[0, 4096] : content %></pre>
     <% if truncated %>
-      <p class="sqw-muted sqw-value-truncated">Showing first 4 KB of <%= number_to_human_size(@entry.byte_size) %> total.</p>
+      <p class="sqw-muted sqw-value-truncated"><%= t("solid_stack_web.cache_entries.show_truncated", size: number_to_human_size(@entry.byte_size)) %></p>
     <% end %>
   <% else %>
     <div class="sqw-empty">
-      <p>Value preview is disabled. Set <code>config.allow_value_preview = true</code> in your initializer to enable.</p>
+      <p><%= t("solid_stack_web.cache_entries.show_preview_disabled") %></p>
     </div>
   <% end %>
 </div>
