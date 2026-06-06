@@ -35,11 +35,14 @@ module SolidStackWeb
       build_sparkline_svg(
         Struct.new(:buckets, :max).new(timeline.entry_buckets, timeline.entry_max),
         css_class: "sqw-sparkline sqw-sparkline--lg",
-        aria_label: "Cache entries written over the last 24 hours"
+        aria_label: t("solid_stack_web.helpers.cache_entry_this_hour", count: 0).gsub(/\d+/, "…")
       ) do |count, i|
         hours_ago = CacheTimeline::HOURS - 1 - i
-        hours_ago.zero? ? "#{count} #{"entry".then { |w| count == 1 ? w : "entries" }} this hour" \
-                        : "#{count} #{"entry".then { |w| count == 1 ? w : "entries" }} #{hours_ago}h ago"
+        if hours_ago.zero?
+          t("solid_stack_web.helpers.cache_entry_this_hour", count: count)
+        else
+          t("solid_stack_web.helpers.cache_entry_hours_ago", count: count, hours: hours_ago)
+        end
       end
     end
 
@@ -47,11 +50,15 @@ module SolidStackWeb
       build_sparkline_svg(
         Struct.new(:buckets, :max).new(timeline.byte_buckets, timeline.byte_max),
         css_class: "sqw-sparkline sqw-sparkline--lg",
-        aria_label: "Cache bytes written over the last 24 hours"
+        aria_label: t("solid_stack_web.cache.bytes_written")
       ) do |bytes, i|
         hours_ago = CacheTimeline::HOURS - 1 - i
         size = number_to_human_size(bytes)
-        hours_ago.zero? ? "#{size} written this hour" : "#{size} written #{hours_ago}h ago"
+        if hours_ago.zero?
+          t("solid_stack_web.helpers.cache_size_this_hour", size: size)
+        else
+          t("solid_stack_web.helpers.cache_size_hours_ago", size: size, hours: hours_ago)
+        end
       end
     end
 
@@ -59,31 +66,37 @@ module SolidStackWeb
       build_sparkline_svg(
         Struct.new(:buckets, :max).new(timeline.message_buckets, timeline.message_max),
         css_class: "sqw-sparkline sqw-sparkline--lg",
-        aria_label: "Cable messages over the last 24 hours"
+        aria_label: t("solid_stack_web.cable.messages_timeline")
       ) do |count, i|
         hours_ago = CableTimeline::HOURS - 1 - i
-        label = count == 1 ? "message" : "messages"
-        hours_ago.zero? ? "#{count} #{label} this hour" : "#{count} #{label} #{hours_ago}h ago"
+        if hours_ago.zero?
+          t("solid_stack_web.helpers.cable_message_this_hour", count: count)
+        else
+          t("solid_stack_web.helpers.cable_message_hours_ago", count: count, hours: hours_ago)
+        end
       end
     end
 
     def throughput_sparkline_svg(sparkline)
-      build_sparkline_svg(sparkline, aria_label: "Throughput over the last 12 hours") do |count, i|
+      build_sparkline_svg(sparkline, aria_label: t("solid_stack_web.dashboard.throughput_label")) do |count, i|
         hours_ago = SolidStackWeb::ThroughputSparkline::HOURS - i
         if hours_ago == 1
-          "#{count} #{count == 1 ? "job" : "jobs"} in the last hour"
+          t("solid_stack_web.helpers.throughput_last_hour", count: count)
         else
-          "#{count} #{count == 1 ? "job" : "jobs"} (#{hours_ago}h–#{hours_ago - 1}h ago)"
+          t("solid_stack_web.helpers.throughput_hours_ago", count: count, from: hours_ago, to: hours_ago - 1)
         end
       end
     end
 
     def queue_depth_sparkline_svg(sparkline)
       build_sparkline_svg(sparkline, css_class: "sqw-sparkline sqw-sparkline--sm",
-                                     aria_label: "Queue depth over the last 12 hours") do |count, i|
+                                     aria_label: t("solid_stack_web.queues.col_depth")) do |count, i|
         hours_ago = SolidStackWeb::QueueDepthSparkline::HOURS - 1 - i
-        jobs_word = count == 1 ? "job" : "jobs"
-        hours_ago.zero? ? "#{count} ready #{jobs_word} now" : "#{count} ready #{jobs_word} #{hours_ago}h ago"
+        if hours_ago.zero?
+          t("solid_stack_web.helpers.queue_depth_now", count: count)
+        else
+          t("solid_stack_web.helpers.queue_depth_hours_ago", count: count, hours: hours_ago)
+        end
       end
     end
 
@@ -110,12 +123,12 @@ module SolidStackWeb
     end
 
     def failed_job_sparkline_svg(sparkline)
-      build_sparkline_svg(sparkline, aria_label: "Failed jobs over the last 12 hours") do |count, i|
+      build_sparkline_svg(sparkline, aria_label: t("solid_stack_web.dashboard.failures_label")) do |count, i|
         hours_ago = SolidStackWeb::FailedJobSparkline::HOURS - i
         if hours_ago == 1
-          "#{count} #{count == 1 ? "failure" : "failures"} in the last hour"
+          t("solid_stack_web.helpers.failure_last_hour", count: count)
         else
-          "#{count} #{count == 1 ? "failure" : "failures"} (#{hours_ago}h–#{hours_ago - 1}h ago)"
+          t("solid_stack_web.helpers.failure_hours_ago", count: count, from: hours_ago, to: hours_ago - 1)
         end
       end
     end

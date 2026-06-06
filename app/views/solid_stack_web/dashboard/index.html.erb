@@ -1,104 +1,104 @@
 <%= turbo_frame_tag "sqw-dashboard", target: "_top",
       data: { controller: "refresh", refresh_interval_value: SolidStackWeb.dashboard_refresh_interval } do %>
 <div class="sqw-page-header">
-  <h1 class="sqw-page-title">Overview</h1>
+  <h1 class="sqw-page-title"><%= t("solid_stack_web.dashboard.title") %></h1>
 </div>
 
 <div class="sqw-gem-grid">
   <div class="sqw-gem-card sqw-gem-card--queue">
     <div class="sqw-gem-card__header">
-      <span class="sqw-gem-card__title">Solid Queue</span>
-      <%= link_to "View Jobs →", jobs_path, class: "sqw-gem-card__link" %>
+      <span class="sqw-gem-card__title"><%= t("solid_stack_web.dashboard.solid_queue") %></span>
+      <%= link_to t("solid_stack_web.dashboard.view_jobs"), jobs_path, class: "sqw-gem-card__link" %>
     </div>
     <div class="sqw-gem-card__body">
       <a href="<%= jobs_path(status: "ready") %>" class="sqw-inline-stat sqw-inline-stat--ready">
-        <span class="sqw-inline-stat__label">Ready</span>
+        <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.ready") %></span>
         <span class="sqw-inline-stat__value"><%= @queue_stats[:ready] %></span>
       </a>
       <a href="<%= jobs_path(status: "scheduled") %>" class="sqw-inline-stat sqw-inline-stat--scheduled">
-        <span class="sqw-inline-stat__label">Scheduled</span>
+        <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.scheduled") %></span>
         <span class="sqw-inline-stat__value"><%= @queue_stats[:scheduled] %></span>
       </a>
       <a href="<%= jobs_path(status: "claimed") %>" class="sqw-inline-stat sqw-inline-stat--claimed">
-        <span class="sqw-inline-stat__label">Running</span>
+        <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.running") %></span>
         <span class="sqw-inline-stat__value"><%= @queue_stats[:claimed] %></span>
       </a>
       <a href="<%= jobs_path(status: "blocked") %>" class="sqw-inline-stat sqw-inline-stat--blocked">
-        <span class="sqw-inline-stat__label">Blocked</span>
+        <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.blocked") %></span>
         <span class="sqw-inline-stat__value"><%= @queue_stats[:blocked] %></span>
       </a>
       <a href="<%= failed_jobs_path %>" class="sqw-inline-stat sqw-inline-stat--failed">
-        <span class="sqw-inline-stat__label">Failed</span>
+        <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.failed") %></span>
         <span class="sqw-inline-stat__value"><%= @queue_stats[:failed] %></span>
       </a>
       <a href="<%= history_path(period: "1h") %>" class="sqw-inline-stat sqw-inline-stat--neutral">
-        <span class="sqw-inline-stat__label">Done (1h)</span>
+        <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.done_1h") %></span>
         <span class="sqw-inline-stat__value"><%= @queue_stats[:done_1h] %></span>
       </a>
       <a href="<%= history_path(period: "24h") %>" class="sqw-inline-stat sqw-inline-stat--neutral">
-        <span class="sqw-inline-stat__label">Done (24h)</span>
+        <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.done_24h") %></span>
         <span class="sqw-inline-stat__value"><%= @queue_stats[:done_24h] %></span>
       </a>
       <% if @queue_stats.key?(:slow_jobs) %>
         <a href="<%= stats_path %>" class="sqw-inline-stat sqw-inline-stat--<%= @queue_stats[:slow_jobs] > 0 ? "failed" : "neutral" %>">
-          <span class="sqw-inline-stat__label">Slow (24h)</span>
+          <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.slow_24h") %></span>
           <span class="sqw-inline-stat__value"><%= @queue_stats[:slow_jobs] %></span>
         </a>
       <% end %>
       <a href="<%= processes_path %>" class="sqw-inline-stat sqw-inline-stat--neutral">
-        <span class="sqw-inline-stat__label">Healthy</span>
+        <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.healthy") %></span>
         <span class="sqw-inline-stat__value"><%= @queue_stats[:processes_healthy] %></span>
       </a>
       <% if @queue_stats[:processes_stale] > 0 %>
         <a href="<%= processes_path %>" class="sqw-inline-stat sqw-inline-stat--failed">
-          <span class="sqw-inline-stat__label">Stale</span>
+          <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.stale") %></span>
           <span class="sqw-inline-stat__value"><%= @queue_stats[:processes_stale] %></span>
         </a>
       <% end %>
     </div>
     <div class="sqw-sparkline-wrap" data-controller="sparkline-tooltip">
-      <span class="sqw-sparkline-label">Throughput — last 12 hours</span>
+      <span class="sqw-sparkline-label"><%= t("solid_stack_web.dashboard.throughput_label") %></span>
       <div class="sqw-sparkline-positioner">
         <%= throughput_sparkline_svg(@throughput) %>
         <div class="sqw-sparkline-tip" data-sparkline-tooltip-target="tip" hidden></div>
       </div>
       <div class="sqw-sparkline-axis">
-        <span>12h ago</span>
-        <span>6h ago</span>
-        <span>now</span>
+        <span><%= t("solid_stack_web.dashboard.axis.twelve_h_ago") %></span>
+        <span><%= t("solid_stack_web.dashboard.axis.six_h_ago") %></span>
+        <span><%= t("solid_stack_web.dashboard.axis.now") %></span>
       </div>
     </div>
     <div class="sqw-sparkline-wrap sqw-sparkline-wrap--failures" data-controller="sparkline-tooltip">
-      <span class="sqw-sparkline-label">Failures — last 12 hours</span>
+      <span class="sqw-sparkline-label"><%= t("solid_stack_web.dashboard.failures_label") %></span>
       <div class="sqw-sparkline-positioner">
         <%= failed_job_sparkline_svg(@failures) %>
         <div class="sqw-sparkline-tip" data-sparkline-tooltip-target="tip" hidden></div>
       </div>
       <div class="sqw-sparkline-axis">
-        <span>12h ago</span>
-        <span>6h ago</span>
-        <span>now</span>
+        <span><%= t("solid_stack_web.dashboard.axis.twelve_h_ago") %></span>
+        <span><%= t("solid_stack_web.dashboard.axis.six_h_ago") %></span>
+        <span><%= t("solid_stack_web.dashboard.axis.now") %></span>
       </div>
     </div>
   </div>
 
   <div class="sqw-gem-card sqw-gem-card--cache">
     <div class="sqw-gem-card__header">
-      <span class="sqw-gem-card__title">Solid Cache</span>
-      <%= link_to "View Cache →", cache_path, class: "sqw-gem-card__link" %>
+      <span class="sqw-gem-card__title"><%= t("solid_stack_web.dashboard.solid_cache") %></span>
+      <%= link_to t("solid_stack_web.dashboard.view_cache"), cache_path, class: "sqw-gem-card__link" %>
     </div>
     <div class="sqw-gem-card__body">
       <%= link_to cache_entries_path, class: "sqw-inline-stat sqw-inline-stat--cache" do %>
-        <span class="sqw-inline-stat__label">Entries</span>
+        <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.entries") %></span>
         <span class="sqw-inline-stat__value"><%= @cache_stats[:entries] %></span>
       <% end %>
       <div class="sqw-inline-stat sqw-inline-stat--cache">
-        <span class="sqw-inline-stat__label">Size</span>
+        <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.size") %></span>
         <span class="sqw-inline-stat__value"><%= number_to_human_size(@cache_stats[:byte_size]) %></span>
       </div>
       <% if @cache_stats[:oldest_entry] %>
         <div class="sqw-inline-stat sqw-inline-stat--cache">
-          <span class="sqw-inline-stat__label">Oldest</span>
+          <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.oldest") %></span>
           <span class="sqw-inline-stat__value sqw-inline-stat__value--sm"><%= local_time(@cache_stats[:oldest_entry], format: :relative) %></span>
         </div>
       <% end %>
@@ -107,32 +107,32 @@
 
   <div class="sqw-gem-card sqw-gem-card--cable">
     <div class="sqw-gem-card__header">
-      <span class="sqw-gem-card__title">Solid Cable</span>
-      <%= link_to "View Cable →", cable_path, class: "sqw-gem-card__link" %>
+      <span class="sqw-gem-card__title"><%= t("solid_stack_web.dashboard.solid_cable") %></span>
+      <%= link_to t("solid_stack_web.dashboard.view_cable"), cable_path, class: "sqw-gem-card__link" %>
     </div>
     <div class="sqw-gem-card__body">
       <%= link_to cable_path, class: "sqw-inline-stat sqw-inline-stat--cable" do %>
-        <span class="sqw-inline-stat__label">Messages</span>
+        <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.messages") %></span>
         <span class="sqw-inline-stat__value"><%= @cable_stats[:messages] %></span>
       <% end %>
       <div class="sqw-inline-stat sqw-inline-stat--cable">
-        <span class="sqw-inline-stat__label">Channels</span>
+        <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.channels") %></span>
         <span class="sqw-inline-stat__value"><%= @cable_stats[:channels] %></span>
       </div>
       <div class="sqw-inline-stat sqw-inline-stat--cable">
-        <span class="sqw-inline-stat__label">Msg/hr</span>
+        <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.msg_per_hr") %></span>
         <span class="sqw-inline-stat__value"><%= @cable_stats[:messages_per_hour] %></span>
       </div>
       <% if @cable_stats[:oldest_message] %>
         <div class="sqw-inline-stat sqw-inline-stat--cable">
-          <span class="sqw-inline-stat__label">Oldest</span>
+          <span class="sqw-inline-stat__label"><%= t("solid_stack_web.dashboard.oldest") %></span>
           <span class="sqw-inline-stat__value sqw-inline-stat__value--sm"><%= local_time(@cable_stats[:oldest_message], format: :relative) %></span>
         </div>
       <% end %>
     </div>
     <% if @cable_stats[:top_channels].any? %>
       <div class="sqw-card-list">
-        <span class="sqw-card-list__label">Top channels</span>
+        <span class="sqw-card-list__label"><%= t("solid_stack_web.dashboard.top_channels") %></span>
         <% @cable_stats[:top_channels].each do |channel, count| %>
           <div class="sqw-card-list__row">
             <span class="sqw-card-list__name" title="<%= channel %>"><%= channel %></span>

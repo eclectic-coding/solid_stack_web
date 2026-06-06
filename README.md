@@ -6,7 +6,7 @@
 [![Ruby](https://img.shields.io/badge/ruby-%3E%3D%203.3-ruby)](https://www.ruby-lang.org)
 [![codecov](https://codecov.io/gh/eclectic-coding/solid_stack_web/branch/main/graph/badge.svg)](https://codecov.io/gh/eclectic-coding/solid_stack_web)
 
-A production-ready operations dashboard for the full Rails Solid Stack. Mount one engine to get deep visibility into **Solid Queue** (job browser, failed job retry, queue controls, recurring tasks, performance stats), **Solid Cache** (entry browser, size distribution, write timeline), and **Solid Cable** (channel browser, message list, purge controls) — with dark mode, CSV export, alert webhooks, and a JSON metrics endpoint, all with no asset pipeline dependency.
+A production-ready operations dashboard for the full Rails Solid Stack. Mount one engine to get deep visibility into **Solid Queue** (job browser, failed job retry, queue controls, recurring tasks, performance stats), **Solid Cache** (entry browser, size distribution, write timeline), and **Solid Cable** (channel browser, message list, purge controls) — with dark mode, i18n locale switching, CSV export, alert webhooks, and a JSON metrics endpoint, all with no asset pipeline dependency.
 
 ## Installation
 
@@ -159,6 +159,7 @@ The dashboard is designed to be mounted behind your application's existing authe
 - **Turbo Stream** job discard — removes the row inline without a full page reload
 - **Sticky filter preferences** — last-used status, period, and queue filter saved to `localStorage`; a fresh visit to the jobs or history list with no URL params automatically restores the previous selection
 - **Dark mode** — toggle button in the header switches between light and dark palettes; preference persisted in `localStorage`; respects `prefers-color-scheme` on first visit
+- **i18n / locale switching** — all UI strings backed by locale YAML files; ships with English (`en`) and Spanish (`es`); a language selector in the header lets users switch at runtime; locale is stored in the session and persists across requests; configure which locales appear via `config.available_locales`
 - **Responsive layout** — stats cards, tables, and two-column grids adapt to narrow viewports; tables scroll horizontally rather than overflow; split page headers stack on small screens
 - **Empty-state improvements** — all list views show a contextual title and an actionable hint; search empty states include a "Clear search" link; filters-active history view offers "Clear filters"; processes and recurring tasks explain the next step
 - **Inline notifications** — bulk and single-job actions surface a flash notice; Turbo Stream discard responses inject the message inline without a full page reload; bulk actions report the affected count ("3 jobs discarded")
@@ -192,6 +193,12 @@ SolidStackWeb.configure do |config|
   # Show the raw serialized value on the cache entry detail page (default: false).
   # Disable for stores that contain sensitive data.
   config.allow_value_preview = true
+
+  # Locales shown in the language switcher (default: [:en, :es]).
+  # The switcher is hidden when only one locale is configured.
+  # To add a locale, provide a locale YAML file under your app's config/locales/
+  # with keys nested under solid_stack_web:, then add the locale symbol here.
+  config.available_locales = [:en, :es]
 end
 ```
 

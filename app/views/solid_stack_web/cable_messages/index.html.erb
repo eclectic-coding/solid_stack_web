@@ -1,21 +1,22 @@
 <div class="sqw-page-header sqw-page-header--split">
   <h1 class="sqw-page-title sqw-truncate" title="<%= @channel_name %>"><%= @channel_name %></h1>
   <div class="sqw-header-actions">
-    <%= button_to "Purge Channel",
+    <%= button_to t("solid_stack_web.cable_messages.purge_channel"),
           cable_channel_purge_path(params[:channel_hash]),
           method: :delete,
           class: "sqw-btn sqw-btn--danger sqw-btn--sm",
-          data: { turbo_confirm: "Delete all messages for this channel? This cannot be undone." } %>
-    <%= link_to "← Channels", cable_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+          data: { turbo_confirm: t("solid_stack_web.cable_messages.confirm_purge_channel") } %>
+    <%= link_to t("solid_stack_web.cable_messages.back_to_channels"), cable_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
   </div>
 </div>
 
 <form class="sqw-filters" action="<%= cable_channel_messages_path(params[:channel_hash]) %>" method="get" data-controller="search">
   <input class="sqw-search-input" type="search" name="q" value="<%= @search %>"
-         placeholder="Filter by payload…" autocomplete="off" aria-label="Filter by payload"
+         placeholder="<%= t("solid_stack_web.cable_messages.placeholder_payload") %>" autocomplete="off"
+         aria-label="<%= t("solid_stack_web.cable_messages.aria_filter_payload") %>"
          data-action="input->search#filter">
   <% if @search.present? %>
-    <%= link_to "Clear", cable_channel_messages_path(params[:channel_hash]), class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+    <%= link_to t("solid_stack_web.shared.clear"), cable_channel_messages_path(params[:channel_hash]), class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
   <% end %>
 </form>
 
@@ -23,9 +24,9 @@
   <table class="sqw-table">
     <thead>
       <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Payload</th>
-        <th scope="col">Sent</th>
+        <th scope="col"><%= t("solid_stack_web.cable_messages.col_id") %></th>
+        <th scope="col"><%= t("solid_stack_web.cable_messages.col_payload") %></th>
+        <th scope="col"><%= t("solid_stack_web.cable_messages.col_sent") %></th>
       </tr>
     </thead>
     <tbody>
@@ -42,15 +43,15 @@
       <% end %>
     </tbody>
   </table>
-  <%== @pagy.series_nav(aria_label: "Pagination") if @pagy.pages > 1 %>
+  <%== @pagy.series_nav(aria_label: t("solid_stack_web.shared.pagination")) if @pagy.pages > 1 %>
 <% else %>
   <div class="sqw-empty">
     <% if @search.present? %>
-      <p class="sqw-empty__title">No messages matching &ldquo;<%= @search %>&rdquo;</p>
-      <p class="sqw-empty__hint"><%= link_to "Clear search", cable_channel_messages_path(params[:channel_hash]) %></p>
+      <p class="sqw-empty__title"><%= t("solid_stack_web.cable_messages.no_messages_matching", search: @search) %></p>
+      <p class="sqw-empty__hint"><%= link_to t("solid_stack_web.cable_messages.clear_search"), cable_channel_messages_path(params[:channel_hash]) %></p>
     <% else %>
-      <p class="sqw-empty__title">No messages for this channel</p>
-      <p class="sqw-empty__hint">Messages may have been purged or the channel has gone quiet. <%= link_to "Back to channels →", cable_path %></p>
+      <p class="sqw-empty__title"><%= t("solid_stack_web.cable_messages.empty_title") %></p>
+      <p class="sqw-empty__hint"><%= t("solid_stack_web.cable_messages.empty_hint") %> <%= link_to t("solid_stack_web.cable_messages.back_to_channels_link"), cable_path %></p>
     <% end %>
   </div>
 <% end %>

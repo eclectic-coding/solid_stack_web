@@ -1,57 +1,57 @@
 <div class="sqw-page-header sqw-page-header--split">
   <div>
     <div class="sqw-breadcrumb">
-      <%= link_to "Jobs", jobs_path(status: params[:status]) %> &rsaquo; Detail
+      <%= link_to t("solid_stack_web.jobs.title"), jobs_path(status: params[:status]) %> &rsaquo; <%= t("solid_stack_web.jobs.detail") %>
     </div>
     <h1 class="sqw-page-title sqw-monospace"><%= @execution.job.class_name %></h1>
   </div>
 
   <% if SolidStackWeb::Job::DISCARDABLE.include?(@status) %>
     <div class="sqw-detail-actions">
-      <%= button_to "Discard Job", job_path(@execution.id, status: @status),
+      <%= button_to t("solid_stack_web.jobs.discard_job"), job_path(@execution.id, status: @status),
             method: :delete, class: "sqw-btn sqw-btn--danger",
-            data: { turbo_confirm: "Discard this job?" } %>
+            data: { turbo_confirm: t("solid_stack_web.jobs.confirm_discard") } %>
     </div>
   <% end %>
 </div>
 
 <div class="sqw-detail-grid">
   <div class="sqw-detail-card sqw-detail-section">
-    <h2 class="sqw-section-title">Details</h2>
+    <h2 class="sqw-section-title"><%= t("solid_stack_web.jobs.section_details") %></h2>
     <dl class="sqw-dl">
-      <dt>Status</dt>
-      <dd><span class="sqw-badge sqw-badge--<%= @status %>"><%= SolidStackWeb::Job::TAB_LABELS[@status] %></span></dd>
+      <dt><%= t("solid_stack_web.jobs.field_status") %></dt>
+      <dd><span class="sqw-badge sqw-badge--<%= @status %>"><%= t("solid_stack_web.jobs.tab_#{@status}") %></span></dd>
 
-      <dt>Queue</dt>
+      <dt><%= t("solid_stack_web.jobs.field_queue") %></dt>
       <dd class="sqw-monospace"><%= @execution.job.queue_name %></dd>
 
-      <dt>Priority</dt>
+      <dt><%= t("solid_stack_web.jobs.field_priority") %></dt>
       <dd><%= @execution.job.priority %></dd>
 
-      <dt>Active Job ID</dt>
+      <dt><%= t("solid_stack_web.jobs.field_active_job_id") %></dt>
       <dd class="sqw-monospace sqw-truncate" title="<%= @execution.job.active_job_id %>"><%= @execution.job.active_job_id.presence || "—" %></dd>
 
-      <dt>Concurrency Key</dt>
+      <dt><%= t("solid_stack_web.jobs.field_concurrency_key") %></dt>
       <dd class="sqw-monospace"><%= @execution.job.concurrency_key.presence || "—" %></dd>
 
       <% if @status == "blocked" %>
-        <dt>Blocked Until</dt>
+        <dt><%= t("solid_stack_web.jobs.field_blocked_until") %></dt>
         <dd class="sqw-monospace"><%= local_time(@execution.expires_at, format: :long) %></dd>
       <% end %>
 
-      <dt>Enqueued At</dt>
+      <dt><%= t("solid_stack_web.jobs.field_enqueued_at") %></dt>
       <dd class="sqw-monospace"><%= local_time(@execution.job.created_at, format: :long) %></dd>
 
-      <dt>Scheduled At</dt>
+      <dt><%= t("solid_stack_web.jobs.field_scheduled_at") %></dt>
       <dd class="sqw-monospace"><%= local_time(@execution.job.scheduled_at, format: :long) %></dd>
 
-      <dt>Finished At</dt>
+      <dt><%= t("solid_stack_web.jobs.field_finished_at") %></dt>
       <dd class="sqw-monospace"><%= local_time(@execution.job.finished_at, format: :long) %></dd>
     </dl>
   </div>
 
   <div class="sqw-detail-card sqw-detail-section">
-    <h2 class="sqw-section-title">Arguments</h2>
+    <h2 class="sqw-section-title"><%= t("solid_stack_web.jobs.section_arguments") %></h2>
     <pre class="sqw-code-block"><%= @arguments ? JSON.pretty_generate(@arguments) : (@execution.job.arguments || "—") %></pre>
   </div>
 </div>

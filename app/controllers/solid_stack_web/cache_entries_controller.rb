@@ -18,7 +18,7 @@ module SolidStackWeb
     def destroy
       ::SolidCache::Entry.find(params[:id]).destroy
       redirect_to cache_entries_path(q: params[:q], column: params[:column], direction: params[:direction]),
-                  notice: "Cache entry deleted."
+                  notice: t("solid_stack_web.flash.cache_entry_deleted")
     end
 
     private

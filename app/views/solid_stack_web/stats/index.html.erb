@@ -1,5 +1,5 @@
 <div class="sqw-page-header">
-  <h1 class="sqw-page-title">Performance Stats</h1>
+  <h1 class="sqw-page-title"><%= t("solid_stack_web.stats.title") %></h1>
 </div>
 
 <% if @stats.any? %>
@@ -7,15 +7,15 @@
     <thead>
       <tr>
         <% [
-          ["class_name", "Job Class"],
-          ["count",      "Executions"],
-          ["avg",        "Avg"],
-          ["p50",        "p50"],
-          ["p95",        "p95"],
-          ["p99",        "p99"],
-          ["stddev",     "Std Dev"],
-          ["min",        "Min"],
-          ["max",        "Max"]
+          ["class_name", t("solid_stack_web.stats.col_job_class")],
+          ["count",      t("solid_stack_web.stats.col_executions")],
+          ["avg",        t("solid_stack_web.stats.col_avg")],
+          ["p50",        t("solid_stack_web.stats.col_p50")],
+          ["p95",        t("solid_stack_web.stats.col_p95")],
+          ["p99",        t("solid_stack_web.stats.col_p99")],
+          ["stddev",     t("solid_stack_web.stats.col_std_dev")],
+          ["min",        t("solid_stack_web.stats.col_min")],
+          ["max",        t("solid_stack_web.stats.col_max")]
         ].each do |col, label| %>
           <th scope="col" <%= "aria-sort=\"#{@direction == 'asc' ? 'ascending' : 'descending'}\"".html_safe if @sort == col %>>
             <% next_dir = (@sort == col && @direction == "desc") ? "asc" : "desc" %>
@@ -47,7 +47,7 @@
   </table>
 <% else %>
   <div class="sqw-empty">
-    <p class="sqw-empty__title">No finished jobs yet</p>
-    <p class="sqw-empty__hint">Performance stats appear here once jobs complete. <%= link_to "View active jobs →", jobs_path %></p>
+    <p class="sqw-empty__title"><%= t("solid_stack_web.stats.empty_title") %></p>
+    <p class="sqw-empty__hint"><%= t("solid_stack_web.stats.empty_hint") %> <%= link_to t("solid_stack_web.stats.view_active_jobs"), jobs_path %></p>
   </div>
 <% end %>

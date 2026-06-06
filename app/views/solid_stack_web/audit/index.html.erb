@@ -1,16 +1,16 @@
 <div class="sqw-page-header sqw-page-header--split">
-  <h1 class="sqw-page-title">Audit Log</h1>
+  <h1 class="sqw-page-title"><%= t("solid_stack_web.audit.title") %></h1>
   <% if @events&.any? %>
-    <%= link_to "Export CSV",
+    <%= link_to t("solid_stack_web.audit.export_csv"),
           audit_path(format: :csv, audit_action: @action_filter, actor: @actor_filter, queue: @queue_filter),
           class: "sqw-btn sqw-btn--muted sqw-btn--sm", data: { turbo: false } %>
   <% end %>
 </div>
 
 <form class="sqw-filters" action="<%= audit_path %>" method="get">
-  <select name="audit_action" class="sqw-select" aria-label="Filter by action"
+  <select name="audit_action" class="sqw-select" aria-label="<%= t("solid_stack_web.audit.aria_filter_action") %>"
           onchange="this.form.submit()">
-    <option value="">All actions</option>
+    <option value=""><%= t("solid_stack_web.audit.all_actions") %></option>
     <% SolidStackWeb::AuditEvent::ACTIONS.each do |action| %>
       <option value="<%= action %>" <%= "selected" if @action_filter == action %>><%= action.tr("_", " ") %></option>
     <% end %>
@@ -18,20 +18,20 @@
 
   <% if @actor_filter.present? %>
     <span class="sqw-badge">
-      Actor: <%= @actor_filter %>
-      <%= link_to "×", audit_path(audit_action: @action_filter, queue: @queue_filter), class: "sqw-muted", aria: { label: "Clear actor filter" } %>
+      <%= t("solid_stack_web.audit.actor_label") %> <%= @actor_filter %>
+      <%= link_to "×", audit_path(audit_action: @action_filter, queue: @queue_filter), class: "sqw-muted", aria: { label: t("solid_stack_web.audit.aria_clear_actor") } %>
     </span>
   <% end %>
 
   <% if @queue_filter.present? %>
     <span class="sqw-badge">
-      Queue: <%= @queue_filter %>
-      <%= link_to "×", audit_path(audit_action: @action_filter, actor: @actor_filter), class: "sqw-muted", aria: { label: "Clear queue filter" } %>
+      <%= t("solid_stack_web.audit.queue_label") %> <%= @queue_filter %>
+      <%= link_to "×", audit_path(audit_action: @action_filter, actor: @actor_filter), class: "sqw-muted", aria: { label: t("solid_stack_web.audit.aria_clear_queue") } %>
     </span>
   <% end %>
 
   <% if @action_filter.present? || @actor_filter.present? || @queue_filter.present? %>
-    <%= link_to "Clear all", audit_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+    <%= link_to t("solid_stack_web.audit.clear_all"), audit_path, class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
   <% end %>
 </form>
 
@@ -39,12 +39,12 @@
   <table class="sqw-table">
     <thead>
       <tr>
-        <th scope="col">Time</th>
-        <th scope="col">Action</th>
-        <th scope="col">Actor</th>
-        <th scope="col">Job Class</th>
-        <th scope="col">Queue</th>
-        <th scope="col">Count</th>
+        <th scope="col"><%= t("solid_stack_web.audit.col_time") %></th>
+        <th scope="col"><%= t("solid_stack_web.audit.col_action") %></th>
+        <th scope="col"><%= t("solid_stack_web.audit.col_actor") %></th>
+        <th scope="col"><%= t("solid_stack_web.audit.col_job_class") %></th>
+        <th scope="col"><%= t("solid_stack_web.audit.col_queue") %></th>
+        <th scope="col"><%= t("solid_stack_web.audit.col_count") %></th>
       </tr>
     </thead>
     <tbody>
@@ -78,9 +78,9 @@
       <% end %>
     </tbody>
   </table>
-  <%== @pagy.series_nav(aria_label: "Pagination") if @pagy.pages > 1 %>
+  <%== @pagy.series_nav(aria_label: t("solid_stack_web.shared.pagination")) if @pagy.pages > 1 %>
 <% else %>
   <div class="sqw-empty" id="sqd-empty">
-    <p class="sqw-muted">No audit events recorded yet.</p>
+    <p class="sqw-muted"><%= t("solid_stack_web.audit.empty") %></p>
   </div>
 <% end %>

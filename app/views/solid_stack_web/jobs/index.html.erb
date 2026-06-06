@@ -1,30 +1,30 @@
 <div class="sqw-page-header sqw-page-header--split">
-  <h1 class="sqw-page-title">Jobs</h1>
+  <h1 class="sqw-page-title"><%= t("solid_stack_web.jobs.title") %></h1>
   <div class="sqw-header-actions">
-    <%= link_to "Export CSV", jobs_path(format: :csv, status: @status, q: @search, queue: @queue, period: @period, priority: @priority, sort: @sort, direction: @direction),
+    <%= link_to t("solid_stack_web.jobs.export_csv"), jobs_path(format: :csv, status: @status, q: @search, queue: @queue, period: @period, priority: @priority, sort: @sort, direction: @direction),
           class: "sqw-btn sqw-btn--muted sqw-btn--sm", data: { turbo: false } %>
     <% if @status == "scheduled" && @executions&.any? %>
-      <%= button_to "Run All Now (#{@pagy.count})",
+      <%= button_to t("solid_stack_web.jobs.run_all_now", count: @pagy.count),
             run_all_now_scheduled_jobs_path(period: @period),
             method: :post,
             class: "sqw-btn sqw-btn--sm",
-            data: { turbo_confirm: "Run all #{@pagy.count} scheduled jobs immediately?",
+            data: { turbo_confirm: t("solid_stack_web.jobs.confirm_run_all_now", count: @pagy.count),
                     turbo_frame: "_top" } %>
     <% end %>
     <% if SolidStackWeb::Job::DISCARDABLE.include?(@status) && @executions&.any? %>
-      <%= button_to "Discard All (#{@pagy.count})",
+      <%= button_to t("solid_stack_web.jobs.discard_all", count: @pagy.count),
             discard_all_jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority),
             method: :post,
             class: "sqw-btn sqw-btn--danger sqw-btn--sm",
-            data: { turbo_confirm: "Discard all #{@pagy.count} jobs? This cannot be undone.",
+            data: { turbo_confirm: t("solid_stack_web.jobs.confirm_discard_all", count: @pagy.count),
                     turbo_frame: "_top" } %>
     <% end %>
   </div>
 </div>
 
 <div class="sqw-tabs">
-  <% SolidStackWeb::Job::TAB_LABELS.each do |status, label| %>
-    <%= link_to label, jobs_path(status: status, q: @search, queue: @queue, period: @period, priority: @priority, sort: @sort, direction: @direction),
+  <% SolidStackWeb::Job::STATUSES.each do |status| %>
+    <%= link_to t("solid_stack_web.jobs.tab_#{status}"), jobs_path(status: status, q: @search, queue: @queue, period: @period, priority: @priority, sort: @sort, direction: @direction),
           class: "sqw-tab #{"sqw-tab--active" if @status == status}" %>
   <% end %>
 </div>
@@ -40,31 +40,32 @@
   <%= hidden_field_tag :sort, @sort %>
   <%= hidden_field_tag :direction, @direction %>
   <input class="sqw-search-input" type="search" name="q" value="<%= @search %>"
-         placeholder="Filter by job class…" autocomplete="off" aria-label="Filter by job class"
+         placeholder="<%= t("solid_stack_web.jobs.placeholder_job_class") %>" autocomplete="off"
+         aria-label="<%= t("solid_stack_web.jobs.aria_filter_job_class") %>"
          data-action="input->search#filter">
   <% if @queue_options.size > 1 %>
-    <select name="queue" class="sqw-select" aria-label="Filter by queue"
+    <select name="queue" class="sqw-select" aria-label="<%= t("solid_stack_web.jobs.aria_filter_queue") %>"
             data-action="change->search#select">
-      <option value="">All queues</option>
+      <option value=""><%= t("solid_stack_web.jobs.all_queues") %></option>
       <% @queue_options.each do |q| %>
         <option value="<%= q %>" <%= "selected" if @queue == q %>><%= q %></option>
       <% end %>
     </select>
   <% end %>
   <% if @priority_options.size > 1 %>
-    <select name="priority" class="sqw-select" aria-label="Filter by priority"
+    <select name="priority" class="sqw-select" aria-label="<%= t("solid_stack_web.jobs.aria_filter_priority") %>"
             data-action="change->search#select">
-      <option value="">All priorities</option>
+      <option value=""><%= t("solid_stack_web.jobs.all_priorities") %></option>
       <% @priority_options.each do |p| %>
-        <option value="<%= p %>" <%= "selected" if @priority.to_s == p.to_s %>>Priority <%= p %></option>
+        <option value="<%= p %>" <%= "selected" if @priority.to_s == p.to_s %>><%= t("solid_stack_web.jobs.priority_option", n: p) %></option>
       <% end %>
     </select>
   <% end %>
   <% if @search.present? || @queue.present? || @priority.present? %>
-    <%= link_to "Clear", jobs_path(status: @status, period: @period, sort: @sort, direction: @direction), class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+    <%= link_to t("solid_stack_web.shared.clear"), jobs_path(status: @status, period: @period, sort: @sort, direction: @direction), class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
   <% end %>
-  <div class="sqw-period-filter" role="group" aria-label="Time period">
-    <%= link_to "All", jobs_path(status: @status, q: @search, queue: @queue, priority: @priority, sort: @sort, direction: @direction),
+  <div class="sqw-period-filter" role="group" aria-label="<%= t("solid_stack_web.shared.period_filter.label") %>">
+    <%= link_to t("solid_stack_web.shared.period_filter.all"), jobs_path(status: @status, q: @search, queue: @queue, priority: @priority, sort: @sort, direction: @direction),
           class: "sqw-period-btn #{"sqw-period-btn--active" if @period.nil?}" %>
     <%= link_to "1h",  jobs_path(status: @status, q: @search, queue: @queue, priority: @priority, period: "1h",  sort: @sort, direction: @direction),
           class: "sqw-period-btn #{"sqw-period-btn--active" if @period == "1h"}" %>
@@ -80,7 +81,7 @@
     <div data-controller="<%= "selection" if SolidStackWeb::Job::DISCARDABLE.include?(@status) %>">
       <% if SolidStackWeb::Job::DISCARDABLE.include?(@status) %>
         <%= form_with url: job_selection_path, method: :delete, id: "job-selection-form",
-              data: { turbo_confirm: "Discard selected jobs? This cannot be undone." } do |f| %>
+              data: { turbo_confirm: t("solid_stack_web.jobs.confirm_discard_selected") } do |f| %>
           <%= f.hidden_field :status,    value: @status %>
           <%= f.hidden_field :q,         value: @search %>
           <%= f.hidden_field :queue,     value: @queue %>
@@ -91,10 +92,10 @@
         <% end %>
 
         <div class="sqw-selection-bar" data-selection-target="bar" style="display: none;">
-          <span class="sqw-muted"><span data-selection-target="count">0</span> selected</span>
+          <span class="sqw-muted"><span data-selection-target="count">0</span> <%= t("solid_stack_web.jobs.selected_label") %></span>
           <button type="button" class="sqw-btn sqw-btn--danger sqw-btn--sm"
                   data-action="click->selection#submit"
-                  data-selection-form-id-param="job-selection-form">Discard Selected</button>
+                  data-selection-form-id-param="job-selection-form"><%= t("solid_stack_web.jobs.discard_selected") %></button>
         </div>
       <% end %>
 
@@ -102,18 +103,18 @@
         <thead>
           <tr>
             <% if SolidStackWeb::Job::DISCARDABLE.include?(@status) %>
-              <th scope="col"><input type="checkbox" class="sqw-checkbox" aria-label="Select all"
+              <th scope="col"><input type="checkbox" class="sqw-checkbox" aria-label="<%= t("solid_stack_web.shared.select_all") %>"
                          data-selection-target="selectAll"
                          data-action="change->selection#selectAll"></th>
             <% end %>
             <% sort_url = ->(p) { jobs_path(status: @status, q: @search, queue: @queue, period: @period, priority: @priority, **p) } %>
-            <%= sort_header_th("Job Class",   "class_name", sort_url, current_sort: @sort, current_dir: @direction) %>
-            <%= sort_header_th("Queue",       "queue_name", sort_url, current_sort: @sort, current_dir: @direction) %>
-            <%= sort_header_th("Priority",    "priority",   sort_url, current_sort: @sort, current_dir: @direction) %>
-            <%= sort_header_th("Enqueued At", "created_at", sort_url, current_sort: @sort, current_dir: @direction) %>
-            <% if @status == "scheduled" %><th scope="col">Scheduled At</th><% end %>
-            <% if @status == "claimed" %><th scope="col">Wait Time</th><% end %>
-            <th scope="col"><span class="sqw-sr-only">Actions</span></th>
+            <%= sort_header_th(t("solid_stack_web.jobs.col_job_class"),   "class_name", sort_url, current_sort: @sort, current_dir: @direction) %>
+            <%= sort_header_th(t("solid_stack_web.jobs.col_queue"),       "queue_name", sort_url, current_sort: @sort, current_dir: @direction) %>
+            <%= sort_header_th(t("solid_stack_web.jobs.col_priority"),    "priority",   sort_url, current_sort: @sort, current_dir: @direction) %>
+            <%= sort_header_th(t("solid_stack_web.jobs.col_enqueued_at"), "created_at", sort_url, current_sort: @sort, current_dir: @direction) %>
+            <% if @status == "scheduled" %><th scope="col"><%= t("solid_stack_web.jobs.col_scheduled_at") %></th><% end %>
+            <% if @status == "claimed" %><th scope="col"><%= t("solid_stack_web.jobs.col_wait_time") %></th><% end %>
+            <th scope="col"><span class="sqw-sr-only"><%= t("solid_stack_web.shared.actions") %></span></th>
           </tr>
         </thead>
         <tbody>
@@ -138,11 +139,11 @@
               <% end %>
               <td class="sqw-actions">
                 <% if @status == "scheduled" %>
-                  <%= button_to "Run Now", scheduled_job_path(execution),
+                  <%= button_to t("solid_stack_web.jobs.run_now"), scheduled_job_path(execution),
                         method: :patch,
                         params: { offset: "now", period: @period },
                         class: "sqw-btn sqw-btn--sm",
-                        data: { turbo_confirm: "Run this job immediately?" } %>
+                        data: { turbo_confirm: t("solid_stack_web.jobs.confirm_run_now") } %>
                   <% %w[1h 24h 7d].each do |offset| %>
                     <%= button_to "+#{offset}", scheduled_job_path(execution),
                           method: :patch,
@@ -151,16 +152,16 @@
                   <% end %>
                 <% end %>
                 <% if %w[ready scheduled blocked].include?(@status) %>
-                  <%= button_to "Discard", job_path(execution, status: @status, q: @search, queue: @queue, period: @period, priority: @priority, sort: @sort, direction: @direction),
+                  <%= button_to t("solid_stack_web.jobs.discard"), job_path(execution, status: @status, q: @search, queue: @queue, period: @period, priority: @priority, sort: @sort, direction: @direction),
                         method: :delete, class: "sqw-btn sqw-btn--danger sqw-btn--sm",
-                        data: { turbo_confirm: "Discard this job?" } %>
+                        data: { turbo_confirm: t("solid_stack_web.jobs.confirm_discard") } %>
                 <% end %>
               </td>
             </tr>
           <% end %>
         </tbody>
       </table>
-      <%== @pagy.series_nav(aria_label: "Pagination") if @pagy.pages > 1 %>
+      <%== @pagy.series_nav(aria_label: t("solid_stack_web.shared.pagination")) if @pagy.pages > 1 %>
     </div>
   <% else %>
     <%= render "empty" %>

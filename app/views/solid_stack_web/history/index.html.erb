@@ -1,10 +1,10 @@
 <%= turbo_frame_tag "sqw-history-table",
       data: { controller: "refresh", refresh_interval_value: SolidStackWeb.default_refresh_interval } do %>
 <div class="sqw-page-header sqw-page-header--split">
-  <h1 class="sqw-page-title">Job History</h1>
+  <h1 class="sqw-page-title"><%= t("solid_stack_web.history.title") %></h1>
   <div class="sqw-header-actions">
     <% if @jobs&.any? %>
-      <%= link_to "Export CSV", history_path(format: :csv, queue: @queue, q: @search, period: @period),
+      <%= link_to t("solid_stack_web.history.export_csv"), history_path(format: :csv, queue: @queue, q: @search, period: @period),
             class: "sqw-btn sqw-btn--muted sqw-btn--sm", data: { turbo: false } %>
     <% end %>
   </div>
@@ -20,13 +20,14 @@
   <input type="hidden" name="sort" value="<%= @sort %>">
   <input type="hidden" name="direction" value="<%= @direction %>">
   <input class="sqw-search-input" type="search" name="q" value="<%= @search %>"
-         placeholder="Filter by job class…" autocomplete="off" aria-label="Filter by job class"
+         placeholder="<%= t("solid_stack_web.history.placeholder_filter") %>" autocomplete="off"
+         aria-label="<%= t("solid_stack_web.history.aria_filter") %>"
          data-action="input->search#filter">
   <% if @search.present? %>
-    <%= link_to "Clear", history_path(queue: @queue, period: @period), class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
+    <%= link_to t("solid_stack_web.shared.clear"), history_path(queue: @queue, period: @period), class: "sqw-btn sqw-btn--muted sqw-btn--sm" %>
   <% end %>
-  <div class="sqw-period-filter" role="group" aria-label="Time period">
-    <%= link_to "All", history_path(queue: @queue, q: @search),
+  <div class="sqw-period-filter" role="group" aria-label="<%= t("solid_stack_web.shared.period_filter.label") %>">
+    <%= link_to t("solid_stack_web.shared.period_filter.all"), history_path(queue: @queue, q: @search),
           class: "sqw-period-btn #{"sqw-period-btn--active" if @period.nil?}" %>
     <%= link_to "1h",  history_path(queue: @queue, q: @search, period: "1h"),
           class: "sqw-period-btn #{"sqw-period-btn--active" if @period == "1h"}" %>
@@ -39,8 +40,8 @@
 
 <% if @queue.present? %>
   <p class="sqw-muted" style="font-size: 13px; margin-bottom: 0.75rem;">
-    Filtering by queue: <strong><%= @queue %></strong> &mdash;
-    <%= link_to "Clear filter", history_path(q: @search, period: @period) %>
+    <%= t("solid_stack_web.history.filtering_by_queue") %> <strong><%= @queue %></strong> &mdash;
+    <%= link_to t("solid_stack_web.history.clear_filter"), history_path(q: @search, period: @period) %>
   </p>
 <% end %>
 
@@ -50,10 +51,10 @@
       <thead>
         <% sort_url = ->(p) { history_path(queue: @queue, q: @search, period: @period, **p) } %>
         <tr>
-          <%= sort_header_th("Job Class",   "class_name", sort_url, current_sort: @sort, current_dir: @direction) %>
-          <%= sort_header_th("Queue",       "queue_name", sort_url, current_sort: @sort, current_dir: @direction) %>
-          <th scope="col">Duration</th>
-          <%= sort_header_th("Finished At", "finished_at", sort_url, current_sort: @sort, current_dir: @direction) %>
+          <%= sort_header_th(t("solid_stack_web.history.col_job_class"),   "class_name",  sort_url, current_sort: @sort, current_dir: @direction) %>
+          <%= sort_header_th(t("solid_stack_web.history.col_queue"),       "queue_name",  sort_url, current_sort: @sort, current_dir: @direction) %>
+          <th scope="col"><%= t("solid_stack_web.history.col_duration") %></th>
+          <%= sort_header_th(t("solid_stack_web.history.col_finished_at"), "finished_at", sort_url, current_sort: @sort, current_dir: @direction) %>
         </tr>
       </thead>
       <tbody>
@@ -71,16 +72,16 @@
         <% end %>
       </tbody>
     </table>
-    <%== @pagy.series_nav(aria_label: "Pagination") if @pagy.pages > 1 %>
+    <%== @pagy.series_nav(aria_label: t("solid_stack_web.shared.pagination")) if @pagy.pages > 1 %>
   </div>
 <% else %>
   <div class="sqw-empty">
     <% if @search.present? || @queue.present? || @period.present? %>
-      <p class="sqw-empty__title">No finished jobs match your filters</p>
-      <p class="sqw-empty__hint"><%= link_to "Clear filters", history_path %></p>
+      <p class="sqw-empty__title"><%= t("solid_stack_web.history.no_match_title") %></p>
+      <p class="sqw-empty__hint"><%= link_to t("solid_stack_web.history.no_match_hint"), history_path %></p>
     <% else %>
-      <p class="sqw-empty__title">No finished jobs yet</p>
-      <p class="sqw-empty__hint">Completed jobs will appear here once workers process them.</p>
+      <p class="sqw-empty__title"><%= t("solid_stack_web.history.empty_title") %></p>
+      <p class="sqw-empty__hint"><%= t("solid_stack_web.history.empty_hint") %></p>
     <% end %>
   </div>
 <% end %>

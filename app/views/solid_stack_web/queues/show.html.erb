@@ -1,31 +1,31 @@
 <div class="sqw-page-header sqw-page-header--split">
   <div>
     <div class="sqw-breadcrumb">
-      <%= link_to "Queues", queues_path %> &rsaquo; <%= @queue_name %>
+      <%= link_to t("solid_stack_web.queues.title"), queues_path %> &rsaquo; <%= @queue_name %>
     </div>
     <div class="sqw-page-title-row">
       <h1 class="sqw-page-title sqw-monospace"><%= @queue_name %></h1>
       <% if @paused %>
-        <span class="sqw-badge sqw-badge--paused">Paused</span>
+        <span class="sqw-badge sqw-badge--paused"><%= t("solid_stack_web.queues.status_paused") %></span>
       <% else %>
-        <span class="sqw-badge sqw-badge--ready">Running</span>
+        <span class="sqw-badge sqw-badge--ready"><%= t("solid_stack_web.queues.status_running") %></span>
       <% end %>
     </div>
   </div>
   <div class="sqw-header-actions">
     <% if @paused %>
-      <%= button_to "Resume", queue_pause_path(@queue_name),
+      <%= button_to t("solid_stack_web.queues.resume"), queue_pause_path(@queue_name),
             method: :delete, class: "sqw-btn sqw-btn--sm" %>
     <% else %>
-      <%= button_to "Pause", queue_pause_path(@queue_name),
+      <%= button_to t("solid_stack_web.queues.pause"), queue_pause_path(@queue_name),
             method: :post, class: "sqw-btn sqw-btn--sm" %>
     <% end %>
     <% if @executions.any? %>
-      <%= button_to "Discard All Ready (#{@pagy.count})",
+      <%= button_to t("solid_stack_web.queues.discard_all_ready", count: @pagy.count),
             discard_all_jobs_path(status: "ready", queue: @queue_name),
             method: :post,
             class: "sqw-btn sqw-btn--danger sqw-btn--sm",
-            data: { turbo_confirm: "Discard all #{@pagy.count} ready jobs in #{@queue_name}? This cannot be undone.",
+            data: { turbo_confirm: t("solid_stack_web.queues.confirm_discard_all_ready", count: @pagy.count, queue: @queue_name),
                     turbo_frame: "_top" } %>
     <% end %>
   </div>
@@ -35,10 +35,10 @@
   <table class="sqw-table">
     <thead>
       <tr>
-        <th scope="col">Job Class</th>
-        <th scope="col">Priority</th>
-        <th scope="col">Enqueued At</th>
-        <th scope="col"><span class="sqw-sr-only">Actions</span></th>
+        <th scope="col"><%= t("solid_stack_web.queues.show_col_job_class") %></th>
+        <th scope="col"><%= t("solid_stack_web.queues.show_col_priority") %></th>
+        <th scope="col"><%= t("solid_stack_web.queues.show_col_enqueued_at") %></th>
+        <th scope="col"><span class="sqw-sr-only"><%= t("solid_stack_web.shared.actions") %></span></th>
       </tr>
     </thead>
     <tbody>
@@ -51,17 +51,17 @@
           <td><%= execution.job.priority %></td>
           <td class="sqw-muted"><%= local_time(execution.created_at) %></td>
           <td class="sqw-actions">
-            <%= button_to "Discard", job_path(execution, status: "ready", queue: @queue_name),
+            <%= button_to t("solid_stack_web.queues.discard"), job_path(execution, status: "ready", queue: @queue_name),
                   method: :delete, class: "sqw-btn sqw-btn--danger sqw-btn--sm",
-                  data: { turbo_confirm: "Discard this job?" } %>
+                  data: { turbo_confirm: t("solid_stack_web.queues.confirm_discard") } %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <%== @pagy.series_nav(aria_label: "Pagination") if @pagy.pages > 1 %>
+  <%== @pagy.series_nav(aria_label: t("solid_stack_web.shared.pagination")) if @pagy.pages > 1 %>
 <% else %>
   <div class="sqw-empty">
-    <p>No ready jobs in <strong><%= @queue_name %></strong>.</p>
+    <p><%= t("solid_stack_web.queues.no_ready_jobs", queue: @queue_name) %></p>
   </div>
 <% end %>

@@ -1,19 +1,19 @@
 <div class="sqw-page-header">
-  <h1 class="sqw-page-title">Recurring Tasks</h1>
+  <h1 class="sqw-page-title"><%= t("solid_stack_web.recurring_tasks.title") %></h1>
 </div>
 
 <% if @recurring_tasks.any? %>
   <table class="sqw-table">
     <thead>
       <tr>
-        <th scope="col">Key</th>
-        <th scope="col">Schedule</th>
-        <th scope="col">Job / Command</th>
-        <th scope="col">Queue</th>
-        <th scope="col">Next Run</th>
-        <th scope="col">Last Run</th>
-        <th scope="col">Type</th>
-        <th scope="col"><span class="sqw-sr-only">Actions</span></th>
+        <th scope="col"><%= t("solid_stack_web.recurring_tasks.col_key") %></th>
+        <th scope="col"><%= t("solid_stack_web.recurring_tasks.col_schedule") %></th>
+        <th scope="col"><%= t("solid_stack_web.recurring_tasks.col_job_command") %></th>
+        <th scope="col"><%= t("solid_stack_web.recurring_tasks.col_queue") %></th>
+        <th scope="col"><%= t("solid_stack_web.recurring_tasks.col_next_run") %></th>
+        <th scope="col"><%= t("solid_stack_web.recurring_tasks.col_last_run") %></th>
+        <th scope="col"><%= t("solid_stack_web.recurring_tasks.col_type") %></th>
+        <th scope="col"><span class="sqw-sr-only"><%= t("solid_stack_web.shared.actions") %></span></th>
       </tr>
     </thead>
     <tbody>
@@ -44,16 +44,16 @@
           </td>
           <td>
             <% if task.static? %>
-              <span class="sqw-badge sqw-badge--scheduled">Static</span>
+              <span class="sqw-badge sqw-badge--scheduled"><%= t("solid_stack_web.recurring_tasks.type_static") %></span>
             <% else %>
-              <span class="sqw-badge sqw-badge--blocked">Dynamic</span>
+              <span class="sqw-badge sqw-badge--blocked"><%= t("solid_stack_web.recurring_tasks.type_dynamic") %></span>
             <% end %>
           </td>
           <td class="sqw-actions">
-            <%= button_to "Run Now", recurring_task_run_path(task.key),
+            <%= button_to t("solid_stack_web.recurring_tasks.run_now"), recurring_task_run_path(task.key),
                   method: :post,
                   class: "sqw-btn sqw-btn--sm",
-                  data: { turbo_confirm: "Run \"#{task.key}\" immediately?" } %>
+                  data: { turbo_confirm: t("solid_stack_web.recurring_tasks.confirm_run_now", key: task.key) } %>
           </td>
         </tr>
       <% end %>
@@ -61,7 +61,7 @@
   </table>
 <% else %>
   <div class="sqw-empty">
-    <p class="sqw-empty__title">No recurring tasks configured</p>
-    <p class="sqw-empty__hint">Define recurring tasks in your Solid Queue configuration to see them here.</p>
+    <p class="sqw-empty__title"><%= t("solid_stack_web.recurring_tasks.empty_title") %></p>
+    <p class="sqw-empty__hint"><%= t("solid_stack_web.recurring_tasks.empty_hint") %></p>
   </div>
 <% end %>
