@@ -9,7 +9,6 @@
 
 > _Breaking changes or large architectural additions._
 
-- **i18n / locale support** — wrap all user-visible strings in `I18n.t`; makes the gem usable for non-English apps
 - **Custom dashboard cards** — registration hook so host apps can inject their own stat cards alongside the built-in queue, cache, and cable cards
 - **Custom nav links** — `config.nav_links = [{ label: "Admin", url: "/admin" }]` to integrate the dashboard into the host app's navigation
 
