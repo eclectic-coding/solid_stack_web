@@ -8,6 +8,37 @@
 
 A production-ready operations dashboard for the full Rails Solid Stack. Mount one engine to get deep visibility into **Solid Queue** (job browser, failed job retry, queue controls, recurring tasks, performance stats), **Solid Cache** (entry browser, size distribution, write timeline), and **Solid Cable** (channel browser, message list, purge controls) — with dark mode, i18n locale switching, CSV export, alert webhooks, and a JSON metrics endpoint, all with no asset pipeline dependency.
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Screenshots](#screenshots)
+- [Metrics endpoint](#metrics-endpoint)
+- [General configuration](#general-configuration)
+  - [Authentication](#authentication)
+  - [Linking to the dashboard](#linking-to-the-dashboard)
+- [Security](#security)
+  - [Authentication](#authentication-1)
+  - [Sensitive cache values](#sensitive-cache-values)
+  - [CSRF protection](#csrf-protection)
+  - [Rate limiting and network exposure](#rate-limiting-and-network-exposure)
+- [Solid Queue](#solid-queue)
+  - [Features](#features)
+  - [Configuration](#configuration)
+    - [Job Filtering](#job-filtering)
+- [Solid Cache](#solid-cache)
+  - [Features](#features-1)
+- [Solid Cable](#solid-cable)
+  - [Features](#features-2)
+- [Requirements](#requirements)
+- [Versioning](#versioning)
+  - [Public API](#public-api)
+  - [Not part of the public API](#not-part-of-the-public-api)
+  - [Deprecation policy](#deprecation-policy)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
 ## Installation
 
 Add the gem to your application's `Gemfile`:
