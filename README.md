@@ -123,6 +123,13 @@ SolidStackWeb.configure do |config|
   # Multi-database — pass a connects_to hash when Solid Queue / Cache / Cable
   # live on a separate database from your primary (default: nil, uses primary).
   config.connects_to = { database: { writing: :queue, reading: :queue } }
+
+  # Custom nav links — appended to the main navigation bar (default: []).
+  # Use this to link back to your host application's admin pages or related tools.
+  config.nav_links = [
+    { label: "Back to App", url: "/" },
+    { label: "Admin",       url: "/admin" }
+  ]
 end
 ```
 
