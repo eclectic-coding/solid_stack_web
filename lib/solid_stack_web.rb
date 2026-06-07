@@ -9,7 +9,7 @@ module SolidStackWeb
                 :alert_slow_job_count_threshold, :alert_stale_process_threshold,
                 :dashboard_refresh_interval, :default_refresh_interval,
                 :search_results_limit, :allow_value_preview,
-                :available_locales, :nav_links
+                :available_locales, :nav_links, :dashboard_cards
 
     def page_size
       @page_size || 25
@@ -69,6 +69,10 @@ module SolidStackWeb
 
     def nav_links
       @nav_links || []
+    end
+
+    def dashboard_cards
+      @dashboard_cards || []
     end
 
     # Returns the path at which the engine is mounted in the host application,

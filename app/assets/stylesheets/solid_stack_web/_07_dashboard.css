@@ -16,9 +16,10 @@
 }
 .sqw-gem-card:hover { box-shadow: 0 3px 8px rgba(0,0,0,.12); }
 
-.sqw-gem-card--queue { border-top-color: var(--primary); }
-.sqw-gem-card--cache { border-top-color: var(--purple); }
-.sqw-gem-card--cable { border-top-color: var(--info); }
+.sqw-gem-card--queue   { border-top-color: var(--primary); }
+.sqw-gem-card--cache   { border-top-color: var(--purple); }
+.sqw-gem-card--cable   { border-top-color: var(--info); }
+.sqw-gem-card--custom  { border-top-color: var(--muted); }
 
 .sqw-gem-card__header {
   display: flex;

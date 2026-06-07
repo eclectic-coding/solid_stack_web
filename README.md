@@ -130,6 +130,18 @@ SolidStackWeb.configure do |config|
     { label: "Back to App", url: "/" },
     { label: "Admin",       url: "/admin" }
   ]
+
+  # Custom dashboard cards — rendered after the built-in Queue, Cache, and Cable
+  # cards on the overview dashboard (default: []).
+  # Each card accepts a title, an optional header link, and an optional stats lambda
+  # that returns a { label => value } hash evaluated at render time.
+  config.dashboard_cards = [
+    {
+      title: "My App",
+      link:  { label: "View Admin", url: "/admin" },
+      stats: -> { { "Users" => User.count, "Premium" => User.premium.count } }
+    }
+  ]
 end
 ```
 
