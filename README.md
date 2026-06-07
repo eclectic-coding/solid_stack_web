@@ -61,11 +61,15 @@ rails generate solid_stack_web:install
 
 This creates `config/initializers/solid_stack_web.rb` with every configuration option commented inline, and injects `mount SolidStackWeb::Engine, at: "/solid_stack"` into `config/routes.rb`. The dashboard will then be available at `/solid_stack` (or whatever path you choose).
 
+[↑ Back to top](#table-of-contents)
+
 ---
 
 ## Screenshots
 
 ![SolidStackWeb dashboard](docs/screenshots/demo.gif)
+
+[↑ Back to top](#table-of-contents)
 
 ---
 
@@ -94,6 +98,8 @@ This creates `config/initializers/solid_stack_web.rb` with every configuration o
 ```
 
 `slow_jobs` is only present when `slow_job_threshold` is configured. The endpoint is protected by the same authentication as the rest of the dashboard.
+
+[↑ Back to top](#table-of-contents)
 
 ---
 
@@ -129,6 +135,8 @@ The `authenticate` block is evaluated in the context of each request's controlle
 ```ruby
 link_to "Queue Dashboard", SolidStackWeb.mount_path
 ```
+
+[↑ Back to top](#table-of-contents)
 
 ---
 
@@ -167,6 +175,8 @@ The dashboard is designed to be mounted behind your application's existing authe
 - Mounting at a non-guessable path (e.g. `at: "/ops/#{Rails.application.credentials.dashboard_token}"`)
 - Restricting access by IP at the reverse-proxy level
 - Applying [Rack::Attack](https://github.com/rack/rack-attack) rules to the mount path
+
+[↑ Back to top](#table-of-contents)
 
 ---
 
@@ -246,6 +256,8 @@ The jobs list supports four independent filters, all driven by query params:
 
 Filters are preserved when switching between status tabs (Ready / Scheduled / Running / Blocked) and when discarding a job. They can be combined freely.
 
+[↑ Back to top](#table-of-contents)
+
 ---
 
 ## Solid Cache
@@ -262,6 +274,8 @@ Filters are preserved when switching between status tabs (Ready / Scheduled / Ru
 - **Delete entry** — per-row delete button or detail-page button removes a single cache entry
 - **Flush All** — header button deletes every cache entry with a confirmation prompt
 
+[↑ Back to top](#table-of-contents)
+
 ---
 
 ## Solid Cable
@@ -274,6 +288,8 @@ Filters are preserved when switching between status tabs (Ready / Scheduled / Ru
 - **Per-channel message list** — `GET /cable/channels/:channel_hash` shows a paginated, reverse-chronological list of that channel's `SolidCable::Message` records; each row shows the message ID, a truncated payload preview (120 chars) with the full payload on hover, and a relative sent time with the exact timestamp on hover; supports `?q=` filtering by payload substring; **Purge Channel** button deletes all messages for the channel
 - **Message purge** — "Purge Old" form on the channel browser deletes all messages older than 1, 7, or 30 days; confirmation prompt before any destructive action
 
+[↑ Back to top](#table-of-contents)
+
 ---
 
 ## Requirements
@@ -285,6 +301,10 @@ Filters are preserved when switching between status tabs (Ready / Scheduled / Ru
 - [solid_cable](https://github.com/rails/solid_cable) >= 1.0
 - [turbo-rails](https://github.com/hotwired/turbo-rails) >= 2.0
 - [importmap-rails](https://github.com/rails/importmap-rails) >= 1.2
+
+[↑ Back to top](#table-of-contents)
+
+---
 
 ## Versioning
 
@@ -314,6 +334,8 @@ The following are internal and may change in any release without notice:
 
 When a public API item is renamed or removed, the old interface is deprecated in a **minor** release — it continues to work but issues an `ActiveSupport::Deprecation` warning pointing to the replacement. The old interface is removed in the next **major** release. The [UPGRADING.md](UPGRADING.md) file documents every breaking change and the migration steps.
 
+[↑ Back to top](#table-of-contents)
+
 ---
 
 ## Contributing
@@ -325,6 +347,12 @@ When a public API item is renamed or removed, the old interface is deprecated in
 
 Bug reports and feature requests are welcome on [GitHub Issues](https://github.com/eclectic-coding/solid_stack_web/issues).
 
+[↑ Back to top](#table-of-contents)
+
+---
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+[↑ Back to top](#table-of-contents)
