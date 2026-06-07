@@ -16,6 +16,8 @@ A production-ready operations dashboard for the full Rails Solid Stack. Mount on
 - [General configuration](#general-configuration)
   - [Authentication](#authentication)
   - [Linking to the dashboard](#linking-to-the-dashboard)
+- [i18n](#i18n)
+  - [Adding a custom locale](#adding-a-custom-locale)
 - [Security](#security)
   - [Authentication](#authentication-1)
   - [Sensitive cache values](#sensitive-cache-values)
@@ -135,6 +137,38 @@ The `authenticate` block is evaluated in the context of each request's controlle
 ```ruby
 link_to "Queue Dashboard", SolidStackWeb.mount_path
 ```
+
+[↑ Back to top](#table-of-contents)
+
+---
+
+## i18n
+
+All dashboard UI strings — page titles, table headers, button labels, empty states, flash messages, and sparkline tooltips — are backed by locale YAML files. The engine ships with **English (`en`)** and **Spanish (`es`)** built in.
+
+A language selector appears in the dashboard header and lets users switch locales at runtime. The selected locale is stored in the session and applied via `I18n.with_locale`, so it persists across requests without touching the host application's locale. The `?locale=` query param takes precedence over the session value, making it easy to deep-link to a specific language.
+
+The switcher is automatically hidden when `config.available_locales` contains only one entry.
+
+```ruby
+SolidStackWeb.configure do |config|
+  # Locales shown in the language switcher (default: [:en, :es]).
+  # Set to [:en] to hide the switcher entirely.
+  config.available_locales = [:en, :es]
+end
+```
+
+### Adding a custom locale
+
+1. Create a locale file in your host application under `config/locales/`, e.g. `config/locales/solid_stack_web.fr.yml`.
+2. Nest all keys under `fr > solid_stack_web:` — use `config/locales/en.yml` in the gem as a reference for the full key list.
+3. Add the locale symbol to `config.available_locales`:
+
+```ruby
+config.available_locales = [:en, :es, :fr]
+```
+
+Rails will pick up the file automatically via its standard `config.i18n.load_path`; no additional configuration is needed.
 
 [↑ Back to top](#table-of-contents)
 

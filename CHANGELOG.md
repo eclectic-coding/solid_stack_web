@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- README — added a table of contents and back-to-top navigation links to each major section
+- README — added a table of contents, back-to-top navigation links to each major section, and a dedicated i18n section documenting locale switching, `config.available_locales`, and how to add a custom locale
 
 ## [1.5.0] - 2026-05-29
 
