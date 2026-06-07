@@ -6,7 +6,7 @@
 [![Ruby](https://img.shields.io/badge/ruby-%3E%3D%203.3-ruby)](https://www.ruby-lang.org)
 [![codecov](https://codecov.io/gh/eclectic-coding/solid_stack_web/branch/main/graph/badge.svg)](https://codecov.io/gh/eclectic-coding/solid_stack_web)
 
-A production-ready operations dashboard for the full Rails Solid Stack. Mount one engine to get deep visibility into **Solid Queue** (job browser, failed job retry, queue controls, recurring tasks, performance stats), **Solid Cache** (entry browser, size distribution, write timeline), and **Solid Cable** (channel browser, message list, purge controls) — with dark mode, i18n locale switching, CSV export, alert webhooks, and a JSON metrics endpoint, all with no asset pipeline dependency.
+A production-ready operations dashboard for the full Rails Solid Stack. Mount one engine to get deep visibility into **Solid Queue** (job browser, failed job retry, queue controls, recurring tasks, performance stats), **Solid Cache** (entry browser, size distribution, write timeline), and **Solid Cable** (channel browser, message list, purge controls) — with dark mode, i18n locale switching, custom nav links, custom dashboard cards, CSV export, alert webhooks, and a JSON metrics endpoint, all with no asset pipeline dependency.
 
 ## Table of Contents
 
@@ -18,6 +18,9 @@ A production-ready operations dashboard for the full Rails Solid Stack. Mount on
   - [Linking to the dashboard](#linking-to-the-dashboard)
 - [i18n](#i18n)
   - [Adding a custom locale](#adding-a-custom-locale)
+- [Extensibility](#extensibility)
+  - [Custom nav links](#custom-nav-links)
+  - [Custom dashboard cards](#custom-dashboard-cards)
 - [Security](#security)
   - [Authentication](#authentication-1)
   - [Sensitive cache values](#sensitive-cache-values)
@@ -125,11 +128,10 @@ SolidStackWeb.configure do |config|
   config.connects_to = { database: { writing: :queue, reading: :queue } }
 
   # Custom nav links — appended to the main navigation bar (default: []).
-  # Use this to link back to your host application's admin pages or related tools.
-  config.nav_links = [
-    { label: "Back to App", url: "/" },
-    { label: "Admin",       url: "/admin" }
-  ]
+  config.nav_links = [{ label: "Admin", url: "/admin" }]
+
+  # Custom dashboard cards — rendered after the built-in cards (default: []).
+  config.dashboard_cards = [{ title: "My App", stats: -> { { "Users" => User.count } } }]
 end
 ```
 
@@ -176,6 +178,51 @@ config.available_locales = [:en, :es, :fr]
 ```
 
 Rails will pick up the file automatically via its standard `config.i18n.load_path`; no additional configuration is needed.
+
+[↑ Back to top](#table-of-contents)
+
+---
+
+## Extensibility
+
+### Custom nav links
+
+`config.nav_links` appends extra links to the main navigation bar after the built-in Queue / Cache / Cable links. Use it to link back to your host application's admin pages or related tools without modifying the engine layout.
+
+```ruby
+SolidStackWeb.configure do |config|
+  config.nav_links = [
+    { label: "Back to App", url: "/" },
+    { label: "Admin",       url: "/admin" }
+  ]
+end
+```
+
+Defaults to `[]` — no extra links appear when unconfigured.
+
+### Custom dashboard cards
+
+`config.dashboard_cards` adds custom stat cards to the overview dashboard after the built-in Queue, Cache, and Cable cards. Each card accepts three keys:
+
+| Key | Type | Description |
+|-----|------|-------------|
+| `title` | String | Card heading (required) |
+| `link` | `{ label:, url: }` | Optional header link rendered top-right |
+| `stats` | Lambda | Optional — called at render time; must return a `{ label => value }` hash |
+
+```ruby
+SolidStackWeb.configure do |config|
+  config.dashboard_cards = [
+    {
+      title: "My App",
+      link:  { label: "View Admin", url: "/admin" },
+      stats: -> { { "Users" => User.count, "Premium" => User.premium.count } }
+    }
+  ]
+end
+```
+
+The `stats` lambda runs on every dashboard render, so keep it fast. Defaults to `[]` — no custom cards appear when unconfigured.
 
 [↑ Back to top](#table-of-contents)
 

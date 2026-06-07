@@ -99,4 +99,43 @@ RSpec.describe "Dashboard", type: :request do
       expect(response.body).not_to include("Oldest")
     end
   end
+
+  describe "custom dashboard cards" do
+    after { SolidStackWeb.dashboard_cards = nil }
+
+    it "renders no custom cards by default" do
+      get engine_root
+      expect(response.body).not_to include('class="sqw-gem-card sqw-gem-card--custom"')
+    end
+
+    it "renders a configured custom card" do
+      SolidStackWeb.dashboard_cards = [{ title: "My App" }]
+      get engine_root
+      expect(response.body).to include('class="sqw-gem-card sqw-gem-card--custom"')
+      expect(response.body).to include("My App")
+    end
+
+    it "renders the optional header link" do
+      SolidStackWeb.dashboard_cards = [{ title: "My App", link: { label: "View Admin", url: "/admin" } }]
+      get engine_root
+      expect(response.body).to include("View Admin")
+      expect(response.body).to include("/admin")
+    end
+
+    it "renders stats returned by the stats lambda" do
+      SolidStackWeb.dashboard_cards = [{ title: "My App", stats: -> { { "Users" => 42, "Premium" => 7 } } }]
+      get engine_root
+      expect(response.body).to include("Users")
+      expect(response.body).to include("42")
+      expect(response.body).to include("Premium")
+      expect(response.body).to include("7")
+    end
+
+    it "renders multiple custom cards" do
+      SolidStackWeb.dashboard_cards = [{ title: "App One" }, { title: "App Two" }]
+      get engine_root
+      expect(response.body).to include("App One")
+      expect(response.body).to include("App Two")
+    end
+  end
 end

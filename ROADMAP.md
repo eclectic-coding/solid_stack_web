@@ -5,14 +5,6 @@
 ---
 
 
-## v2.0 — Extensibility
-
-> _Breaking changes or large architectural additions._
-
-- **Custom dashboard cards** — registration hook so host apps can inject their own stat cards alongside the built-in queue, cache, and cable cards
-
----
-
 ## Out of Scope (for now)
 
 - **Background job execution** — this is a monitoring engine, not a worker runner; it will never enqueue or execute jobs itself

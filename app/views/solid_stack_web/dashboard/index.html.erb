@@ -142,5 +142,26 @@
       </div>
     <% end %>
   </div>
+
+  <% SolidStackWeb.dashboard_cards.each do |card| %>
+    <div class="sqw-gem-card sqw-gem-card--custom">
+      <div class="sqw-gem-card__header">
+        <span class="sqw-gem-card__title"><%= card[:title] %></span>
+        <% if card[:link] %>
+          <%= link_to card[:link][:label], card[:link][:url], class: "sqw-gem-card__link" %>
+        <% end %>
+      </div>
+      <% if card[:stats] %>
+        <div class="sqw-gem-card__body">
+          <% card[:stats].call.each do |label, value| %>
+            <div class="sqw-inline-stat sqw-inline-stat--neutral">
+              <span class="sqw-inline-stat__label"><%= label %></span>
+              <span class="sqw-inline-stat__value"><%= value %></span>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>
 <% end %>
