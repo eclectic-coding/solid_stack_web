@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-06-07
+
 ### Added
 
 - `config.dashboard_cards` — accepts an array of `{ title:, link:, stats: }` hashes; each entry renders a custom card on the overview dashboard alongside the built-in Queue, Cache, and Cable cards; `stats` is an optional lambda returning a `{ label => value }` hash evaluated at render time; `link` is an optional `{ label:, url: }` for the card header
@@ -199,7 +201,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Two-tier contextual navigation per section (Queue / Cache / Cable)
 - No runtime JavaScript dependency — all interactions use standard form POSTs or Turbo Stream
 
-[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v1.6.0...HEAD
+[1.6.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.6.0
 [1.5.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.5.0
 [1.4.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.4.0
 [1.3.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.3.0
