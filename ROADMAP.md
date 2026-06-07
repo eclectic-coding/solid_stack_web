@@ -10,7 +10,6 @@
 > _Breaking changes or large architectural additions._
 
 - **Custom dashboard cards** — registration hook so host apps can inject their own stat cards alongside the built-in queue, cache, and cable cards
-- **Custom nav links** — `config.nav_links = [{ label: "Admin", url: "/admin" }]` to integrate the dashboard into the host app's navigation
 
 ---
 

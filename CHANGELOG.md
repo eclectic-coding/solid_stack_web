@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `config.nav_links` — accepts an array of `{ label:, url: }` hashes; each entry is appended to the main navigation bar so host apps can link back to their own admin pages or related tools without modifying the engine layout
 - i18n support — all UI labels, flash messages, table headers, empty states, confirmations, and sparkline tooltips are now backed by locale YAML files; ships with English (`en`) and Spanish (`es`) out of the box
 - Locale switcher — a `<select>` dropdown in the header lets users switch languages at runtime; locale is stored in the session and applied via `I18n.with_locale`; automatically hidden when only one locale is configured
 - `config.available_locales` — controls which locales appear in the switcher (default: `[:en, :es]`)
