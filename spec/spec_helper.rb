@@ -7,14 +7,14 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
 ])
 
 SimpleCov.start "rails" do
-  add_filter "/spec/"
-  add_filter "/lib/solid_stack_web/version.rb"
-  add_filter "/lib/generators/"
+  skip "/spec/"
+  skip "/lib/solid_stack_web/version.rb"
+  skip "/lib/generators/"
 
-  add_group "Controllers", "app/controllers"
-  add_group "Helpers",     "app/helpers"
-  add_group "Views",       "app/views"
-  add_group "Library",     "lib"
+  group "Controllers", "app/controllers"
+  group "Helpers",     "app/helpers"
+  group "Views",       "app/views"
+  group "Library",     "lib"
 end
 
 RSpec.configure do |config|
