@@ -156,10 +156,11 @@ ActiveRecord::Schema[8.1].define(version: 1) do
     t.index ["key_hash"], name: "index_solid_cache_entries_on_key_hash", unique: true
   end
 
-  # Solid Cable tables
+  # Solid Cable tables (solid_cable 4.0+ uses binary/bytea for channel and
+  # payload; see solid_cable's create_compact_channel migration)
   create_table "solid_cable_messages", force: :cascade do |t|
-    t.text "channel", null: false
-    t.text "payload", null: false
+    t.binary "channel", null: false
+    t.binary "payload", null: false
     t.datetime "created_at", null: false
     t.bigint "channel_hash", null: false
     t.index ["channel"], name: "index_solid_cable_messages_on_channel"

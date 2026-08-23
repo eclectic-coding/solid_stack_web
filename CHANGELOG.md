@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Cable message browser — payloads (and channel names) containing non-ASCII characters no longer raise `Encoding::CompatibilityError`. solid_cable 4.0+ stores them in a binary (bytea) column, so the view received a BINARY string that could not be appended to the UTF-8 output buffer once it held non-ASCII text; values are now re-tagged to UTF-8 before rendering.
+
 ## [1.6.0] - 2026-06-07
 
 ### Added

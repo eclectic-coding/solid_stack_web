@@ -62,6 +62,34 @@ RSpec.describe "CableMessages", type: :request do
       expect(response.body).to include("notifications:user:42")
     end
 
+    it "renders payloads containing non-ASCII characters" do
+      # solid_cable 4.0+ stores payloads in a binary (bytea) column, so the
+      # view receives an ASCII-8BIT (BINARY) string. Appending a BINARY value
+      # with non-ASCII bytes to the UTF-8 output buffer (which already holds
+      # non-ASCII text from the layout) used to raise
+      # Encoding::CompatibilityError. The "→" in a Turbo Stream payload is a
+      # common real-world trigger.
+      payload = %(<turbo-stream action="update" method="patch" target="display-live">update → live</turbo-stream>)
+      broadcast("display:live", payload)
+      hash = channel_hash_for("display:live")
+
+      get "#{engine_root}/cable/channels/#{hash}"
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("→")
+    end
+
+    it "renders channel names containing non-ASCII characters" do
+      channel = "chat:→:thread"
+      broadcast(channel, "hello")
+      hash = channel_hash_for(channel)
+
+      get "#{engine_root}/cable/channels/#{hash}"
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("→")
+    end
+
     it "truncates long payloads in the preview" do
       broadcast("log", "x" * 200)
       hash = channel_hash_for("log")
