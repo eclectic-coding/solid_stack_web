@@ -21,6 +21,17 @@ module SolidStackWeb
       { label: "Text", content: str }
     end
 
+    # Solid Cable stores payloads (and channel names) in a binary (bytea) column,
+    # so ActiveRecord hands the view a string with ASCII-8BIT (BINARY) encoding.
+    # Appending such a value — once it holds non-ASCII bytes (e.g. a "→" in a
+    # Turbo Stream payload) and the UTF-8 output buffer already contains
+    # non-ASCII text — raises Encoding::CompatibilityError. Re-tag the bytes as
+    # UTF-8 (lossless; the underlying data is UTF-8 source text) before it
+    # reaches the view. dup keeps the ActiveRecord attribute string unmutated.
+    def to_utf8_text(value)
+      value.to_s.dup.force_encoding("UTF-8")
+    end
+
     def format_duration(seconds)
       return "—" if seconds.nil?
       return "#{(seconds * 1000).round}ms" if seconds < 1

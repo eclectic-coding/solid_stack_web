@@ -61,8 +61,8 @@
     <tbody>
       <% @channels.each do |channel| %>
         <tr>
-          <td class="sqw-monospace sqw-truncate" title="<%= channel[:channel] %>">
-            <%= link_to channel[:channel], cable_channel_messages_path(channel[:channel_hash]), class: "sqw-link" %>
+          <td class="sqw-monospace sqw-truncate" title="<%= to_utf8_text(channel[:channel]) %>">
+            <%= link_to to_utf8_text(channel[:channel]), cable_channel_messages_path(channel[:channel_hash]), class: "sqw-link" %>
           </td>
           <td><%= channel[:message_count] %></td>
           <td class="sqw-muted"><%= local_time(channel[:last_message_at]) %></td>
