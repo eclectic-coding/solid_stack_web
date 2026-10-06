@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Dependabot PRs for minor and patch updates are now auto-merged (squash) once CI passes
+
 ## [1.6.0] - 2026-06-07
 
 ### Added
