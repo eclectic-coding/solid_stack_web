@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    solid_stack_web (1.6.0)
+    solid_stack_web (1.6.1)
       csv (>= 3.0)
       importmap-rails (>= 1.2)
       pagy (>= 43.0)
@@ -441,7 +441,7 @@ CHECKSUMS
   solid_cable (4.1.0) sha256=828e3d509207b82b4f05f4e9c85f696994710679b52d511aa7f97ebd212d3226
   solid_cache (1.0.10) sha256=bc05a2fb3ac78a6f43cbb5946679cf9db67dd30d22939ededc385cb93e120d41
   solid_queue (1.7.0) sha256=6566b70b801d1c317c81bba7bcdd5677c019afac584a30374b4164002ca356d3
-  solid_stack_web (1.6.0)
+  solid_stack_web (1.6.1)
   sqlite3 (2.9.6-arm64-darwin) sha256=849b5d7f795e60fe25076d62c72dd722beb45b3850b516ad978d60ee848ec15b
   sqlite3 (2.9.6-x86_64-linux-gnu) sha256=613188ce02f614126ddbc38c5e217ccffd6306d0dcd9adca9764547aa890a634
   thor (1.5.0) sha256=e3a9e55fe857e44859ce104a84675ab6e8cd59c650a49106a05f55f136425e73
