@@ -1,5 +1,5 @@
 <div class="sqw-page-header sqw-page-header--split">
-  <h1 class="sqw-page-title sqw-truncate" title="<%= @channel_name %>"><%= @channel_name %></h1>
+  <h1 class="sqw-page-title sqw-truncate" title="<%= to_utf8_text(@channel_name) %>"><%= to_utf8_text(@channel_name) %></h1>
   <div class="sqw-header-actions">
     <%= button_to t("solid_stack_web.cable_messages.purge_channel"),
           cable_channel_purge_path(params[:channel_hash]),
@@ -33,8 +33,8 @@
       <% @messages.each do |message| %>
         <tr>
           <td class="sqw-muted sqw-monospace"><%= message.id %></td>
-          <td class="sqw-monospace sqw-truncate" title="<%= message.payload %>">
-            <%= truncate(message.payload.to_s, length: 120) %>
+          <td class="sqw-monospace sqw-truncate" title="<%= to_utf8_text(message.payload) %>">
+            <%= truncate(to_utf8_text(message.payload), length: 120) %>
           </td>
           <td class="sqw-muted">
             <%= local_time(message.created_at, format: :relative) %>

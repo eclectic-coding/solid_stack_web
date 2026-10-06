@@ -84,6 +84,32 @@ RSpec.describe "Cable", type: :request do
       expect(response.body).not_to include("chat:general")
     end
 
+    # Regression: the channel column is binary/bytea in solid_cable 4.0+, so a
+    # non-ASCII channel name is a BINARY string. Rendering it into the UTF-8
+    # output buffer used to raise Encoding::CompatibilityError (see the
+    # cable_messages specs for the same class of bug).
+    it "renders a non-ASCII channel name without error" do
+      SolidCable::Message.broadcast("sports → final", "goal")
+      SolidCable::Message.broadcast("sports:regular", "goal")
+
+      get "#{engine_root}/cable"
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("sports → final")
+      expect(response.body).to include("sports:regular")
+    end
+
+    it "filters non-ASCII channel names by substring" do
+      SolidCable::Message.broadcast("sports → final", "goal")
+      SolidCable::Message.broadcast("chat:general", "hello")
+
+      get "#{engine_root}/cable", params: { q: "→" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("sports → final")
+      expect(response.body).not_to include("chat:general")
+    end
+
     it "shows contextual empty state when search yields no results" do
       SolidCable::Message.broadcast("chat", "hi")
 

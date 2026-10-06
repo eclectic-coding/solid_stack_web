@@ -1,6 +1,19 @@
 require "rails_helper"
 
 RSpec.describe SolidStackWeb::ApplicationHelper, type: :helper do
+  describe "#to_utf8_text" do
+    it "re-tags binary UTF-8 bytes without altering valid text" do
+      result = helper.to_utf8_text("room → live".b)
+      expect(result).to eq("room → live")
+      expect(result.encoding).to eq(Encoding::UTF_8)
+    end
+
+    it "scrubs invalid byte sequences so rendering cannot raise" do
+      result = helper.to_utf8_text("bad \xFF byte".b)
+      expect(result).to be_valid_encoding
+    end
+  end
+
   describe "#format_cache_value" do
     it "returns JSON label and pretty-printed content for valid JSON input" do
       result = helper.format_cache_value('{"key":"value"}')
