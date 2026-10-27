@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.2] - 2026-10-27
+
 ### Added
 
 - `CONTRIBUTING.md` covering development setup, checks, and the pull request workflow
@@ -219,7 +221,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Two-tier contextual navigation per section (Queue / Cache / Cable)
 - No runtime JavaScript dependency — all interactions use standard form POSTs or Turbo Stream
 
-[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v1.6.1...HEAD
+[Unreleased]: https://github.com/eclectic-coding/solid_stack_web/compare/v1.6.2...HEAD
+[1.6.2]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.6.2
 [1.6.1]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.6.1
 [1.6.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.6.0
 [1.5.0]: https://github.com/eclectic-coding/solid_stack_web/releases/tag/v1.5.0
