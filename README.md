@@ -428,10 +428,7 @@ When a public API item is renamed or removed, the old interface is deprecated in
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feat/my-feature`)
-3. Run the test suite: `bundle exec rake`
-4. Open a pull request
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, the check suite, and the pull request workflow.
 
 Bug reports and feature requests are welcome on [GitHub Issues](https://github.com/eclectic-coding/solid_stack_web/issues).
 
