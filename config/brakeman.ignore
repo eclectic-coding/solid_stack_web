@@ -1,0 +1,51 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "5bc6f901074d04c2c3cf13a924de05ad909fdcdebc10af687e696f9af35ebcdf",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/solid_stack_web/history_controller.rb",
+      "line": 31,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Arel.sql(\"#{(params[:sort].presence_in(sortable_columns) or \"finished_at\")} #{((\"asc\" or \"desc\") == \"asc\") ? (\"ASC\") : (\"DESC\")}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SolidStackWeb::HistoryController",
+        "method": "sort_expression"
+      },
+      "user_input": "params[:sort].presence_in(sortable_columns)",
+      "confidence": "High",
+      "cwe_id": [
+        89
+      ],
+      "note": "Sort column is restricted via presence_in(sortable_columns) and direction is a ternary; no user input is interpolated."
+    },
+    {
+      "warning_type": "Cross-Site Request Forgery",
+      "warning_code": 7,
+      "fingerprint": "9fb3180dd778fb4f78855b53ccd5d37670f1a7de5b23273e9ae5edbdd8223f16",
+      "check_name": "ForgerySetting",
+      "message": "`protect_from_forgery` should be called in `SolidStackWeb::ApplicationController`",
+      "file": "app/controllers/solid_stack_web/application_controller.rb",
+      "line": 4,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross-site_request_forgery/",
+      "code": null,
+      "render_path": null,
+      "location": {
+        "type": "controller",
+        "controller": "SolidStackWeb::ApplicationController"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        352
+      ],
+      "note": "Rails enables forgery protection by default (default_protect_from_forgery) in host apps; engine inherits ActionController::Base."
+    }
+  ],
+  "brakeman_version": "8.1.0",
+  "updated": "2026-10-27"
+}

@@ -9,8 +9,13 @@ RuboCop::RakeTask.new
 RSpec::Core::RakeTask.new(:spec)
 Bundler::Audit::Task.new
 
-desc "Run bundler-audit, rubocop, and rspec (full CI suite)"
-task ci: ["bundle:audit:update", "bundle:audit:check", :rubocop, :spec]
+desc "Run Brakeman against the engine code (dummy app excluded)"
+task :brakeman do
+  sh "bundle exec brakeman -q --no-pager --force-scan --skip-files spec/dummy/ -i config/brakeman.ignore"
+end
+
+desc "Run bundler-audit, brakeman, rubocop, and rspec (full CI suite)"
+task ci: ["bundle:audit:update", "bundle:audit:check", :brakeman, :rubocop, :spec]
 
 task default: :ci
 

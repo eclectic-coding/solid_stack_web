@@ -38,6 +38,22 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
+  security:
+    name: Brakeman
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
+          bundler-cache: true
+
+      - name: Scan for security vulnerabilities
+        run: bundle exec rake brakeman
+
   test:
     runs-on: ubuntu-latest
     strategy:
