@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Brakeman security scan (`rake brakeman`) in the default rake task, main CI, and a new weekly scheduled audit workflow alongside bundler-audit
+- Tracked `pre-push` git hook (`.githooks/pre-push`, enabled by `bin/setup`) that runs the full `rake` suite
+
+### Changed
+
+- Dependabot auto-merge now applies only to non-major updates of direct development dependencies; runtime dependency bumps stay manual
+
+### Fixed
+
+- Updated `crass` to 1.0.8 (GHSA-pq4g-8rxf-4g29)
+
 ## [1.6.1] - 2026-10-06
 
 ### Changed
