@@ -86,4 +86,5 @@ Pagy is included via `Pagy::Method` (not `Pagy::Backend`) and configured globall
 
 - New entries go under `## [Unreleased]` on the feature branch, before opening a PR.
 - Sections within each version must appear in this order: `### Added`, `### Changed`, `### Fixed`. Omit sections that have no entries — never add an empty section header.
+- Only log changes that affect gem users: shipped code (`lib/`, `app/`), gemspec dependency constraints, supported Ruby/Rails versions, and security fixes in shipped code. Do not add entries for lockfile-only bumps (dev, test, or transitive gems), Dependabot, CI, or tooling changes. Automated workflows never edit the CHANGELOG.
 - Branch workflow: always commit on a `feat/*` or `chore/*` branch; never commit directly to `main`.
