@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Updated `rack` (3.2.8), `sqlite3` (2.10.2), and `addressable` (2.9.2) to patch security advisories reported by bundler-audit
+
 ## [1.6.2] - 2026-10-27
 
 ### Added
