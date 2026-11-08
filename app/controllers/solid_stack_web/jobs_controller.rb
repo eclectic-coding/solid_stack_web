@@ -24,8 +24,6 @@ module SolidStackWeb
     def show
       @execution = Job::EXECUTION_MODELS[@status].includes(:job).find(params[:id])
       @arguments = parsed_arguments(@execution.job.arguments)
-    rescue JSON::ParserError
-      @arguments = nil
     end
 
     def destroy
