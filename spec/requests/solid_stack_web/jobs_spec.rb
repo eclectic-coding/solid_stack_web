@@ -190,6 +190,15 @@ RSpec.describe "Jobs", type: :request do
       expect(response.body).to include("42")
     end
 
+    it "renders arguments that SolidQueue has already deserialized into a Hash" do
+      job = SolidQueue::Job.create!(class_name: "MyJob", queue_name: "default", priority: 0,
+                                    arguments: { "job_class" => "MyJob", "arguments" => [{ "user_id" => 42 }] })
+      get "#{engine_root}/jobs/#{job.ready_execution.id}", params: { status: "ready" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("user_id")
+    end
+
     it "still renders when arguments contain invalid JSON" do
       job = SolidQueue::Job.create!(class_name: "MyJob", queue_name: "default", priority: 0,
                                     arguments: "not valid json {{{")

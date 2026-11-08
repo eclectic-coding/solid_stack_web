@@ -23,7 +23,7 @@ module SolidStackWeb
 
     def show
       @execution = Job::EXECUTION_MODELS[@status].includes(:job).find(params[:id])
-      @arguments = JSON.parse(@execution.job.arguments) if @execution.job.arguments.present?
+      @arguments = parsed_arguments(@execution.job.arguments)
     rescue JSON::ParserError
       @arguments = nil
     end
@@ -52,6 +52,17 @@ module SolidStackWeb
     end
 
     private
+
+    # SolidQueue::Job serializes arguments as JSON, so real jobs yield an already-parsed Hash;
+    # only legacy or hand-written rows hold a raw JSON string.
+    def parsed_arguments(arguments)
+      return if arguments.blank?
+      return arguments unless arguments.is_a?(String)
+
+      JSON.parse(arguments)
+    rescue JSON::ParserError
+      nil
+    end
 
     def set_status
       @status = params[:status].presence_in(Job::STATUSES) || "ready"

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Job detail page no longer returns a 500 (`TypeError: no implicit conversion of Hash into String`) when a job's arguments are already deserialized by Solid Queue
+
 ## [1.6.2] - 2026-10-27
 
 ### Added
