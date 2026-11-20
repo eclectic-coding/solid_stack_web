@@ -101,7 +101,7 @@ jobs:
           bundler-cache: true
 
       - name: Build and publish gem
-        uses: rubygems/release-gem@v1.4.1
+        uses: rubygems/release-gem@v1.4.2
 
       - name: Create GitHub release
         env:
